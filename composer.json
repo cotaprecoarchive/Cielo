@@ -1,0 +1,17 @@
+{
+    "name": "cotapreco/cielo",
+    "description": "N/A",
+    "license": "MIT",
+    "require": {
+    },
+    "autoload": {
+        "psr-0": {
+            "CotaPreco": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-0": {
+            "CotaPreco": "tests"
+        }
+    }
+}
