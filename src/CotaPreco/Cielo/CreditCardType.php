@@ -5,7 +5,7 @@ namespace CotaPreco\Cielo;
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
  */
-interface CreditCard
+interface CreditCardType
 {
     /**
      * @var string
