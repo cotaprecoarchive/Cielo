@@ -10,6 +10,38 @@ use PHPUnit_Framework_TestCase as TestCase;
 class AffiliationIdKeyPairTest extends TestCase
 {
     /**
+     * @var AffiliationIdKeyPair
+     */
+    private $affiliation;
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function setUp()
+    {
+        $this->affiliation = AffiliationIdKeyPair::createFromAffiliationIdAndKey(
+            '1006993069',
+            '25fbb997438630f30b112d033ce2e621b34f3'
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function getAffiliationId()
+    {
+        $this->assertEquals('1006993069', $this->affiliation->getAffiliationId());
+    }
+
+    /**
+     * @test
+     */
+    public function getAffiliationKey()
+    {
+        $this->assertEquals('25fbb997438630f30b112d033ce2e621b34f3', $this->affiliation->getAffiliationKey());
+    }
+
+    /**
      * @return array
      */
     public function provideInvalidAffiliationIdAndKeys()
@@ -34,19 +66,5 @@ class AffiliationIdKeyPairTest extends TestCase
         $this->setExpectedException(\InvalidArgumentException::class);
 
         AffiliationIdKeyPair::createFromAffiliationIdAndKey($affiliationId, $affiliationKey);
-    }
-
-    /**
-     * @test
-     */
-    public function createFromAffiliationIdAndKey()
-    {
-        $this->assertInstanceOf(
-            AffiliationIdKeyPair::class,
-            AffiliationIdKeyPair::createFromAffiliationIdAndKey(
-                '1020304050607080',
-                uniqid('')
-            )
-        );
     }
 }
