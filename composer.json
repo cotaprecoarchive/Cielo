@@ -3,6 +3,7 @@
     "description": "N/A",
     "license": "MIT",
     "require": {
+        "php": "~5.5"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "2.3.2",
