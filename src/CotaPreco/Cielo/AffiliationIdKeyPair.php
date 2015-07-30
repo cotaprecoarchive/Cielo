@@ -31,24 +31,17 @@ final class AffiliationIdKeyPair
      * @param  string $affiliationId
      * @param  string $affiliationKey
      * @return AffiliationIdKeyPair
-     * @throws \InvalidArgumentException if `$affiliationId` is not numeric or exceeds 20 characters
-     * @throws \InvalidArgumentException if `$affiliationKey` doesn't contains at least 1 character or exceeds 100
-     * characters
      */
     public static function createFromAffiliationIdAndKey($affiliationId, $affiliationKey)
     {
-        if (! (is_numeric($affiliationId) || strlen($affiliationId) > 20)) {
+        if (! is_numeric($affiliationId) || strlen($affiliationId) > 20) {
             throw new \InvalidArgumentException(
-                sprintf('Is not a valid affiliation id: `%s`', $affiliationId)
+                'Is not a valid affiliation id: `'. $affiliationId .'`'
             );
         }
 
-        $keyLength = strlen($affiliationKey);
-
-        if ($keyLength === 0 || $keyLength > 100) {
-            throw new \InvalidArgumentException(
-                sprintf('Is not a valid affiliation key: `%s`', $affiliationKey)
-            );
+        if (strlen($affiliationKey) === 0 || strlen($affiliationKey) > 100) {
+            throw new \InvalidArgumentException('Is not a valid affiliation key: `'. $affiliationKey  .'`');
         }
 
         return new self($affiliationId, $affiliationKey);

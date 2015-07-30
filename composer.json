@@ -4,6 +4,11 @@
     "license": "MIT",
     "require": {
     },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "2.3.2",
+        "phpmd/phpmd"              : "2.2.3",
+        "phpunit/phpunit"          : "4.6.10"
+    },
     "autoload": {
         "psr-0": {
             "CotaPreco": "src"
