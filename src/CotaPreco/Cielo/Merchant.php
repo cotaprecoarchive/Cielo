@@ -27,7 +27,7 @@ namespace CotaPreco\Cielo;
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
  */
-final class AffiliationIdKeyPair
+final class Merchant
 {
     /**
      * @var string
@@ -45,27 +45,17 @@ final class AffiliationIdKeyPair
      */
     private function __construct($affiliationId, $affiliationKey)
     {
-        $this->affiliationKey = $affiliationKey;
-        $this->affiliationId  = $affiliationId;
+        $this->affiliationKey = (string) $affiliationKey;
+        $this->affiliationId  = (string) $affiliationId;
     }
 
     /**
-     * @param  string $affiliationId
+     * @param  $affiliationId
      * @param  string $affiliationKey
-     * @return AffiliationIdKeyPair
+     * @return self
      */
-    public static function createFromAffiliationIdAndKey($affiliationId, $affiliationKey)
+    public static function fromAffiliationIdAndKey($affiliationId, $affiliationKey)
     {
-        if (! is_numeric($affiliationId) || strlen($affiliationId) > 20) {
-            throw new \InvalidArgumentException(
-                'Is not a valid affiliation id: `'. $affiliationId .'`'
-            );
-        }
-
-        if (strlen($affiliationKey) === 0 || strlen($affiliationKey) > 100) {
-            throw new \InvalidArgumentException('Is not a valid affiliation key: `'. $affiliationKey  .'`');
-        }
-
         return new self($affiliationId, $affiliationKey);
     }
 
