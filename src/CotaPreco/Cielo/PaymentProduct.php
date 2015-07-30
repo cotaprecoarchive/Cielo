@@ -27,15 +27,25 @@ namespace CotaPreco\Cielo;
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
  */
-interface CreditCardType
+interface PaymentProduct
 {
     /**
      * @var string
      */
-    const VISA = 'visa';
+    const DEBIT = 'A';
 
     /**
-     * @var string
+     * @var int
      */
-    const MASTERCARD = 'mastercard';
+    const ONE_TIME_PAYMENT = 1;
+
+    /**
+     * @var int
+     */
+    const INSTALLMENTS_BY_AFFILIATED_MERCHANTS = 2;
+
+    /**
+     * @var int
+     */
+    const INSTALLMENTS_BY_CARD_ISSUERS = 3;
 }
