@@ -22,4 +22,9 @@ interface Currency
      * @var int
      */
     const USD = 840;
+
+    /**
+     * @var int
+     */
+    const GBP = 826;
 }
