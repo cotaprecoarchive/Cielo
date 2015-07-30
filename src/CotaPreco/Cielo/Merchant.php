@@ -50,7 +50,7 @@ final class Merchant
     }
 
     /**
-     * @param  $affiliationId
+     * @param  string $affiliationId
      * @param  string $affiliationKey
      * @return self
      */
