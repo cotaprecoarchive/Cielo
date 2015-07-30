@@ -2,6 +2,13 @@
     "name": "cotapreco/cielo",
     "description": "N/A",
     "license": "MIT",
+    "authors": [
+        {
+            "name": "Andrey K. Vital",
+            "email": "andreykvital@gmail.com",
+            "homepage": "https://github.com/CentaurWarchief"
+        }
+    ],
     "require": {
         "php": "~5.5"
     },
