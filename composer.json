@@ -2,6 +2,15 @@
     "name": "cotapreco/cielo",
     "description": "Cliente escrito em PHP para integração com o WebService da Cielo (solução de pagamentos com cartão de crédito)",
     "license": "MIT",
+    "keywords": [
+        "cielo",
+        "php cielo",
+        "cielo php",
+        "cartão",
+        "crédito",
+        "pagamento",
+        "pagamento cartão"
+    ],
     "authors": [
         {
             "name": "Andrey K. Vital",
