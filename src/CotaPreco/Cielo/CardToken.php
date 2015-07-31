@@ -44,7 +44,7 @@ final class CardToken implements IdentifiesHolder
 
     /**
      * @param  string $tokenString
-     * @return CardToken
+     * @return self
      */
     public static function fromPreviouslyIssuedTokenString($tokenString)
     {
