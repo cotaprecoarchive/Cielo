@@ -27,10 +27,55 @@ namespace CotaPreco\Cielo;
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
  */
-interface InstallmentsInterface
+interface TransactionStatus
 {
     /**
-     * @return string
+     * @var int
      */
-    public function __toString();
+    const CREATED = 0;
+
+    /**
+     * @var int
+     */
+    const PENDING = 1;
+
+    /**
+     * @var int
+     */
+    const AUTHENTICATED = 2;
+
+    /**
+     * @var int
+     */
+    const UNAUTHENTICATED = 3;
+
+    /**
+     * @var int
+     */
+    const AUTHORIZED = 4;
+
+    /**
+     * @var int
+     */
+    const UNAUTHORIZED = 5;
+
+    /**
+     * @var int
+     */
+    const CAPTURED = 6;
+
+    /**
+     * @var int
+     */
+    const CANCELLED = 9;
+
+    /**
+     * @var int
+     */
+    const AUTHENTICATING = 10;
+
+    /**
+     * @var int
+     */
+    const CANCELLING = 12;
 }
