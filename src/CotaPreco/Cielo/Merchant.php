@@ -25,13 +25,15 @@
 namespace CotaPreco\Cielo;
 
 use CotaPreco\Cielo\Serialization\AcceptsSerializationVisitor;
-use CotaPreco\Cielo\Serialization\VisitorInterface;
+use CotaPreco\Cielo\Serialization\AcceptsSerializationVisitorTrait;
 
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
  */
 final class Merchant implements AcceptsSerializationVisitor
 {
+    use AcceptsSerializationVisitorTrait;
+
     /**
      * @var string
      */
@@ -76,13 +78,5 @@ final class Merchant implements AcceptsSerializationVisitor
     public function getAffiliationKey()
     {
         return $this->affiliationKey;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function accept(VisitorInterface $visitor)
-    {
-        $visitor->visit($this);
     }
 }
