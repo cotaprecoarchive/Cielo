@@ -32,7 +32,7 @@ use CotaPreco\Cielo\Serialization\AcceptsSerializationVisitor;
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
  */
-class CardHolderSerializationVisitor extends AbstractXmlWriterSerializationVisitor
+final class CardHolderSerializationVisitor extends AbstractXmlWriterSerializationVisitor
 {
     /**
      * {@inheritdoc}

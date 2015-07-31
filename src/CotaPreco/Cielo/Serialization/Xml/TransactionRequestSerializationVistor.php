@@ -31,7 +31,7 @@ use CotaPreco\Cielo\TransactionRequest;
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
  */
-class TransactionRequestSerializationVistor extends AbstractXmlWriterSerializationVisitor
+final class TransactionRequestSerializationVistor extends AbstractXmlWriterSerializationVisitor
 {
     /**
      * {@inheritdoc}

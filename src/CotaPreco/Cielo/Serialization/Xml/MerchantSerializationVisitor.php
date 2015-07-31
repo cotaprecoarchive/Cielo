@@ -30,7 +30,7 @@ use CotaPreco\Cielo\Serialization\AcceptsSerializationVisitor;
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
  */
-class MerchantSerializationVisitor extends AbstractXmlWriterSerializationVisitor
+final class MerchantSerializationVisitor extends AbstractXmlWriterSerializationVisitor
 {
     /**
      * {@inheritdoc}
