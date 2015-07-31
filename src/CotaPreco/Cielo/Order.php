@@ -129,6 +129,23 @@ final class Order
     }
 
     /**
+     * @param  int $shipping
+     * @return self
+     */
+    public function withShipping($shipping)
+    {
+        return new self(
+            $this->number,
+            $this->value,
+            $this->currency,
+            $this->language,
+            $this->description,
+            $shipping,
+            $this->descriptor
+        );
+    }
+
+    /**
      * @return string
      */
     public function getNumber()
