@@ -34,11 +34,6 @@ use CotaPreco\Cielo\TransactionRequest;
 class TransactionRequestSerializationVistor extends AbstractXmlWriterSerializationVisitor
 {
     /**
-     * @var string
-     */
-    const VERSION = '1.2.1';
-
-    /**
      * {@inheritdoc}
      * @param TransactionRequest $request
      */
@@ -46,9 +41,9 @@ class TransactionRequestSerializationVistor extends AbstractXmlWriterSerializati
     {
         $this->writer->startElement('requisicao-transacao');
 
-        $this->writer->writeAttribute('id', uniqid(''));
+        $this->writer->writeAttribute('id', $request->getRequestId());
 
-        $this->writer->writeAttribute('versao', TransactionRequestSerializationVistor::VERSION);
+        $this->writer->writeAttribute('versao', $request->getShapeVersion());
 
         $request->getMerchant()
             ->accept(new MerchantSerializationVisitor($this->writer));
