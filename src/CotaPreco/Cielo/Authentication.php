@@ -1,7 +1,5 @@
 <?php
 
-namespace CotaPreco\Cielo;
-
 /*
  * Copyright (c) 2015 Cota Preço
  *
@@ -23,6 +21,8 @@ namespace CotaPreco\Cielo;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
+namespace CotaPreco\Cielo;
 
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
