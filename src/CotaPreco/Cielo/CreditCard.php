@@ -147,4 +147,12 @@ final class CreditCard
     {
         return $this->indicator;
     }
+
+    /**
+     * @return Bin
+     */
+    public function getBin()
+    {
+        return Bin::fromString(substr($this->number, 0, 6));
+    }
 }
