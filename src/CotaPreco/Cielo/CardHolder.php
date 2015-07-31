@@ -30,7 +30,7 @@ namespace CotaPreco\Cielo;
 final class CardHolder implements IdentifiesHolder
 {
     /**
-     * @var string
+     * @var null|string
      */
     private $name;
 
@@ -45,7 +45,7 @@ final class CardHolder implements IdentifiesHolder
      */
     private function __construct($name, CreditCard $card)
     {
-        $this->name = (string) $name;
+        $this->name = $name;
         $this->card = $card;
     }
 
@@ -60,7 +60,16 @@ final class CardHolder implements IdentifiesHolder
     }
 
     /**
-     * @return string
+     * @param  CreditCard $card
+     * @return self
+     */
+    public static function fromCard($card)
+    {
+        return new self(null, $card);
+    }
+
+    /**
+     * @return null|string
      */
     public function getName()
     {

@@ -28,6 +28,19 @@ class CardHolderTest extends TestCase
     /**
      * @test
      */
+    public function fromCard()
+    {
+        $holder = CardHolder::fromCard(CreditCard::createWithoutSecurityCode(
+            '5453010000066167',
+            CreditCardExpiration::fromYearAndMonth(2018, 5)
+        ));
+
+        $this->assertNull($holder->getName());
+    }
+
+    /**
+     * @test
+     */
     public function getName()
     {
         $this->assertEquals('John Doe', $this->holder->getName());
