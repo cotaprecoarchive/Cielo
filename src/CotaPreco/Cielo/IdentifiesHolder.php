@@ -24,9 +24,11 @@
 
 namespace CotaPreco\Cielo;
 
+use CotaPreco\Cielo\Serialization\AcceptsSerializationVisitor;
+
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
  */
-interface IdentifiesHolder
+interface IdentifiesHolder extends AcceptsSerializationVisitor
 {
 }

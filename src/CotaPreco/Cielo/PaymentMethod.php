@@ -24,11 +24,16 @@
 
 namespace CotaPreco\Cielo;
 
+use CotaPreco\Cielo\Serialization\AcceptsSerializationVisitor;
+use CotaPreco\Cielo\Serialization\AcceptsSerializationVisitorTrait;
+
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
  */
-final class PaymentMethod
+final class PaymentMethod implements AcceptsSerializationVisitor
 {
+    use AcceptsSerializationVisitorTrait;
+
     /**
      * @var CardIssuer
      */

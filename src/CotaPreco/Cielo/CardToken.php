@@ -24,11 +24,15 @@
 
 namespace CotaPreco\Cielo;
 
+use CotaPreco\Cielo\Serialization\AcceptsSerializationVisitorTrait;
+
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
  */
 final class CardToken implements IdentifiesHolder
 {
+    use AcceptsSerializationVisitorTrait;
+
     /**
      * @var string
      */
