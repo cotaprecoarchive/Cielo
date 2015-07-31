@@ -90,10 +90,10 @@ final class Order implements AcceptsSerializationVisitor
         $this->number      = (string) $number;
         $this->value       = (int) $value;
         $this->createdAt   = new \DateTimeImmutable('now');
-        $this->currency    = $currency;
-        $this->language    = $language;
+        $this->currency    = (int) $currency;
+        $this->language    = (string) $language;
         $this->description = $description;
-        $this->shipping    = $shipping;
+        $this->shipping    = is_null($shipping) || $shipping === 0 ? null : $shipping;
         $this->descriptor  = $descriptor;
     }
 
@@ -118,15 +118,7 @@ final class Order implements AcceptsSerializationVisitor
         $shipping = null,
         $descriptor = null
     ) {
-        $order = new self(
-            $number,
-            $value,
-            $currency,
-            $language,
-            $description,
-            $shipping,
-            $descriptor
-        );
+        $order = new self($number, $value, $currency, $description, $language, $shipping, $descriptor);
 
         $order->createdAt = $createdAt;
 
