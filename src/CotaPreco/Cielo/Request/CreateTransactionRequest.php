@@ -40,7 +40,7 @@ use Rhumsaa\Uuid\Uuid;
  * @author Andrey K. Vital <andreykvital@gmail.com>
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-final class TransactionRequest extends AbstractCieloRequest implements AcceptsSerializationVisitor
+final class CreateTransactionRequest extends AbstractCieloRequest implements AcceptsSerializationVisitor
 {
     use AcceptsSerializationVisitorTrait;
 
@@ -135,7 +135,7 @@ final class TransactionRequest extends AbstractCieloRequest implements AcceptsSe
      * @param  bool|false       $generateToken
      * @return self
      */
-    public static function createAndAuthenticateOnly(
+    public static function authenticateOnly(
         Merchant $merchant,
         IdentifiesHolder $holder,
         Order $order,
@@ -166,7 +166,7 @@ final class TransactionRequest extends AbstractCieloRequest implements AcceptsSe
      * @param  bool|false       $generateToken
      * @return self
      */
-    public static function createAndAuthorizeOnlyIfAuthenticated(
+    public static function authorizeOnlyIfAuthenticated(
         Merchant $merchant,
         IdentifiesHolder $holder,
         Order $order,
@@ -197,7 +197,7 @@ final class TransactionRequest extends AbstractCieloRequest implements AcceptsSe
      * @param  bool|false       $generateToken
      * @return self
      */
-    public static function createAndAuthorizeOnly(
+    public static function authorizeOnly(
         Merchant $merchant,
         IdentifiesHolder $holder,
         Order $order,
@@ -228,7 +228,7 @@ final class TransactionRequest extends AbstractCieloRequest implements AcceptsSe
      * @param  bool|false       $generateToken
      * @return self
      */
-    public static function createAndAuthorizeWithoutAuthentication(
+    public static function authorizeWithoutAuthentication(
         Merchant $merchant,
         IdentifiesHolder $holder,
         Order $order,
