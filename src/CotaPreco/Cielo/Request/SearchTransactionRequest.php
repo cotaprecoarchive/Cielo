@@ -22,7 +22,11 @@
  * SOFTWARE.
  */
 
-namespace CotaPreco\Cielo;
+namespace CotaPreco\Cielo\Request;
+
+use CotaPreco\Cielo\AbstractCieloRequest;
+use CotaPreco\Cielo\Merchant;
+use CotaPreco\Cielo\TransactionId;
 
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
@@ -30,23 +34,23 @@ namespace CotaPreco\Cielo;
 final class SearchTransactionRequest extends AbstractCieloRequest
 {
     /**
-     * @var Merchant
-     */
-    private $merchant;
-
-    /**
      * @var TransactionId
      */
     private $transactionId;
 
     /**
-     * @param Merchant      $merchant
-     * @param TransactionId $transactionId
+     * @var Merchant
      */
-    public function __construct(Merchant $merchant, TransactionId $transactionId)
+    private $merchant;
+
+    /**
+     * @param TransactionId $transactionId
+     * @param Merchant      $merchant
+     */
+    public function __construct(TransactionId $transactionId, Merchant $merchant)
     {
-        $this->merchant      = $merchant;
         $this->transactionId = $transactionId;
+        $this->merchant      = $merchant;
     }
 
     /**

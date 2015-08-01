@@ -1,7 +1,9 @@
 <?php
 
-namespace CotaPreco\Cielo;
+namespace CotaPreco\Cielo\Request;
 
+use CotaPreco\Cielo\Merchant;
+use CotaPreco\Cielo\TransactionId;
 use PHPUnit_Framework_TestCase as TestCase;
 
 /**
@@ -20,11 +22,11 @@ class SearchTransactionRequestTest extends TestCase
     protected function setUp()
     {
         $this->request = new SearchTransactionRequest(
+            TransactionId::fromString('1006993069371CFF1001'),
             Merchant::fromAffiliationIdAndKey(
                 '1006993069',
                 '25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3'
-            ),
-            TransactionId::fromString('1006993069371CFF1001')
+            )
         );
     }
 
