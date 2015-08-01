@@ -47,7 +47,7 @@ class TransactionRequestSerializationVistorTest extends TestCase
 
         /* @var PaymentMethod $paymentMethod */
         $paymentMethod = PaymentMethod::forIssuerAsOneTimePayment(
-            CardIssuer::fromCreditCardType(CreditCardType::VISA)
+            CardIssuer::fromIssuerString(CardIssuer::VISA)
         );
 
         return [

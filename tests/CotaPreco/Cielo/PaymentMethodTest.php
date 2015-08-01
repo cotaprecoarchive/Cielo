@@ -24,7 +24,7 @@ class PaymentMethodTest extends TestCase
      */
     protected function setUp()
     {
-        $this->visa          = CardIssuer::fromCreditCardType(CreditCardType::VISA);
+        $this->visa          = CardIssuer::fromIssuerString(CardIssuer::VISA);
         $this->paymentMethod = PaymentMethod::forIssuerAsDebitPayment($this->visa);
     }
 

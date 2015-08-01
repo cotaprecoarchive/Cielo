@@ -3,7 +3,6 @@
 namespace CotaPreco\Cielo\Serialization\Xml;
 
 use CotaPreco\Cielo\CardIssuer;
-use CotaPreco\Cielo\CreditCardType;
 use CotaPreco\Cielo\PaymentMethod;
 use CotaPreco\Cielo\PaymentProduct;
 use PHPUnit_Framework_TestCase as TestCase;
@@ -30,7 +29,7 @@ class PaymentMethodTest extends TestCase
             ->withConsecutive(
                 [
                     $this->equalTo('bandeira'),
-                    CreditCardType::VISA
+                    CardIssuer::VISA
                 ],
                 [
                     $this->equalTo('produto'),
@@ -48,7 +47,7 @@ class PaymentMethodTest extends TestCase
         $visitor = new PaymentMethodSerializationVisitor($writer);
 
         $visitor->visit(PaymentMethod::forIssuerAsOneTimePayment(
-            CardIssuer::fromCreditCardType(CreditCardType::VISA)
+            CardIssuer::fromIssuerString(CardIssuer::VISA)
         ));
     }
 
@@ -59,7 +58,7 @@ class PaymentMethodTest extends TestCase
     {
         return [
             [
-                PaymentMethod::forIssuerAsDebitPayment(CardIssuer::fromCreditCardType(CreditCardType::VISA)),
+                PaymentMethod::forIssuerAsDebitPayment(CardIssuer::fromIssuerString(CardIssuer::VISA)),
                 <<<XML
 <forma-pagamento>
     <bandeira>visa</bandeira>
@@ -69,7 +68,7 @@ class PaymentMethodTest extends TestCase
 XML
             ],
             [
-                PaymentMethod::forIssuerAsOneTimePayment(CardIssuer::fromCreditCardType(CreditCardType::MASTERCARD)),
+                PaymentMethod::forIssuerAsOneTimePayment(CardIssuer::fromIssuerString(CardIssuer::MASTERCARD)),
                 <<<XML
 <forma-pagamento>
     <bandeira>mastercard</bandeira>
@@ -80,7 +79,7 @@ XML
             ],
             [
                 PaymentMethod::forIssuerWithInstallmentsByMerchant(
-                    CardIssuer::fromCreditCardType(CreditCardType::VISA),
+                    CardIssuer::fromIssuerString(CardIssuer::VISA),
                     7
                 ),
                 <<<XML
@@ -93,7 +92,7 @@ XML
             ],
             [
                 PaymentMethod::forIssuerWithInstallmentsByCardIssuers(
-                    CardIssuer::fromCreditCardType(CreditCardType::VISA),
+                    CardIssuer::fromIssuerString(CardIssuer::VISA),
                     12
                 ),
                 <<<XML

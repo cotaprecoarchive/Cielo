@@ -28,7 +28,7 @@ class TransactionTest extends TestCase
                 new \DateTimeImmutable('2011-12-08T10:44:24.244-02:00')
             ),
             PaymentMethod::forIssuerAsOneTimePayment(
-                CardIssuer::fromCreditCardType(CreditCardType::VISA)
+                CardIssuer::fromIssuerString(CardIssuer::VISA)
             ),
             TransactionStatus::CREATED
         );

@@ -40,7 +40,7 @@ final class PaymentMethodFromRootNode
     public function __invoke(\SimpleXMLElement $paymentMethod)
     {
         /* @noinspection PhpUndefinedFieldInspection */
-        $issuer       = CardIssuer::fromCreditCardType((string) $paymentMethod->bandeira);
+        $issuer       = CardIssuer::fromIssuerString((string) $paymentMethod->bandeira);
 
         /* @noinspection PhpUndefinedFieldInspection */
         $product      = (string) $paymentMethod->produto;

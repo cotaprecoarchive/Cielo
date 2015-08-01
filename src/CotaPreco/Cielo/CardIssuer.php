@@ -32,38 +32,56 @@ final class CardIssuer
     /**
      * @var string
      */
-    private $card;
+    const VISA = 'visa';
 
     /**
-     * @param string $card
+     * @var string
      */
-    private function __construct($card)
+    const MASTERCARD = 'mastercard';
+
+    /**
+     * @var string
+     */
+    private $issuer;
+
+    /**
+     * @param string $issuer
+     */
+    private function __construct($issuer)
     {
-        $this->card = $card;
+        $this->issuer = $issuer;
     }
 
     /**
-     * @param  string $card
+     * @param  string $issuer
      * @return CardIssuer
      */
-    public static function fromCreditCardType($card)
+    public static function fromIssuerString($issuer)
     {
-        $allowed = [
-            CreditCardType::VISA,
-            CreditCardType::MASTERCARD
-        ];
+        $allowed = self::getAllAllowedIssuers();
 
-        if (! in_array($card, $allowed, true)) {
+        if (! in_array($issuer, $allowed, true)) {
             throw new \InvalidArgumentException(
                 sprintf(
                     'Invalid type. Only `%s` are allowed. Got `%s`',
                     implode('`, `', $allowed),
-                    $card
+                    $issuer
                 )
             );
         }
 
-        return new self($card);
+        return new self($issuer);
+    }
+
+    /**
+     * @return array
+     */
+    public static function getAllAllowedIssuers()
+    {
+        return [
+            CardIssuer::VISA,
+            CardIssuer::MASTERCARD
+        ];
     }
 
     /**
@@ -71,6 +89,6 @@ final class CardIssuer
      */
     public function __toString()
     {
-        return $this->card;
+        return $this->issuer;
     }
 }

@@ -43,7 +43,7 @@ class TransactionRequestTest extends TestCase
             Cvv::fromString('123')
         );
 
-        $paymentMethod = PaymentMethod::forIssuerAsOneTimePayment(CardIssuer::fromCreditCardType(CreditCardType::VISA));
+        $paymentMethod = PaymentMethod::forIssuerAsOneTimePayment(CardIssuer::fromIssuerString(CardIssuer::VISA));
 
         $order = Order::fromOrderNumberAndValue('123452', 1000);
 

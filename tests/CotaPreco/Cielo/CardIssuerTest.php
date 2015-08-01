@@ -12,11 +12,11 @@ class CardIssuerTest extends TestCase
     /**
      * @test
      */
-    public function fromCreditCardTypeThrowsInvalidArgument()
+    public function fromIssuerStringThrowsInvalidArgument()
     {
         $this->setExpectedException(\InvalidArgumentException::class);
 
-        CardIssuer::fromCreditCardType(null);
+        CardIssuer::fromIssuerString(null);
     }
 
     /**
@@ -24,9 +24,9 @@ class CardIssuerTest extends TestCase
      */
     public function toString()
     {
-        $issuer = CardIssuer::fromCreditCardType(CreditCardType::VISA);
+        $issuer = CardIssuer::fromIssuerString(CardIssuer::VISA);
 
         $this->assertInstanceOf(CardIssuer::class, $issuer);
-        $this->assertEquals(CreditCardType::VISA, (string) $issuer);
+        $this->assertEquals(CardIssuer::VISA, (string) $issuer);
     }
 }
