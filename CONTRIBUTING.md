@@ -5,4 +5,5 @@
 - O código editado ou proposto deve ser acompanhado de um caso de teste;
 - O padrão de código do projeto é [PSR-2](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md);
 - Também deverá ser seguido estritamente as regras propostas em [Object Calisthenics](http://www.slideshare.net/guilhermeblanco/object-calisthenics-applied-to-php);
-- Qualquer **issue** não confirmada precisa de um caso de teste falhando antes de ser aceita e dada como **issue**.
+- Qualquer **issue** não confirmada precisa de um caso de teste falhando antes de ser aceita e dada como **issue**;
+- As mensagens de commit devem ser escritas em **inglês** (dependendo das modificações propostas, se possível uma explicação longa das modificações feitas).
