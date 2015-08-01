@@ -25,12 +25,13 @@
 namespace CotaPreco\Cielo\Request;
 
 use CotaPreco\Cielo\Merchant;
+use CotaPreco\Cielo\RequestInterface;
 use CotaPreco\Cielo\TransactionId;
 
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
  */
-interface CancellationRequestInterface
+interface CancellationRequestInterface extends RequestInterface
 {
     /**
      * @return TransactionId
