@@ -26,7 +26,6 @@ namespace CotaPreco\Cielo\Serialization\Xml;
 
 use CotaPreco\Cielo\CardHolder;
 use CotaPreco\Cielo\CardToken;
-use CotaPreco\Cielo\IdentifiesHolder;
 use CotaPreco\Cielo\Serialization\AcceptsSerializationVisitor;
 
 /**
@@ -36,7 +35,7 @@ final class CardHolderSerializationVisitor extends AbstractXmlWriterSerializatio
 {
     /**
      * {@inheritdoc}
-     * @param IdentifiesHolder|CardToken|CardHolder $holder
+     * @param CardToken|CardHolder $holder
      */
     public function visit(AcceptsSerializationVisitor $holder)
     {
