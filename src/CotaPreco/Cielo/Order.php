@@ -126,6 +126,16 @@ final class Order implements AcceptsSerializationVisitor
     }
 
     /**
+     * @param  string $number
+     * @param  int    $value
+     * @return Order
+     */
+    public static function fromOrderNumberAndValue($number, $value)
+    {
+        return new self($number, $value);
+    }
+
+    /**
      * @param  int $shipping
      * @return self
      */
@@ -139,6 +149,23 @@ final class Order implements AcceptsSerializationVisitor
             $this->description,
             $shipping,
             $this->descriptor
+        );
+    }
+
+    /**
+     * @param  string $descriptor
+     * @return Order
+     */
+    public function withSoftDescriptor($descriptor)
+    {
+        return new self(
+            $this->number,
+            $this->value,
+            $this->currency,
+            $this->language,
+            $this->description,
+            $this->shipping,
+            $descriptor
         );
     }
 

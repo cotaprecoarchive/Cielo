@@ -19,7 +19,7 @@ class OrderTest extends TestCase
      */
     protected function setUp()
     {
-        $this->order = new Order('102030', 1000);
+        $this->order = Order::fromOrderNumberAndValue('102030', 1000);
     }
 
     /**
@@ -106,7 +106,23 @@ class OrderTest extends TestCase
         $orderWithShipping = $this->order->withShipping(5000);
 
         $this->assertInstanceOf(Order::class, $orderWithShipping);
+
         $this->assertNotSame($orderWithShipping, $this->order);
+
         $this->assertEquals(5000, $orderWithShipping->getShipping());
+    }
+
+    /**
+     * @test
+     */
+    public function withSoftDescriptor()
+    {
+        $withSoftDescriptor = $this->order->withSoftDescriptor('!');
+
+        $this->assertInstanceOf(Order::class, $withSoftDescriptor);
+
+        $this->assertNotSame($withSoftDescriptor, $this->order);
+
+        $this->assertEquals('!', $withSoftDescriptor->getDescriptor());
     }
 }
