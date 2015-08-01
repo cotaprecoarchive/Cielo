@@ -39,12 +39,6 @@ final class TransactionRequestSerializationVistor extends AbstractXmlWriterSeria
      */
     public function visit(AcceptsSerializationVisitor $request)
     {
-        $this->writer->startElement('requisicao-transacao');
-
-        $this->writer->writeAttribute('id', $request->getRequestId());
-
-        $this->writer->writeAttribute('versao', $request->getShapeVersion());
-
         $request->getMerchant()
             ->accept(new MerchantSerializationVisitor($this->writer));
 
@@ -82,7 +76,5 @@ final class TransactionRequestSerializationVistor extends AbstractXmlWriterSeria
                 }
             )
         );
-
-        $this->writer->endElement();
     }
 }

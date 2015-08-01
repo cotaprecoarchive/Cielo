@@ -24,30 +24,29 @@
 
 namespace CotaPreco\Cielo\Serialization;
 
+use CotaPreco\Cielo\RequestInterface;
 use CotaPreco\Cielo\Serialization\Xml\TransactionRequestSerializationVistor;
 use CotaPreco\Cielo\TransactionRequest;
 
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
  */
-final class TransactionRequestXmlSerializer
+final class TransactionRequestXmlSerializer extends AbstractXmlRequestSerializer
 {
     /**
-     * @param  TransactionRequest $request
      * @return string
      */
-    public function __invoke(TransactionRequest $request)
+    public function getRootNodeName()
     {
-        $writer = new \XMLWriter();
+        return 'requisicao-transacao';
+    }
 
-        $writer->openMemory();
-
-        $writer->setIndent(true);
-
-        $writer->startDocument('1.0', 'UTF-8');
-
+    /**
+     * {@inheritdoc}
+     * @param TransactionRequest $request
+     */
+    public function writeRequestStructure(RequestInterface $request, \XMLWriter $writer)
+    {
         $request->accept(new TransactionRequestSerializationVistor($writer));
-
-        return $writer->outputMemory(true);
     }
 }

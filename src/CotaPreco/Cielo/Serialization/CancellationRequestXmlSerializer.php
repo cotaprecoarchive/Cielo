@@ -24,31 +24,36 @@
 
 namespace CotaPreco\Cielo\Serialization;
 
-use CotaPreco\Cielo\Request\SearchTransactionRequest;
+use CotaPreco\Cielo\Request\CancellationRequestInterface;
+use CotaPreco\Cielo\Request\PartialCancellationRequest;
 use CotaPreco\Cielo\RequestInterface;
 use CotaPreco\Cielo\Serialization\Xml\MerchantSerializationVisitor;
 
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
  */
-final class SearchTransactionRequestXmlSerializer extends AbstractXmlRequestSerializer
+final class CancellationRequestXmlSerializer extends AbstractXmlRequestSerializer
 {
     /**
      * @return string
      */
     public function getRootNodeName()
     {
-        return 'requisicao-consulta';
+        return 'requisicao-cancelamento';
     }
 
     /**
      * {@inheritdoc}
-     * @param SearchTransactionRequest $request
+     * @param CancellationRequestInterface $request
      */
     public function writeRequestStructure(RequestInterface $request, \XMLWriter $writer)
     {
         $writer->writeElement('tid', $request->getTransactionId());
 
         $request->getMerchant()->accept(new MerchantSerializationVisitor($writer));
+
+        if ($request instanceof PartialCancellationRequest) {
+            $writer->writeElement('valor', $request->getValue());
+        }
     }
 }

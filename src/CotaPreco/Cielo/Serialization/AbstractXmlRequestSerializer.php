@@ -24,31 +24,52 @@
 
 namespace CotaPreco\Cielo\Serialization;
 
-use CotaPreco\Cielo\Request\SearchTransactionRequest;
 use CotaPreco\Cielo\RequestInterface;
-use CotaPreco\Cielo\Serialization\Xml\MerchantSerializationVisitor;
 
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
  */
-final class SearchTransactionRequestXmlSerializer extends AbstractXmlRequestSerializer
+abstract class AbstractXmlRequestSerializer
 {
+    /**
+     * @param  RequestInterface $request
+     * @return string
+     */
+    public function __invoke(RequestInterface $request)
+    {
+        $writer = new \XMLWriter();
+
+        $writer->openMemory();
+
+        $writer->setIndent(true);
+
+        $writer->startDocument('1.0', 'UTF-8');
+
+        $writer->startElement($this->getRootNodeName());
+
+        $writer->writeAttribute('id', $request->getRequestId());
+
+        $writer->writeAttribute('versao', $request->getShapeVersion());
+
+        $this->writeRequestStructure($request, $writer);
+
+        $writer->endElement();
+
+        return $writer->outputMemory(true);
+    }
+
+    /**
+     * @param  RequestInterface $request
+     * @param  \XMLWriter       $writer
+     * @return mixed
+     */
+    abstract public function writeRequestStructure(
+        RequestInterface $request,
+        \XMLWriter $writer
+    );
+
     /**
      * @return string
      */
-    public function getRootNodeName()
-    {
-        return 'requisicao-consulta';
-    }
-
-    /**
-     * {@inheritdoc}
-     * @param SearchTransactionRequest $request
-     */
-    public function writeRequestStructure(RequestInterface $request, \XMLWriter $writer)
-    {
-        $writer->writeElement('tid', $request->getTransactionId());
-
-        $request->getMerchant()->accept(new MerchantSerializationVisitor($writer));
-    }
+    abstract public function getRootNodeName();
 }
