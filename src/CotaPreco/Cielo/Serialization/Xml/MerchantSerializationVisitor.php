@@ -42,7 +42,7 @@ final class MerchantSerializationVisitor extends AbstractXmlWriterSerializationV
 
         $this->writeAllValues([
             'numero' => $merchant->getAffiliationId(),
-            'chave' => $merchant->getAffiliationKey()
+            'chave'  => $merchant->getAffiliationKey()
         ]);
 
         $this->writer->endElement();
