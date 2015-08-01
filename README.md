@@ -30,6 +30,15 @@ No exemplo acima, será cancelado de `$transactionId` o valor de 10 reais *(ou d
 #### `Cielo#getTransactionById`
 > Recupera uma transação pelo seu **TransactionId** (TID)
 
+#### `Cielo#capture`
+> Faz a captura de uma transação através do seu **TransactionId** (TID)
+
+#### `Cielo#authorize`
+> Executa a autorização de uma transação através do seu **TransactionId** (TID)
+
+#### `Cielo#createTokenForHolder`
+> Solicita a criação de um token para o portador do cartão de crédito
+
 #### `Cielo#createAndAuthorizeWithoutAuthentication`
 > Cria uma transação e autoriza sem autenticação
 
