@@ -24,7 +24,7 @@
 
 namespace CotaPreco\Cielo\Serialization;
 
-use CotaPreco\Cielo\SearchTransactionRequest;
+use CotaPreco\Cielo\Request\SearchTransactionRequest;
 use CotaPreco\Cielo\Serialization\Xml\MerchantSerializationVisitor;
 
 /**
