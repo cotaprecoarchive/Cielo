@@ -37,7 +37,7 @@ final class CancellationRequestXmlSerializer extends AbstractXmlRequestSerialize
     /**
      * @return string
      */
-    public function getRootNodeName()
+    protected function getRootNodeName()
     {
         return 'requisicao-cancelamento';
     }
@@ -46,7 +46,7 @@ final class CancellationRequestXmlSerializer extends AbstractXmlRequestSerialize
      * {@inheritdoc}
      * @param CancellationRequestInterface $request
      */
-    public function writeRequestStructure(RequestInterface $request, \XMLWriter $writer)
+    protected function writeRequestStructure(RequestInterface $request, \XMLWriter $writer)
     {
         $writer->writeElement('tid', $request->getTransactionId());
 

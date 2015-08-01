@@ -36,7 +36,7 @@ final class SearchTransactionRequestXmlSerializer extends AbstractXmlRequestSeri
     /**
      * @return string
      */
-    public function getRootNodeName()
+    protected function getRootNodeName()
     {
         return 'requisicao-consulta';
     }
@@ -45,7 +45,7 @@ final class SearchTransactionRequestXmlSerializer extends AbstractXmlRequestSeri
      * {@inheritdoc}
      * @param SearchTransactionRequest $request
      */
-    public function writeRequestStructure(RequestInterface $request, \XMLWriter $writer)
+    protected function writeRequestStructure(RequestInterface $request, \XMLWriter $writer)
     {
         $writer->writeElement('tid', $request->getTransactionId());
 

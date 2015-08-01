@@ -63,7 +63,7 @@ abstract class AbstractXmlRequestSerializer
      * @param  \XMLWriter       $writer
      * @return mixed
      */
-    abstract public function writeRequestStructure(
+    abstract protected function writeRequestStructure(
         RequestInterface $request,
         \XMLWriter $writer
     );
@@ -71,5 +71,5 @@ abstract class AbstractXmlRequestSerializer
     /**
      * @return string
      */
-    abstract public function getRootNodeName();
+    abstract protected function getRootNodeName();
 }

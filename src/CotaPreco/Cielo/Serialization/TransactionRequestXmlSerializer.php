@@ -40,7 +40,7 @@ final class TransactionRequestXmlSerializer extends AbstractXmlRequestSerializer
     /**
      * @return string
      */
-    public function getRootNodeName()
+    protected function getRootNodeName()
     {
         return 'requisicao-transacao';
     }
@@ -49,7 +49,7 @@ final class TransactionRequestXmlSerializer extends AbstractXmlRequestSerializer
      * {@inheritdoc}
      * @param TransactionRequest $request
      */
-    public function writeRequestStructure(RequestInterface $request, \XMLWriter $writer)
+    protected function writeRequestStructure(RequestInterface $request, \XMLWriter $writer)
     {
         $request->getMerchant()
             ->accept(new MerchantSerializationVisitor($writer));
