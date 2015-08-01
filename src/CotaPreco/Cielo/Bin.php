@@ -48,6 +48,15 @@ final class Bin
      */
     public static function fromString($binString)
     {
+        if (! (is_numeric($binString) && strlen($binString) === 6)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    'Is not a valid BIN (Bank Identification Number): `%s`. A valid BIN contains exactly 6 digits',
+                    $binString
+                )
+            );
+        }
+
         return new self($binString);
     }
 
