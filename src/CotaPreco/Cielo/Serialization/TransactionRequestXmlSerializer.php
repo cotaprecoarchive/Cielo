@@ -24,9 +24,13 @@
 
 namespace CotaPreco\Cielo\Serialization;
 
+use CotaPreco\Cielo\Request\TransactionRequest;
 use CotaPreco\Cielo\RequestInterface;
+use CotaPreco\Cielo\Serialization\Xml\CardHolderSerializationVisitor;
+use CotaPreco\Cielo\Serialization\Xml\MerchantSerializationVisitor;
+use CotaPreco\Cielo\Serialization\Xml\OrderSerializationVisitor;
+use CotaPreco\Cielo\Serialization\Xml\PaymentMethodSerializationVisitor;
 use CotaPreco\Cielo\Serialization\Xml\TransactionRequestSerializationVistor;
-use CotaPreco\Cielo\TransactionRequest;
 
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
@@ -47,6 +51,18 @@ final class TransactionRequestXmlSerializer extends AbstractXmlRequestSerializer
      */
     public function writeRequestStructure(RequestInterface $request, \XMLWriter $writer)
     {
+        $request->getMerchant()
+            ->accept(new MerchantSerializationVisitor($writer));
+
+        $request->getHolder()
+            ->accept(new CardHolderSerializationVisitor($writer));
+
+        $request->getOrder()
+            ->accept(new OrderSerializationVisitor($writer));
+
+        $request->getPaymentMethod()
+            ->accept(new PaymentMethodSerializationVisitor($writer));
+
         $request->accept(new TransactionRequestSerializationVistor($writer));
     }
 }
