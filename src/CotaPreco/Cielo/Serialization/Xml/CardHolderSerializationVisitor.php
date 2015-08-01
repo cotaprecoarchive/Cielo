@@ -59,14 +59,19 @@ final class CardHolderSerializationVisitor extends AbstractXmlWriterSerializatio
     {
         $card = $holder->getCard();
 
-        $this->writeAllValues(array_filter(
-            [
-                'numero'           => $card->getNumber(),
-                'validade'         => $card->getExpiration()->getFullYearAndMonth(),
-                'indicador'        => $card->getSecurityCodeIndicator(),
-                'codigo-seguranca' => $card->getSecurityCode(),
-                'nome-portador'    => $holder->getName()
-            ]
-        ));
+        $this->writeAllValues(
+            array_filter(
+                [
+                    'numero'           => $card->getNumber(),
+                    'validade'         => $card->getExpiration()->getFullYearAndMonth(),
+                    'indicador'        => $card->getSecurityCodeIndicator(),
+                    'codigo-seguranca' => $card->getSecurityCode(),
+                    'nome-portador'    => $holder->getName()
+                ],
+                function ($value) {
+                    return ! is_null($value);
+                }
+            )
+        );
     }
 }
