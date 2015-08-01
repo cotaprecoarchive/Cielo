@@ -2,6 +2,13 @@
 
 Cliente escrito em PHP para integração com o WebService da Cielo (solução de pagamentos com cartão de crédito).
 
+#### Dependências
+- PHP >= 5.5;
+- libxml.
+
+Versões antigas do PHP não serão suportadas, tais como 5.3, 5.4.
+
+
 #### `Cielo#cancelTransactionPartially`
 > Cancela uma transação parcialmente (um determinado valor)
 
