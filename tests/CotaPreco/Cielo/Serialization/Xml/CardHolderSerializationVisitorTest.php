@@ -64,7 +64,7 @@ class CardHolderSerializationVisitorTest extends TestCase
                 '5453010000066167',
                 2018,
                 5,
-                Cvv::fromString('123')
+                Cvv::fromVerificationValue('123')
             )
         );
 
@@ -135,7 +135,7 @@ XML
                         '4012001037141112',
                         2018,
                         5,
-                        Cvv::fromString('123')
+                        Cvv::fromVerificationValue('123')
                     )
                 ),
                 <<<XML

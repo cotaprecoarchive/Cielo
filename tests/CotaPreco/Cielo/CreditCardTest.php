@@ -20,26 +20,21 @@ class CreditCardTest extends TestCase
             [$number, 2018, 5, CardSecurityCodeIndicator::WITHOUT_SECURITY_CODE],
             [$number, 2018, 5, CardSecurityCodeIndicator::INEXISTENT_SECURITY_CODE],
             [$number, 2018, 5, CardSecurityCodeIndicator::SECURITY_CODE_UNREADABLE],
-            [$number, 2018, 5, CardSecurityCodeIndicator::WITH_SECURITY_CODE, Cvv::fromString('123')]
+            [$number, 2018, 5, CardSecurityCodeIndicator::WITH_SECURITY_CODE, Cvv::fromVerificationValue('123')]
         ];
     }
 
     /**
      * @test
-     * @param string                $number
-     * @param int                   $year
-     * @param int                   $month
-     * @param int                   $indicator
-     * @param null|CardSecurityCode $securityCode
+     * @param string   $number
+     * @param int      $year
+     * @param int      $month
+     * @param int      $indicator
+     * @param null|Cvv $cvv
      * @dataProvider provideCardDetails
      */
-    public function createFromProvidedDetails(
-        $number,
-        $year,
-        $month,
-        $indicator,
-        CardSecurityCode $securityCode = null
-    ) {
+    public function createFromProvidedDetails($number, $year, $month, $indicator, Cvv $cvv = null)
+    {
         switch ($indicator) {
             case CardSecurityCodeIndicator::WITHOUT_SECURITY_CODE:
                 $card = CreditCard::createWithoutSecurityCode($number, $year, $month);
@@ -55,7 +50,7 @@ class CreditCardTest extends TestCase
 
             case CardSecurityCodeIndicator::WITH_SECURITY_CODE:
             default:
-                $card = CreditCard::createWithSecurityCode($number, $year, $month, $securityCode);
+                $card = CreditCard::createWithSecurityCode($number, $year, $month, $cvv);
                 break;
         }
 
@@ -68,7 +63,7 @@ class CreditCardTest extends TestCase
         $this->assertInstanceOf(Bin::class, $card->getBin());
 
         $this->assertTrue(
-            is_null($card->getSecurityCode()) || $card->getSecurityCode() instanceof CardSecurityCode
+            is_null($card->getSecurityCode()) || $card->getSecurityCode() instanceof Cvv
         );
     }
 }

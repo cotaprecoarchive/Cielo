@@ -45,26 +45,26 @@ final class CreditCard
     private $indicator;
 
     /**
-     * @var CardSecurityCode|null
+     * @var Cvv|null
      */
     private $securityCode;
 
     /**
-     * @param string                $number
-     * @param CreditCardExpiration  $expiration
-     * @param int                   $indicator
-     * @param CardSecurityCode|null $securityCode
+     * @param string               $number
+     * @param CreditCardExpiration $expiration
+     * @param int                  $indicator
+     * @param Cvv|null             $cvv
      */
     private function __construct(
         $number,
         CreditCardExpiration $expiration,
         $indicator = CardSecurityCodeIndicator::WITHOUT_SECURITY_CODE,
-        CardSecurityCode $securityCode = null
+        Cvv $cvv = null
     ) {
         $this->number       = (string) $number;
         $this->expiration   = $expiration;
         $this->indicator    = (int) $indicator;
-        $this->securityCode = $securityCode;
+        $this->securityCode = $cvv;
     }
 
     /**
@@ -83,13 +83,13 @@ final class CreditCard
     }
 
     /**
-     * @param  string           $number
-     * @param  int              $year
-     * @param  int              $month
-     * @param  CardSecurityCode $securityCode
+     * @param  string $number
+     * @param  int    $year
+     * @param  int    $month
+     * @param  Cvv    $securityCode
      * @return CreditCard
      */
-    public static function createWithSecurityCode($number, $year, $month, CardSecurityCode $securityCode)
+    public static function createWithSecurityCode($number, $year, $month, Cvv $securityCode)
     {
         return new self(
             $number,
@@ -145,9 +145,6 @@ final class CreditCard
         return $this->expiration;
     }
 
-    /**
-     * @return CardSecurityCode|null
-     */
     public function getSecurityCode()
     {
         return $this->securityCode;

@@ -27,28 +27,39 @@ namespace CotaPreco\Cielo;
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
  */
-final class Cvv implements CardSecurityCode
+final class Cvv
 {
     /**
      * @var string
      */
-    private $cvv;
+    private $value;
 
     /**
-     * @param string $cvv
+     * @param string $value
      */
-    private function __construct($cvv)
+    private function __construct($value)
     {
-        $this->cvv = $cvv;
+        $this->value = (string) $value;
     }
 
     /**
-     * @param  string $cvv
+     * @param  string $value
      * @return Cvv
      */
-    public static function fromString($cvv)
+    public static function fromVerificationValue($value)
     {
-        return new self($cvv);
+        if (! (strlen($value) === 3 || strlen($value) === 4)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    'Is not a valid CVV (Card Verification Value): `%s`. A valid CVV code should contains at least 3 ' .
+                    'and at most 4 digits. For example: AmEx (American Express) cards could be 3 or 4, while ' .
+                    'Visa and Mastercard contains exactly 3',
+                    $value
+                )
+            );
+        }
+
+        return new self($value);
     }
 
     /**
@@ -56,6 +67,6 @@ final class Cvv implements CardSecurityCode
      */
     public function __toString()
     {
-        return $this->cvv;
+        return $this->value;
     }
 }
