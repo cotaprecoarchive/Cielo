@@ -13,7 +13,7 @@ abstract class XmlSerializerTestCase extends TestCase
      * @param string $expected
      * @param string $request
      */
-    protected function assertXmlRequestEquals($expected, $request)
+    protected function assertRequestXmlEquals($expected, $request)
     {
         $this->assertXmlStringEqualsXmlString(
             $this->removeRootAttributes($expected),
@@ -25,7 +25,7 @@ abstract class XmlSerializerTestCase extends TestCase
      * @param  string $xml
      * @return string
      */
-    protected function removeRootAttributes($xml)
+    private function removeRootAttributes($xml)
     {
         $document = new \DOMDocument();
 

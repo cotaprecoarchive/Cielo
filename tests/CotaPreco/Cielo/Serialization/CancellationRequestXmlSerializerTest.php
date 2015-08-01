@@ -85,7 +85,7 @@ XML
     {
         $serializer = new CancellationRequestXmlSerializer();
 
-        $this->assertXmlRequestEquals(
+        $this->assertRequestXmlEquals(
             $xml,
             $serializer($request)
         );

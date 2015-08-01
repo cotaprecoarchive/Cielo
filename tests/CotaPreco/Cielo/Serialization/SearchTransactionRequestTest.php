@@ -37,7 +37,7 @@ REQUISICAO_CONSULTA;
 
         $request = new SearchTransactionRequest($transactionId, $merchant);
 
-        $this->assertXmlRequestEquals(
+        $this->assertRequestXmlEquals(
             $expected,
             $serializer($request)
         );
