@@ -115,7 +115,7 @@ final class Authentication
      */
     public function isAuthenticated()
     {
-        return ($this->eci->getIndicator() & SecureIndicator::AUTHENTICATED) === SecureIndicator::AUTHENTICATED;
+        return $this->checkBitmask($this->eci->getIndicator(), SecureIndicator::AUTHENTICATED);
     }
 
     /**
@@ -123,7 +123,7 @@ final class Authentication
      */
     public function isUnauthenticated()
     {
-        return ($this->eci->getIndicator() & SecureIndicator::UNAUTHENTICATED) === SecureIndicator::UNAUTHENTICATED;
+        return $this->checkBitmask($this->eci->getIndicator(), SecureIndicator::UNAUTHENTICATED);
     }
 
     /**
@@ -131,8 +131,16 @@ final class Authentication
      */
     public function isWithoutAuthentication()
     {
-        $flag = SecureIndicator::WITHOUT_AUTHENTICATION;
+        return $this->checkBitmask($this->eci->getIndicator(), SecureIndicator::WITHOUT_AUTHENTICATION);
+    }
 
-        return ($this->eci->getIndicator() & $flag) === $flag;
+    /**
+     * @param  int $value
+     * @param  int $bitmask
+     * @return bool
+     */
+    private function checkBitmask($value, $bitmask)
+    {
+        return ($value & $bitmask) === $bitmask;
     }
 }
