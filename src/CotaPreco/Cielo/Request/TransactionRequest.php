@@ -22,10 +22,19 @@
  * SOFTWARE.
  */
 
-namespace CotaPreco\Cielo;
+namespace CotaPreco\Cielo\Request;
 
+use CotaPreco\Cielo\AbstractCieloRequest;
+use CotaPreco\Cielo\Bin;
+use CotaPreco\Cielo\CardHolder;
+use CotaPreco\Cielo\IdentifiesHolder;
+use CotaPreco\Cielo\Merchant;
+use CotaPreco\Cielo\Order;
+use CotaPreco\Cielo\PaymentMethod;
 use CotaPreco\Cielo\Serialization\AcceptsSerializationVisitor;
 use CotaPreco\Cielo\Serialization\AcceptsSerializationVisitorTrait;
+use CotaPreco\Cielo\TransactionAuthorizationIndicator;
+use CotaPreco\Cielo\Url;
 
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
