@@ -24,7 +24,6 @@
 
 namespace CotaPreco\Cielo\Request;
 
-use CotaPreco\Cielo\AbstractCieloRequest;
 use CotaPreco\Cielo\Bin;
 use CotaPreco\Cielo\CardHolder;
 use CotaPreco\Cielo\IdentifiesHolder;
@@ -35,6 +34,7 @@ use CotaPreco\Cielo\Serialization\AcceptsSerializationVisitor;
 use CotaPreco\Cielo\Serialization\AcceptsSerializationVisitorTrait;
 use CotaPreco\Cielo\TransactionAuthorizationIndicator;
 use CotaPreco\Cielo\Url;
+use Rhumsaa\Uuid\Uuid;
 
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
@@ -110,6 +110,7 @@ final class TransactionRequest extends AbstractCieloRequest implements AcceptsSe
         Url $returnUrl = null,
         $generateToken = false
     ) {
+        $this->requestId     = Uuid::uuid4();
         $this->merchant      = $merchant;
         $this->holder        = $holder;
         $this->order         = $order;

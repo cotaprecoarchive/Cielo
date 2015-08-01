@@ -24,36 +24,49 @@
 
 namespace CotaPreco\Cielo\Request;
 
+use CotaPreco\Cielo\CardHolder;
 use CotaPreco\Cielo\Merchant;
-use CotaPreco\Cielo\TransactionId;
+use Rhumsaa\Uuid\Uuid;
 
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
  */
-final class PartialCancellationRequest extends AbstractCancellationRequest
+final class CreateTokenForHolderRequest extends AbstractCieloRequest
 {
     /**
-     * @var int
+     * @var Merchant
      */
-    private $value;
+    private $merchant;
 
     /**
-     * @param TransactionId $transactionId
-     * @param Merchant      $merchant
-     * @param int           $value
+     * @var CardHolder
      */
-    public function __construct(TransactionId $transactionId, Merchant $merchant, $value)
-    {
-        parent::__construct($transactionId, $merchant);
+    private $holder;
 
-        $this->value = (int) $value;
+    /**
+     * @param Merchant   $merchant
+     * @param CardHolder $holder
+     */
+    public function __construct(Merchant $merchant, CardHolder $holder)
+    {
+        $this->requestId = Uuid::uuid4();
+        $this->merchant  = $merchant;
+        $this->holder    = $holder;
     }
 
     /**
-     * @return int
+     * @return Merchant
      */
-    public function getValue()
+    public function getMerchant()
     {
-        return $this->value;
+        return $this->merchant;
+    }
+
+    /**
+     * @return CardHolder
+     */
+    public function getHolder()
+    {
+        return $this->holder;
     }
 }

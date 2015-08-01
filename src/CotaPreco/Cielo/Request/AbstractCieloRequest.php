@@ -24,36 +24,32 @@
 
 namespace CotaPreco\Cielo\Request;
 
-use CotaPreco\Cielo\Merchant;
-use CotaPreco\Cielo\TransactionId;
+use CotaPreco\Cielo\RequestInterface;
+use Rhumsaa\Uuid\Uuid;
 
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
  */
-final class PartialCancellationRequest extends AbstractCancellationRequest
+abstract class AbstractCieloRequest implements RequestInterface
 {
     /**
-     * @var int
+     * @var string|Uuid
      */
-    private $value;
+    protected $requestId;
 
     /**
-     * @param TransactionId $transactionId
-     * @param Merchant      $merchant
-     * @param int           $value
+     * @return string
      */
-    public function __construct(TransactionId $transactionId, Merchant $merchant, $value)
+    public function getRequestId()
     {
-        parent::__construct($transactionId, $merchant);
-
-        $this->value = (int) $value;
+        return (string) $this->requestId;
     }
 
     /**
-     * @return int
+     * @return string
      */
-    public function getValue()
+    public function getShapeVersion()
     {
-        return $this->value;
+        return '1.2.1';
     }
 }

@@ -30,30 +30,42 @@ use CotaPreco\Cielo\TransactionId;
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
  */
-final class PartialCancellationRequest extends AbstractCancellationRequest
+final class CaptureTransactionRequest extends AbstractCieloRequest
 {
     /**
-     * @var int
+     * @var TransactionId
      */
-    private $value;
+    private $transactionId;
+
+    /**
+     * @var Merchant
+     */
+    private $merchant;
 
     /**
      * @param TransactionId $transactionId
      * @param Merchant      $merchant
-     * @param int           $value
      */
-    public function __construct(TransactionId $transactionId, Merchant $merchant, $value)
+    public function __construct(TransactionId $transactionId, Merchant $merchant)
     {
-        parent::__construct($transactionId, $merchant);
-
-        $this->value = (int) $value;
+        $this->requestId     = Uuid::uuid4();
+        $this->transactionId = $transactionId;
+        $this->merchant      = $merchant;
     }
 
     /**
-     * @return int
+     * @return TransactionId
      */
-    public function getValue()
+    public function getTransactionId()
     {
-        return $this->value;
+        return $this->transactionId;
+    }
+
+    /**
+     * @return Merchant
+     */
+    public function getMerchant()
+    {
+        return $this->merchant;
     }
 }

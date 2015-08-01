@@ -24,9 +24,9 @@
 
 namespace CotaPreco\Cielo\Request;
 
-use CotaPreco\Cielo\AbstractCieloRequest;
 use CotaPreco\Cielo\Merchant;
 use CotaPreco\Cielo\TransactionId;
+use Rhumsaa\Uuid\Uuid;
 
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
@@ -49,6 +49,7 @@ final class SearchTransactionRequest extends AbstractCieloRequest
      */
     public function __construct(TransactionId $transactionId, Merchant $merchant)
     {
+        $this->requestId     = Uuid::uuid4();
         $this->transactionId = $transactionId;
         $this->merchant      = $merchant;
     }
