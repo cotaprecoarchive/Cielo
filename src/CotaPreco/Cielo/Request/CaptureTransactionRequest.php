@@ -26,6 +26,7 @@ namespace CotaPreco\Cielo\Request;
 
 use CotaPreco\Cielo\Merchant;
 use CotaPreco\Cielo\TransactionId;
+use Rhumsaa\Uuid\Uuid;
 
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
