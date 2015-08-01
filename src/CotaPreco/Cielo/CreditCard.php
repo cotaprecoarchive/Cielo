@@ -68,52 +68,65 @@ final class CreditCard
     }
 
     /**
-     * @param  string               $number
-     * @param  CreditCardExpiration $expiration
-     * @return self
+     * @param  string $number
+     * @param  int    $year
+     * @param  int    $month
+     * @return CreditCard
      */
-    public static function createWithoutSecurityCode($number, CreditCardExpiration $expiration)
+    public static function createWithoutSecurityCode($number, $year, $month)
     {
-        return new self($number, $expiration, CardSecurityCodeIndicator::WITHOUT_SECURITY_CODE);
+        return new self(
+            $number,
+            CreditCardExpiration::fromYearAndMonth($year, $month),
+            CardSecurityCodeIndicator::WITHOUT_SECURITY_CODE
+        );
     }
 
     /**
-     * @param  string               $number
-     * @param  CreditCardExpiration $expiration
-     * @param  CardSecurityCode     $securityCode
-     * @return self
+     * @param  string           $number
+     * @param  int              $year
+     * @param  int              $month
+     * @param  CardSecurityCode $securityCode
+     * @return CreditCard
      */
-    public static function createWithSecurityCode(
-        $number,
-        CreditCardExpiration $expiration,
-        CardSecurityCode $securityCode
-    ) {
+    public static function createWithSecurityCode($number, $year, $month, CardSecurityCode $securityCode)
+    {
         return new self(
             $number,
-            $expiration,
+            CreditCardExpiration::fromYearAndMonth($year, $month),
             CardSecurityCodeIndicator::WITH_SECURITY_CODE,
             $securityCode
         );
     }
 
     /**
-     * @param  string               $number
-     * @param  CreditCardExpiration $expiration
-     * @return self
+     * @param  string $number
+     * @param  int    $year
+     * @param  int    $month
+     * @return CreditCard
      */
-    public static function createWithUnreadableSecurityCode($number, CreditCardExpiration $expiration)
+    public static function createWithUnreadableSecurityCode($number, $year, $month)
     {
-        return new self($number, $expiration, CardSecurityCodeIndicator::SECURITY_CODE_UNREADABLE);
+        return new self(
+            $number,
+            CreditCardExpiration::fromYearAndMonth($year, $month),
+            CardSecurityCodeIndicator::SECURITY_CODE_UNREADABLE
+        );
     }
 
     /**
-     * @param  string               $number
-     * @param  CreditCardExpiration $expiration
-     * @return self
+     * @param  string $number
+     * @param  int    $year
+     * @param  int    $month
+     * @return CreditCard
      */
-    public static function createWithInexistentSecurityCode($number, CreditCardExpiration $expiration)
+    public static function createWithInexistentSecurityCode($number, $year, $month)
     {
-        return new self($number, $expiration, CardSecurityCodeIndicator::INEXISTENT_SECURITY_CODE);
+        return new self(
+            $number,
+            CreditCardExpiration::fromYearAndMonth($year, $month),
+            CardSecurityCodeIndicator::INEXISTENT_SECURITY_CODE
+        );
     }
 
     /**

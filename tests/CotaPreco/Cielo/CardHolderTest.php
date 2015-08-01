@@ -21,7 +21,8 @@ class CardHolderTest extends TestCase
     {
         $this->holder = CardHolder::fromHolderNameAndCard('John Doe', CreditCard::createWithoutSecurityCode(
             '5453010000066167',
-            CreditCardExpiration::fromYearAndMonth(2018, 5)
+            2018,
+            5
         ));
     }
 
@@ -32,7 +33,8 @@ class CardHolderTest extends TestCase
     {
         $holder = CardHolder::fromCard(CreditCard::createWithoutSecurityCode(
             '5453010000066167',
-            CreditCardExpiration::fromYearAndMonth(2018, 5)
+            2018,
+            5
         ));
 
         $this->assertNull($holder->getName());

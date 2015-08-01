@@ -27,7 +27,8 @@ class TransactionRequestTest extends TestCase
 
         $card = CreditCard::createWithSecurityCode(
             '4551870000000183',
-            CreditCardExpiration::fromYearAndMonth(2018, 5),
+            2018,
+            5,
             Cvv::fromString('123')
         );
 
