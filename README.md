@@ -1,5 +1,7 @@
 ## `CotaPreco\Cielo`
 
+Cliente escrito em PHP para integração com o WebService da Cielo (solução de pagamentos com cartão de crédito).
+
 #### `Cielo#cancelTransactionPartially`
 > Cancela uma transação parcialmente (um determinado valor)
 
@@ -32,3 +34,7 @@ No exemplo acima, será cancelado de `$transactionId` o valor de 10 reais *(ou d
 
 #### `Cielo#createAndAuthorizeOnlyIfAuthenticated`
 > Cria uma transação e autoriza apenas se for autenticada
+
+
+## Licença
+[MIT](https://github.com/CotaPreco/Cielo/blob/master/LICENSE) &copy; Cota Preço, 2015.
