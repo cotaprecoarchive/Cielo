@@ -130,6 +130,10 @@ XML
      */
     public function withRealXmlWriter(Order $order, $xml)
     {
+        if (! class_exists(\XMLWriter::class)) {
+            $this->markTestSkipped();
+        }
+
         $writer = new \XMLWriter();
 
         $writer->openMemory();
