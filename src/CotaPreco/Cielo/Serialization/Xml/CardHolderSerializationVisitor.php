@@ -65,7 +65,8 @@ final class CardHolderSerializationVisitor extends AbstractXmlWriterSerializatio
                 'numero'           => $card->getNumber(),
                 'validade'         => $card->getExpiration()->getFullYearAndMonth(),
                 'indicador'        => $card->getSecurityCodeIndicator(),
-                'codigo-seguranca' => $card->getSecurityCode()
+                'codigo-seguranca' => $card->getSecurityCode(),
+                'nome-portador'    => $holder->getName()
             ]
         ));
     }
