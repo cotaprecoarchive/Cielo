@@ -31,7 +31,7 @@ use CotaPreco\Cielo\TransactionId;
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
  */
-abstract class AbstractCancellationRequest extends AbstractCieloRequest
+abstract class AbstractCancellationRequest extends AbstractCieloRequest implements CancellationRequestInterface
 {
     /**
      * @var TransactionId
