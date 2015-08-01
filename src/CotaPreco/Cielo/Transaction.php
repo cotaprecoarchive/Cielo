@@ -160,7 +160,7 @@ final class Transaction
             $this->pan,
             $this->order,
             $this->paymentMethod,
-            $this->status,
+            $authentication->getCode(),
             $authentication,
             $this->authorization
         );
@@ -177,7 +177,7 @@ final class Transaction
             $this->pan,
             $this->order,
             $this->paymentMethod,
-            $this->status,
+            $authorization->getCode(),
             $this->authentication,
             $authorization
         );
@@ -194,7 +194,7 @@ final class Transaction
             $this->pan,
             $this->order,
             $this->paymentMethod,
-            $this->status,
+            $capture->getCode(),
             $this->authentication,
             $this->authorization,
             $capture
@@ -228,12 +228,13 @@ final class Transaction
      */
     public function withCancellations(Cancellation ...$cancellations)
     {
+        /* @var Cancellation[] $cancellations */
         return new self(
             $this->transactionId,
             $this->pan,
             $this->order,
             $this->paymentMethod,
-            $this->status,
+            count($cancellations) ? current($cancellations)->getCode() : $this->status,
             $this->authentication,
             $this->authorization,
             $this->capture,
