@@ -34,7 +34,7 @@ class TransactionRequestTest extends TestCase
 
         $paymentMethod = PaymentMethod::forIssuerAsOneTimePayment(CardIssuer::fromCreditCardType(CreditCardType::VISA));
 
-        $order = new Order('123452', 1000);
+        $order = Order::fromOrderNumberAndValue('123452', 1000);
 
         return [
             [
