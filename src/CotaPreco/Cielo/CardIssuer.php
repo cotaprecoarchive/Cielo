@@ -43,7 +43,6 @@ final class CardIssuer
     }
 
     /**
-     * @see    CreditCardType
      * @param  string $card
      * @return CardIssuer
      */
