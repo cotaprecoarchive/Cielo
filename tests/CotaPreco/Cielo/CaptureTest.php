@@ -58,4 +58,12 @@ class CaptureTest extends TestCase
     {
         $this->assertEquals(1000, $this->capture->getValue());
     }
+
+    /**
+     * @test
+     */
+    public function getShipping()
+    {
+        $this->assertNull($this->capture->getShipping());
+    }
 }
