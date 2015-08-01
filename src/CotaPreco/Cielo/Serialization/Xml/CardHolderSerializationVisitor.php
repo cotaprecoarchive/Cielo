@@ -55,7 +55,7 @@ final class CardHolderSerializationVisitor extends AbstractXmlWriterSerializatio
     /**
      * @param CardHolder $holder
      */
-    public function writeCardHolder(CardHolder $holder)
+    private function writeCardHolder(CardHolder $holder)
     {
         $card = $holder->getCard();
 
