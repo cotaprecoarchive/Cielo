@@ -19,7 +19,7 @@ class CardHolderSerializationVisitorTest extends TestCase
      */
     public function visitCardToken()
     {
-        $token = CardToken::fromPreviouslyIssuedTokenString('TuS6LeBHWjqFFtE7S3zR052Jl/KUlD+tYJFpAdlA87E=');
+        $token = CardToken::fromString('TuS6LeBHWjqFFtE7S3zR052Jl/KUlD+tYJFpAdlA87E=');
 
         /* @var \PHPUnit_Framework_MockObject_MockObject|\XMLWriter $writer */
         $writer = $this->getMock(\XMLWriter::class, [
@@ -107,7 +107,7 @@ class CardHolderSerializationVisitorTest extends TestCase
     {
         return [
             [
-                CardToken::fromPreviouslyIssuedTokenString('TuS6LeBHWjqFFtE7S3zR052Jl/KUlD+tYJFpAdlA87E='),
+                CardToken::fromString('TuS6LeBHWjqFFtE7S3zR052Jl/KUlD+tYJFpAdlA87E='),
                 <<<XML
 <dados-portador>
     <token>TuS6LeBHWjqFFtE7S3zR052Jl/KUlD+tYJFpAdlA87E=</token>

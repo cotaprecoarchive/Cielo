@@ -17,11 +17,11 @@ class CardTokenTest extends TestCase
     /**
      * @test
      */
-    public function fromPreviouslyIssuedTokenString()
+    public function fromString()
     {
         $this->assertEquals(
             self::GENERATED_TOKEN,
-            CardToken::fromPreviouslyIssuedTokenString(self::GENERATED_TOKEN)
+            CardToken::fromString(self::GENERATED_TOKEN)
         );
     }
 }

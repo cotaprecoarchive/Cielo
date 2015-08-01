@@ -41,7 +41,7 @@ final class WrappedTokenFromRootNode
         /* @noinspection PhpUndefinedFieldInspection */
         /* @noinspection PhpParamsInspection */
         return new TransactionWrappedToken(
-            CardToken::fromPreviouslyIssuedTokenString($token->{'codigo-token'}),
+            CardToken::fromString($token->{'codigo-token'}),
             $token->status,
             $token->{'numero-cartao-truncado'}
         );

@@ -20,7 +20,7 @@ class TransactionWrappedTokenTest extends TestCase
     protected function setUp()
     {
         $this->wrappedToken = new TransactionWrappedToken(
-            CardToken::fromPreviouslyIssuedTokenString('TuS6LeBHWjqFFtE7S3zR052Jl/KUlD+tYJFpAdlA87E='),
+            CardToken::fromString('TuS6LeBHWjqFFtE7S3zR052Jl/KUlD+tYJFpAdlA87E='),
             GeneratedTokenStatus::UNBLOCKED,
             '455187******0183'
         );

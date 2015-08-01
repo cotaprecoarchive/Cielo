@@ -43,7 +43,7 @@ class TransactionRequestSerializationVistorTest extends TestCase
         $order         = Order::fromOrderNumberAndValue('1234', 10000);
 
         /* @var CardToken $token */
-        $token         = CardToken::fromPreviouslyIssuedTokenString('TuS6LeBHWjqFFtE7S3zR052Jl/KUlD+tYJFpAdlA87E=');
+        $token         = CardToken::fromString('TuS6LeBHWjqFFtE7S3zR052Jl/KUlD+tYJFpAdlA87E=');
 
         /* @var PaymentMethod $paymentMethod */
         $paymentMethod = PaymentMethod::forIssuerAsOneTimePayment(
