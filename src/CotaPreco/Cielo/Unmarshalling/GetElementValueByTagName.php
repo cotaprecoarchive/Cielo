@@ -27,7 +27,7 @@ namespace CotaPreco\Cielo\Unmarshalling;
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
  */
-final class GetElementByTagName
+final class GetElementValueByTagName
 {
     /**
      * @var \DOMElement
