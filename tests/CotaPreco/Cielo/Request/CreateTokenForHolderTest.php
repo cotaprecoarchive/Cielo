@@ -10,10 +10,10 @@ use PHPUnit_Framework_TestCase as TestCase;
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
  */
-class CreateTokenForHolderRequestTest extends TestCase
+class CreateTokenForHolderTest extends TestCase
 {
     /**
-     * @var CreateTokenForHolderRequest
+     * @var CreateTokenForHolder
      */
     private $request;
 
@@ -22,7 +22,7 @@ class CreateTokenForHolderRequestTest extends TestCase
      */
     protected function setUp()
     {
-        $this->request = new CreateTokenForHolderRequest(
+        $this->request = new CreateTokenForHolder(
             Merchant::fromAffiliationIdAndKey(
                 getenv('CIELO_AFFILIATION_ID'),
                 getenv('CIELO_AFFILIATION_KEY')

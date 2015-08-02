@@ -40,7 +40,7 @@ use Rhumsaa\Uuid\Uuid;
  * @author Andrey K. Vital <andreykvital@gmail.com>
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-final class CreateTransactionRequest extends AbstractCieloRequest implements AcceptsSerializationVisitor
+final class CreateTransaction extends AbstractCieloRequest implements AcceptsSerializationVisitor
 {
     use AcceptsSerializationVisitorTrait;
 

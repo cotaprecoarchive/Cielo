@@ -22,38 +22,38 @@
  * SOFTWARE.
  */
 
-namespace CotaPreco\Cielo\Serialization;
+namespace CotaPreco\Cielo\Request\Cancellation;
 
-use CotaPreco\Cielo\Request\CancellationRequestInterface;
-use CotaPreco\Cielo\Request\PartialCancellationRequest;
-use CotaPreco\Cielo\RequestInterface;
-use CotaPreco\Cielo\Serialization\Xml\MerchantSerializationVisitor;
+use CotaPreco\Cielo\Merchant;
+use CotaPreco\Cielo\TransactionId;
 
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
  */
-final class CancellationRequestXmlSerializer extends AbstractXmlRequestSerializer
+final class PartialCancellation extends AbstractCancellationRequest
 {
     /**
-     * @return string
+     * @var int
      */
-    protected function getRootNodeName()
+    private $value;
+
+    /**
+     * @param TransactionId $transactionId
+     * @param Merchant      $merchant
+     * @param int           $value
+     */
+    public function __construct(TransactionId $transactionId, Merchant $merchant, $value)
     {
-        return 'requisicao-cancelamento';
+        parent::__construct($transactionId, $merchant);
+
+        $this->value = (int) $value;
     }
 
     /**
-     * {@inheritdoc}
-     * @param CancellationRequestInterface $request
+     * @return int
      */
-    protected function writeRequestStructure(RequestInterface $request, \XMLWriter $writer)
+    public function getValue()
     {
-        $writer->writeElement('tid', $request->getTransactionId());
-
-        $request->getMerchant()->accept(new MerchantSerializationVisitor($writer));
-
-        if ($request instanceof PartialCancellationRequest) {
-            $writer->writeElement('valor', $request->getValue());
-        }
+        return $this->value;
     }
 }

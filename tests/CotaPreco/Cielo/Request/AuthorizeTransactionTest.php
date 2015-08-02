@@ -9,10 +9,10 @@ use PHPUnit_Framework_TestCase as TestCase;
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
  */
-class AuthorizeTransactionRequestTest extends TestCase
+class AuthorizeTransactionTest extends TestCase
 {
     /**
-     * @var AuthorizeTransactionRequest
+     * @var AuthorizeTransaction
      */
     private $request;
 
@@ -21,7 +21,7 @@ class AuthorizeTransactionRequestTest extends TestCase
      */
     protected function setUp()
     {
-        $this->request = new AuthorizeTransactionRequest(
+        $this->request = new AuthorizeTransaction(
             TransactionId::fromString('1001734898073E931001'),
             Merchant::fromAffiliationIdAndKey(
                 getenv('CIELO_AFFILIATION_ID'),

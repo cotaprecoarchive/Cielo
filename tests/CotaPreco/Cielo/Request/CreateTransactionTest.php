@@ -18,10 +18,10 @@ use PHPUnit_Framework_TestCase as TestCase;
  * @author Andrey K. Vital <andreykvital@gmail.com>
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class CreateTransactionRequestTest extends TestCase
+class CreateTransactionTest extends TestCase
 {
     /**
-     * @var CreateTransactionRequest
+     * @var CreateTransaction
      */
     private $request;
 
@@ -49,7 +49,7 @@ class CreateTransactionRequestTest extends TestCase
         return [
             [
                 TransactionAuthorizationIndicator::ONLY_AUTHENTICATE,
-                CreateTransactionRequest::authenticateOnly(
+                CreateTransaction::authenticateOnly(
                     $merchant,
                     CardHolder::fromCard($card),
                     $order,
@@ -59,7 +59,7 @@ class CreateTransactionRequestTest extends TestCase
             ],
             [
                 TransactionAuthorizationIndicator::AUTHORIZE,
-                CreateTransactionRequest::authorizeOnly(
+                CreateTransaction::authorizeOnly(
                     $merchant,
                     CardHolder::fromCard($card),
                     $order,
@@ -70,7 +70,7 @@ class CreateTransactionRequestTest extends TestCase
             ],
             [
                 TransactionAuthorizationIndicator::AUTHORIZE_ONLY_IF_AUTHENTICATED,
-                CreateTransactionRequest::authorizeOnlyIfAuthenticated(
+                CreateTransaction::authorizeOnlyIfAuthenticated(
                     $merchant,
                     CardHolder::fromCard($card),
                     $order,
@@ -80,7 +80,7 @@ class CreateTransactionRequestTest extends TestCase
             ],
             [
                 TransactionAuthorizationIndicator::AUTHORIZE_WITHOUT_AUTHENTICATION,
-                CreateTransactionRequest::authorizeWithoutAuthentication(
+                CreateTransaction::authorizeWithoutAuthentication(
                     $merchant,
                     CardHolder::fromCard($card),
                     $order,
@@ -167,8 +167,8 @@ class CreateTransactionRequestTest extends TestCase
 
     /**
      * @test
-     * @param int                      $indicator
-     * @param CreateTransactionRequest $request
+     * @param int               $indicator
+     * @param CreateTransaction $request
      * @dataProvider provideRequests
      */
     public function getAuthorizeIndicator($indicator, $request)

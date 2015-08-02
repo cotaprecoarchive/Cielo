@@ -22,51 +22,11 @@
  * SOFTWARE.
  */
 
-namespace CotaPreco\Cielo\Request;
-
-use CotaPreco\Cielo\Merchant;
-use CotaPreco\Cielo\TransactionId;
-use Rhumsaa\Uuid\Uuid;
+namespace CotaPreco\Cielo\Request\Cancellation;
 
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
  */
-abstract class AbstractCancellationRequest extends AbstractCieloRequest implements CancellationRequestInterface
+final class FullCancellation extends AbstractCancellationRequest
 {
-    /**
-     * @var TransactionId
-     */
-    private $transactionId;
-
-    /**
-     * @var Merchant
-     */
-    private $merchant;
-
-    /**
-     * @param TransactionId $transactionId
-     * @param Merchant      $merchant
-     */
-    public function __construct(TransactionId $transactionId, Merchant $merchant)
-    {
-        $this->requestId     = Uuid::uuid4();
-        $this->transactionId = $transactionId;
-        $this->merchant      = $merchant;
-    }
-
-    /**
-     * @return TransactionId
-     */
-    public function getTransactionId()
-    {
-        return $this->transactionId;
-    }
-
-    /**
-     * @return Merchant
-     */
-    public function getMerchant()
-    {
-        return $this->merchant;
-    }
 }

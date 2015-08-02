@@ -1,6 +1,6 @@
 <?php
 
-namespace CotaPreco\Cielo\Request;
+namespace CotaPreco\Cielo\Request\Cancellation;
 
 use CotaPreco\Cielo\Merchant;
 use CotaPreco\Cielo\TransactionId;
@@ -9,10 +9,10 @@ use PHPUnit_Framework_TestCase as TestCase;
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
  */
-class SearchTransactionRequestTest extends TestCase
+class PartialCancellationTest extends TestCase
 {
     /**
-     * @var SearchTransactionRequest
+     * @var PartialCancellation
      */
     private $request;
 
@@ -21,12 +21,15 @@ class SearchTransactionRequestTest extends TestCase
      */
     protected function setUp()
     {
-        $this->request = new SearchTransactionRequest(
-            TransactionId::fromString('1006993069371CFF1001'),
-            Merchant::fromAffiliationIdAndKey(
-                '1006993069',
-                '25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3'
-            )
+        $merchant = Merchant::fromAffiliationIdAndKey(
+            getenv('CIELO_AFFILIATION_ID'),
+            getenv('CIELO_AFFILIATION_KEY')
+        );
+
+        $this->request = new PartialCancellation(
+            TransactionId::fromString('12345678910111213141'),
+            $merchant,
+            1000
         );
     }
 
@@ -44,6 +47,13 @@ class SearchTransactionRequestTest extends TestCase
     public function getTransactionId()
     {
         $this->assertInstanceOf(TransactionId::class, $this->request->getTransactionId());
-        $this->assertEquals('1006993069371CFF1001', (string) $this->request->getTransactionId());
+    }
+
+    /**
+     * @test
+     */
+    public function getValue()
+    {
+        $this->assertEquals(1000, $this->request->getValue());
     }
 }

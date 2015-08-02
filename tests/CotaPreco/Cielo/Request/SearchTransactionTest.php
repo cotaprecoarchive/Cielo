@@ -9,10 +9,10 @@ use PHPUnit_Framework_TestCase as TestCase;
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
  */
-class PartialCancellationRequestTest extends TestCase
+class SearchTransactionTest extends TestCase
 {
     /**
-     * @var PartialCancellationRequest
+     * @var SearchTransaction
      */
     private $request;
 
@@ -21,15 +21,12 @@ class PartialCancellationRequestTest extends TestCase
      */
     protected function setUp()
     {
-        $merchant = Merchant::fromAffiliationIdAndKey(
-            getenv('CIELO_AFFILIATION_ID'),
-            getenv('CIELO_AFFILIATION_KEY')
-        );
-
-        $this->request = new PartialCancellationRequest(
-            TransactionId::fromString('12345678910111213141'),
-            $merchant,
-            1000
+        $this->request = new SearchTransaction(
+            TransactionId::fromString('1006993069371CFF1001'),
+            Merchant::fromAffiliationIdAndKey(
+                '1006993069',
+                '25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3'
+            )
         );
     }
 
@@ -47,13 +44,6 @@ class PartialCancellationRequestTest extends TestCase
     public function getTransactionId()
     {
         $this->assertInstanceOf(TransactionId::class, $this->request->getTransactionId());
-    }
-
-    /**
-     * @test
-     */
-    public function getValue()
-    {
-        $this->assertEquals(1000, $this->request->getValue());
+        $this->assertEquals('1006993069371CFF1001', (string) $this->request->getTransactionId());
     }
 }

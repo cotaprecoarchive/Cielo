@@ -40,10 +40,12 @@ final class MerchantSerializationVisitor extends AbstractXmlWriterSerializationV
     {
         $this->writer->startElement('dados-ec');
 
-        $this->writeAllValues([
-            'numero' => $merchant->getAffiliationId(),
-            'chave'  => $merchant->getAffiliationKey()
-        ]);
+        $this->writeAllValues(
+            [
+                'numero' => $merchant->getAffiliationId(),
+                'chave'  => $merchant->getAffiliationKey()
+            ]
+        );
 
         $this->writer->endElement();
     }
