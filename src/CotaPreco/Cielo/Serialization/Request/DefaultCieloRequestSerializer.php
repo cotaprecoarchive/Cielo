@@ -22,9 +22,8 @@
  * SOFTWARE.
  */
 
-namespace CotaPreco\Cielo\Serialization\Request\Factory;
+namespace CotaPreco\Cielo\Serialization\Request;
 
-use CotaPreco\Cielo\Serialization\Request\SerializerChain;
 use CotaPreco\Cielo\Serialization\Request\Xml\AuthorizeTransactionSerializer;
 use CotaPreco\Cielo\Serialization\Request\Xml\CancellationSerializer;
 use CotaPreco\Cielo\Serialization\Request\Xml\CaptureSerializer;
@@ -35,14 +34,11 @@ use CotaPreco\Cielo\Serialization\Request\Xml\SearchTransactionSerializer;
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
  */
-final class CieloRequestSerializerChainFactory
+final class DefaultCieloRequestSerializer extends SerializerChain
 {
-    /**
-     * @return SerializerChain
-     */
-    public function __invoke()
+    public function __construct()
     {
-        return new SerializerChain(
+        parent::__construct(
             new SearchTransactionSerializer(),
             new AuthorizeTransactionSerializer(),
             new CaptureSerializer(),

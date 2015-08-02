@@ -25,49 +25,15 @@
 namespace CotaPreco\Cielo\Serialization\Request;
 
 use CotaPreco\Cielo\RequestInterface;
-use CotaPreco\Cielo\Serialization\Exception\SerializerNotFoundException;
 
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
  */
-abstract class SerializerChain implements CieloRequestSerializerInterface
+interface CieloRequestSerializerInterface
 {
     /**
-     * @var SerializerInterface[]
-     */
-    private $serializers;
-
-    /**
-     * @param SerializerInterface ...$serializers
-     */
-    protected function __construct(SerializerInterface ...$serializers)
-    {
-        $this->serializers = $serializers;
-    }
-
-    /**
      * @param  RequestInterface $request
-     * @return string
-     * @throws SerializerNotFoundException if there's no serializer in the chain that could handle serialization of
-     * `$request`
+     * @return mixed
      */
-    public function __invoke(RequestInterface $request)
-    {
-        /* @var SerializerInterface[] $candidates */
-        $candidates = array_filter(
-            $this->serializers,
-            function (SerializerInterface $serializer) use ($request) {
-                return $serializer->canSerialize($request);
-            }
-        );
-
-        /* @var SerializerInterface|false $serializer */
-        $serializer = current($candidates);
-
-        if (! $serializer) {
-            throw SerializerNotFoundException::forRequest($request);
-        }
-
-        return $serializer($request);
-    }
+    public function __invoke(RequestInterface $request);
 }
