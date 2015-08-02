@@ -6,7 +6,6 @@ use CotaPreco\Cielo\Bin;
 use CotaPreco\Cielo\CardHolder;
 use CotaPreco\Cielo\CardIssuer;
 use CotaPreco\Cielo\CreditCard;
-use CotaPreco\Cielo\CreditCardType;
 use CotaPreco\Cielo\Cvv;
 use CotaPreco\Cielo\IdentifiesHolder;
 use CotaPreco\Cielo\Merchant;
@@ -19,10 +18,10 @@ use PHPUnit_Framework_TestCase as TestCase;
  * @author Andrey K. Vital <andreykvital@gmail.com>
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class TransactionRequestTest extends TestCase
+class CreateTransactionRequestTest extends TestCase
 {
     /**
-     * @var TransactionRequest
+     * @var CreateTransactionRequest
      */
     private $request;
 
@@ -50,7 +49,7 @@ class TransactionRequestTest extends TestCase
         return [
             [
                 TransactionAuthorizationIndicator::ONLY_AUTHENTICATE,
-                TransactionRequest::createAndAuthenticateOnly(
+                CreateTransactionRequest::authenticateOnly(
                     $merchant,
                     CardHolder::fromCard($card),
                     $order,
@@ -60,7 +59,7 @@ class TransactionRequestTest extends TestCase
             ],
             [
                 TransactionAuthorizationIndicator::AUTHORIZE,
-                TransactionRequest::createAndAuthorizeOnly(
+                CreateTransactionRequest::authorizeOnly(
                     $merchant,
                     CardHolder::fromCard($card),
                     $order,
@@ -71,7 +70,7 @@ class TransactionRequestTest extends TestCase
             ],
             [
                 TransactionAuthorizationIndicator::AUTHORIZE_ONLY_IF_AUTHENTICATED,
-                TransactionRequest::createAndAuthorizeOnlyIfAuthenticated(
+                CreateTransactionRequest::authorizeOnlyIfAuthenticated(
                     $merchant,
                     CardHolder::fromCard($card),
                     $order,
@@ -81,7 +80,7 @@ class TransactionRequestTest extends TestCase
             ],
             [
                 TransactionAuthorizationIndicator::AUTHORIZE_WITHOUT_AUTHENTICATION,
-                TransactionRequest::createAndAuthorizeWithoutAuthentication(
+                CreateTransactionRequest::authorizeWithoutAuthentication(
                     $merchant,
                     CardHolder::fromCard($card),
                     $order,
@@ -168,8 +167,8 @@ class TransactionRequestTest extends TestCase
 
     /**
      * @test
-     * @param int $indicator
-     * @param TransactionRequest $request
+     * @param int                      $indicator
+     * @param CreateTransactionRequest $request
      * @dataProvider provideRequests
      */
     public function getAuthorizeIndicator($indicator, $request)
