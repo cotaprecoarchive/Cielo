@@ -86,6 +86,14 @@ final class PaymentMethod implements AcceptsSerializationVisitor
     }
 
     /**
+     * @return int
+     */
+    public function getNumberOfInstallments()
+    {
+        return intval((string) $this->installments);
+    }
+
+    /**
      * @param  CardIssuer $issuer
      * @return PaymentMethod
      */

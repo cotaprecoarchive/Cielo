@@ -55,6 +55,14 @@ class PaymentMethodTest extends TestCase
     /**
      * @test
      */
+    public function getNumberOfInstallments()
+    {
+        $this->assertEquals(1, $this->paymentMethod->getNumberOfInstallments());
+    }
+
+    /**
+     * @test
+     */
     public function forIssuerAsOneTimePayment()
     {
         $paymentMethod = PaymentMethod::forIssuerAsOneTimePayment($this->visa);
