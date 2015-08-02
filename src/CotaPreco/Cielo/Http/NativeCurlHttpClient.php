@@ -43,19 +43,22 @@ final class NativeCurlHttpClient implements CieloHttpClientInterface
             $environmentUrl = 'https://qasecommerce.cielo.com.br/servicos/ecommwsec.do';
         }
 
+        $payload = http_build_query([
+            'mensagem' => $xml
+        ]);
+
         $curl = curl_init();
 
         curl_setopt_array($curl, [
             CURLOPT_URL            => $environmentUrl,
             CURLOPT_POST           => true,
-            CURLOPT_POSTFIELDS     => http_build_query([
-                'mensagem' => $xml
-            ]),
+            CURLOPT_POSTFIELDS     => $payload,
             CURLOPT_SSLVERSION     => defined('CURL_SSLVERSION_TLSv1_0') ? CURL_SSLVERSION_TLSv1_0 : 4,
             CURLOPT_SSL_VERIFYPEER => true,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_HTTPHEADER     => [
                 'Content-Type: application/x-www-form-urlencoded; charset="UTF-8"',
+                sprintf('Content-Length: %d', strlen($payload)),
                 'Accept: text/xml; charset="UTF-8"'
             ],
             CURLOPT_CONNECTTIMEOUT => 30,
