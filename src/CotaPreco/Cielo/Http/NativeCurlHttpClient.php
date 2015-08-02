@@ -53,13 +53,14 @@ final class NativeCurlHttpClient implements CieloHttpClientInterface
             CURLOPT_URL            => $environmentUrl,
             CURLOPT_POST           => true,
             CURLOPT_POSTFIELDS     => $payload,
+            CURLOPT_HEADER         => false,
             CURLOPT_SSLVERSION     => defined('CURL_SSLVERSION_TLSv1_0') ? CURL_SSLVERSION_TLSv1_0 : 4,
             CURLOPT_SSL_VERIFYPEER => true,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_HTTPHEADER     => [
                 'Content-Type: application/x-www-form-urlencoded; charset="UTF-8"',
                 sprintf('Content-Length: %d', strlen($payload)),
-                'Accept: text/xml; charset="UTF-8"'
+                'Accept: text/xml'
             ],
             CURLOPT_CONNECTTIMEOUT => 30,
             CURLOPT_TIMEOUT        => 30
