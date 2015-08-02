@@ -41,16 +41,18 @@ final class OrderSerializationVisitor extends AbstractXmlWriterSerializationVisi
         $this->writer->startElement('dados-pedido');
 
         $this->writeAllValues(
-            array_filter([
-                'numero'          => $order->getNumber(),
-                'valor'           => $order->getValue(),
-                'moeda'           => $order->getCurrency(),
-                'data-hora'       => $order->getCreatedAt()->format('Y-m-d\TH:i:s'),
-                'descricao'       => $order->getDescription(),
-                'idioma'          => $order->getLanguage(),
-                'soft-descriptor' => $order->getDescriptor(),
-                'taxa-embarque'   => $order->getShipping()
-            ])
+            array_filter(
+                [
+                    'numero'          => $order->getNumber(),
+                    'valor'           => $order->getValue(),
+                    'moeda'           => $order->getCurrency(),
+                    'data-hora'       => $order->getCreatedAt()->format('Y-m-d\TH:i:s'),
+                    'descricao'       => $order->getDescription(),
+                    'idioma'          => $order->getLanguage(),
+                    'soft-descriptor' => $order->getDescriptor(),
+                    'taxa-embarque'   => $order->getShipping()
+                ]
+            )
         );
 
         $this->writer->endElement();
