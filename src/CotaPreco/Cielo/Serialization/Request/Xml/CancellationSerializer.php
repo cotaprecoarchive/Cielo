@@ -28,12 +28,11 @@ use CotaPreco\Cielo\Request\Cancellation\FullCancellation;
 use CotaPreco\Cielo\Request\Cancellation\PartialCancellation;
 use CotaPreco\Cielo\RequestInterface;
 use CotaPreco\Cielo\Serialization\Node\MerchantVisitor;
-use CotaPreco\Cielo\Serialization\Request\SerializerInterface;
 
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
  */
-final class CancellationSerializer implements SerializerInterface
+final class CancellationSerializer extends AbstractSerializer
 {
     /**
      * {@inheritdoc}
@@ -48,22 +47,20 @@ final class CancellationSerializer implements SerializerInterface
 
     /**
      * {@inheritdoc}
+     */
+    protected function getRootNodeName()
+    {
+        return 'requisicao-cancelamento';
+    }
+
+    /**
+     * {@inheritdoc}
      * @param FullCancellation|PartialCancellation $request
      */
-    public function __invoke(RequestInterface $request)
+    protected function serialize(RequestInterface $request, \DOMElement $root)
     {
-        $document = new \DOMDocument('1.0', 'UTF-8');
-
-        $document->formatOutput = true;
-
-        $root = $document->createElement('requisicao-cancelamento');
-
-        $root->setAttribute('id', $request->getRequestId());
-
-        $root->setAttribute('versao', $request->getShapeVersion());
-
         $root->appendChild(
-            $document->createElement(
+            $root->ownerDocument->createElement(
                 'tid',
                 $request->getTransactionId()
             )
@@ -74,15 +71,11 @@ final class CancellationSerializer implements SerializerInterface
 
         if ($request instanceof PartialCancellation) {
             $root->appendChild(
-                $document->createElement(
+                $root->ownerDocument->createElement(
                     'valor',
                     $request->getValue()
                 )
             );
         }
-
-        $document->appendChild($root);
-
-        return $document->saveXML(null, LIBXML_NOWARNING | LIBXML_NOEMPTYTAG);
     }
 }

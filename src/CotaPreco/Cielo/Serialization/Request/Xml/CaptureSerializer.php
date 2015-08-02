@@ -28,12 +28,11 @@ use CotaPreco\Cielo\Request\Capture\FullCapture;
 use CotaPreco\Cielo\Request\Capture\PartialCapture;
 use CotaPreco\Cielo\RequestInterface;
 use CotaPreco\Cielo\Serialization\Node\MerchantVisitor;
-use CotaPreco\Cielo\Serialization\Request\SerializerInterface;
 
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
  */
-final class CaptureSerializer implements SerializerInterface
+final class CaptureSerializer extends AbstractSerializer
 {
     /**
      * {@inheritdoc}
@@ -48,22 +47,20 @@ final class CaptureSerializer implements SerializerInterface
 
     /**
      * {@inheritdoc}
+     */
+    protected function getRootNodeName()
+    {
+        return 'requisicao-captura';
+    }
+
+    /**
+     * {@inheritdoc}
      * @param FullCapture|PartialCapture $request
      */
-    public function __invoke(RequestInterface $request)
+    protected function serialize(RequestInterface $request, \DOMElement $root)
     {
-        $document = new \DOMDocument('1.0', 'UTF-8');
-
-        $document->formatOutput = true;
-
-        $root = $document->createElement('requisicao-captura');
-
-        $root->setAttribute('id', $request->getRequestId());
-
-        $root->setAttribute('versao', $request->getShapeVersion());
-
         $root->appendChild(
-            $document->createElement(
+            $root->ownerDocument->createElement(
                 'tid',
                 $request->getTransactionId()
             )
@@ -75,10 +72,6 @@ final class CaptureSerializer implements SerializerInterface
         if ($request instanceof PartialCapture) {
             $this->writePartialCaptureNodes($root, $request);
         }
-
-        $document->appendChild($root);
-
-        return $document->saveXML(null, LIBXML_NOWARNING | LIBXML_NOEMPTYTAG);
     }
 
     /**

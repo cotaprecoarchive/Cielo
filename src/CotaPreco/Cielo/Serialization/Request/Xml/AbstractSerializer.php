@@ -24,44 +24,52 @@
 
 namespace CotaPreco\Cielo\Serialization\Request\Xml;
 
-use CotaPreco\Cielo\Request\SearchTransaction;
 use CotaPreco\Cielo\RequestInterface;
-use CotaPreco\Cielo\Serialization\Node\MerchantVisitor;
+use CotaPreco\Cielo\Serialization\Request\SerializerInterface;
 
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
  */
-final class SearchTransactionSerializer extends AbstractSerializer
+abstract class AbstractSerializer implements SerializerInterface
 {
     /**
-     * {@inheritdoc}
+     * @return string
      */
-    public function canSerialize(RequestInterface $request)
-    {
-        return $request instanceof SearchTransaction;
-    }
+    abstract protected function getRootNodeName();
 
     /**
-     * {@inheritdoc}
+     * @param  RequestInterface $request
+     * @param  \DOMElement      $root
+     * @return mixed
      */
-    protected function getRootNodeName()
-    {
-        return 'requisicao-consulta';
-    }
+    abstract protected function serialize(
+        RequestInterface $request,
+        \DOMElement $root
+    );
 
     /**
-     * {@inheritdoc}
-     * @param SearchTransaction $request
+     * @param  RequestInterface $request
+     * @return string
      */
-    protected function serialize(RequestInterface $request, \DOMElement $root)
+    public function __invoke(RequestInterface $request)
     {
-        $root->appendChild(
-            $root->ownerDocument->createElement(
-                'tid',
-                $request->getTransactionId()
-            )
+        $document = new \DOMDocument('1.0', 'UTF-8');
+
+        $document->formatOutput = true;
+
+        $root = $document->createElement($this->getRootNodeName());
+
+        $root->setAttribute('id', $request->getRequestId());
+
+        $root->setAttribute('versao', $request->getShapeVersion());
+
+        $this->serialize(
+            $request,
+            $root
         );
 
-        $request->getMerchant()->accept(new MerchantVisitor($root));
+        $document->appendChild($root);
+
+        return $document->saveXML(null, LIBXML_NOWARNING | LIBXML_NOBLANKS);
     }
 }

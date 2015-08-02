@@ -27,12 +27,11 @@ namespace CotaPreco\Cielo\Serialization\Request\Xml;
 use CotaPreco\Cielo\Request\AuthorizeTransaction;
 use CotaPreco\Cielo\RequestInterface;
 use CotaPreco\Cielo\Serialization\Node\MerchantVisitor;
-use CotaPreco\Cielo\Serialization\Request\SerializerInterface;
 
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
  */
-final class AuthorizeTransactionSerializer implements SerializerInterface
+final class AuthorizeTransactionSerializer extends AbstractSerializer
 {
     /**
      * {@inheritdoc}
@@ -44,31 +43,25 @@ final class AuthorizeTransactionSerializer implements SerializerInterface
 
     /**
      * {@inheritdoc}
+     */
+    protected function getRootNodeName()
+    {
+        return 'requisicao-autorizacao-tid';
+    }
+
+    /**
+     * {@inheritdoc}
      * @param AuthorizeTransaction $request
      */
-    public function __invoke(RequestInterface $request)
+    protected function serialize(RequestInterface $request, \DOMElement $root)
     {
-        $document = new \DOMDocument('1.0', 'UTF-8');
-
-        $document->formatOutput = true;
-
-        $root = $document->createElement('requisicao-autorizacao-tid');
-
-        $root->setAttribute('id', $request->getRequestId());
-
-        $root->setAttribute('versao', $request->getShapeVersion());
-
         $root->appendChild(
-            $document->createElement(
+            $root->ownerDocument->createElement(
                 'tid',
                 $request->getTransactionId()
             )
         );
 
         $request->getMerchant()->accept(new MerchantVisitor($root));
-
-        $document->appendChild($root);
-
-        return $document->saveXML(null, LIBXML_NOWARNING | LIBXML_NOEMPTYTAG);
     }
 }

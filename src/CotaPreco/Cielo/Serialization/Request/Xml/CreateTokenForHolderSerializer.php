@@ -28,12 +28,11 @@ use CotaPreco\Cielo\Request\CreateTokenForHolder;
 use CotaPreco\Cielo\RequestInterface;
 use CotaPreco\Cielo\Serialization\Node\CardHolderOrTokenVisitor;
 use CotaPreco\Cielo\Serialization\Node\MerchantVisitor;
-use CotaPreco\Cielo\Serialization\Request\SerializerInterface;
 
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
  */
-final class CreateTokenForHolderSerializer implements SerializerInterface
+final class CreateTokenForHolderSerializer extends AbstractSerializer
 {
     /**
      * {@inheritdoc}
@@ -45,28 +44,22 @@ final class CreateTokenForHolderSerializer implements SerializerInterface
 
     /**
      * {@inheritdoc}
+     */
+    protected function getRootNodeName()
+    {
+        return 'requisicao-token';
+    }
+
+    /**
+     * {@inheritdoc}
      * @param CreateTokenForHolder $request
      */
-    public function __invoke(RequestInterface $request)
+    protected function serialize(RequestInterface $request, \DOMElement $root)
     {
-        $document = new \DOMDocument('1.0', 'UTF-8');
-
-        $document->formatOutput = true;
-
-        $root = $document->createElement('requisicao-token');
-
-        $root->setAttribute('id', $request->getRequestId());
-
-        $root->setAttribute('versao', $request->getShapeVersion());
-
         $request->getMerchant()
             ->accept(new MerchantVisitor($root));
 
         $request->getHolder()
             ->accept(new CardHolderOrTokenVisitor($root));
-
-        $document->appendChild($root);
-
-        return $document->saveXML(null, LIBXML_NOWARNING | LIBXML_NOEMPTYTAG);
     }
 }

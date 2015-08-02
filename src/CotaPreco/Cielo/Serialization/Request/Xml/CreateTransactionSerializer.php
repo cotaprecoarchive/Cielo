@@ -30,12 +30,11 @@ use CotaPreco\Cielo\Serialization\Node\CardHolderOrTokenVisitor;
 use CotaPreco\Cielo\Serialization\Node\MerchantVisitor;
 use CotaPreco\Cielo\Serialization\Node\OrderVisitor;
 use CotaPreco\Cielo\Serialization\Node\PaymentMethodVisitor;
-use CotaPreco\Cielo\Serialization\Request\SerializerInterface;
 
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
  */
-final class CreateTransactionSerializer implements SerializerInterface
+final class CreateTransactionSerializer extends AbstractSerializer
 {
     /**
      * {@inheritdoc}
@@ -47,20 +46,18 @@ final class CreateTransactionSerializer implements SerializerInterface
 
     /**
      * {@inheritdoc}
+     */
+    protected function getRootNodeName()
+    {
+        return 'requisicao-transacao';
+    }
+
+    /**
+     * {@inheritdoc}
      * @param CreateTransaction $request
      */
-    public function __invoke(RequestInterface $request)
+    protected function serialize(RequestInterface $request, \DOMElement $root)
     {
-        $document = new \DOMDocument('1.0', 'UTF-8');
-
-        $document->formatOutput = true;
-
-        $root = $document->createElement('requisicao-transacao');
-
-        $root->setAttribute('id', $request->getRequestId());
-
-        $root->setAttribute('versao', $request->getShapeVersion());
-
         $request->getMerchant()
             ->accept(new MerchantVisitor($root));
 
@@ -85,15 +82,11 @@ final class CreateTransactionSerializer implements SerializerInterface
 
         foreach ($withValues as $name => $value) {
             $root->appendChild(
-                $document->createElement(
+                $root->ownerDocument->createElement(
                     $name,
                     $value
                 )
             );
         }
-
-        $document->appendChild($root);
-
-        return $document->saveXML(null, LIBXML_NOWARNING | LIBXML_NOEMPTYTAG);
     }
 }
