@@ -84,51 +84,27 @@ final class Transaction
     /**
      * @var array|Cancellation[]
      */
-    private $cancellations;
+    private $cancellations = [];
 
     /**
-     * @param TransactionId                $transactionId
-     * @param Pan                          $pan
-     * @param Order                        $order
-     * @param PaymentMethod                $paymentMethod
-     * @param int                          $status
-     * @param Authentication|null          $authentication
-     * @param Authorization|null           $authorization
-     * @param Capture                      $capture
-     * @param Url|null                     $authenticationUrl
-     * @param TransactionWrappedToken|null $wrappedToken
-     * @param Cancellation[]               $cancellations
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     * @param TransactionId $transactionId
+     * @param Pan           $pan
+     * @param Order         $order
+     * @param PaymentMethod $paymentMethod
+     * @param int           $status
      */
     private function __construct(
         TransactionId $transactionId,
         Pan           $pan,
         Order         $order,
         PaymentMethod $paymentMethod,
-        $status,
-        Authentication          $authentication = null,
-        Authorization           $authorization = null,
-        Capture                 $capture = null,
-        Url                     $authenticationUrl = null,
-        TransactionWrappedToken $wrappedToken = null,
-        array $cancellations = []
+        $status
     ) {
-        $this->transactionId     = $transactionId;
-        $this->pan               = $pan;
-        $this->order             = $order;
-        $this->paymentMethod     = $paymentMethod;
-        $this->status            = (int) $status;
-        $this->authentication    = $authentication;
-        $this->authorization     = $authorization;
-        $this->capture           = $capture;
-        $this->authenticationUrl = $authenticationUrl;
-        $this->wrappedToken      = $wrappedToken;
-        $this->cancellations     = array_map(
-            function (Cancellation $cancellation) {
-                return $cancellation;
-            },
-            $cancellations
-        );
+        $this->transactionId = $transactionId;
+        $this->pan           = $pan;
+        $this->order         = $order;
+        $this->paymentMethod = $paymentMethod;
+        $this->status        = (int) $status;
     }
 
     /**
@@ -150,98 +126,55 @@ final class Transaction
     }
 
     /**
-     * @param  Authentication $authentication
-     * @return self
+     * @param Authentication $authentication
      */
-    public function withAuthentication(Authentication $authentication)
+    public function authenticate(Authentication $authentication)
     {
-        return new self(
-            $this->transactionId,
-            $this->pan,
-            $this->order,
-            $this->paymentMethod,
-            $authentication->getCode(),
-            $authentication,
-            $this->authorization
-        );
+        $this->status         = $authentication->getCode();
+        $this->authentication = $authentication;
     }
 
     /**
-     * @param  Authorization $authorization
-     * @return self
+     * @param Authorization $authorization
      */
-    public function withAuthorization(Authorization $authorization)
+    public function authorize(Authorization $authorization)
     {
-        return new self(
-            $this->transactionId,
-            $this->pan,
-            $this->order,
-            $this->paymentMethod,
-            $authorization->getCode(),
-            $this->authentication,
-            $authorization
-        );
+        $this->status        = $authorization->getCode();
+        $this->authorization = $authorization;
     }
 
     /**
-     * @param  Capture $capture
-     * @return self
+     * @param Capture $capture
      */
-    public function withCapture(Capture $capture)
+    public function capture(Capture $capture)
     {
-        return new self(
-            $this->transactionId,
-            $this->pan,
-            $this->order,
-            $this->paymentMethod,
-            $capture->getCode(),
-            $this->authentication,
-            $this->authorization,
-            $capture
-        );
+        $this->status  = $capture->getCode();
+        $this->capture = $capture;
     }
 
     /**
-     * @param  TransactionWrappedToken $token
-     * @return self
+     * @param TransactionWrappedToken $token
      */
     public function withWrappedToken(TransactionWrappedToken $token)
     {
-        return new self(
-            $this->transactionId,
-            $this->pan,
-            $this->order,
-            $this->paymentMethod,
-            $this->status,
-            $this->authentication,
-            $this->authorization,
-            $this->capture,
-            $this->authenticationUrl,
-            $token
-        );
+        $this->wrappedToken = $token;
     }
 
+    /**
+     * @param Cancellation $cancellation
+     */
+    public function cancel(Cancellation $cancellation)
+    {
+        $this->status          = $cancellation->getCode();
+        $this->cancellations[] = $cancellation;
+    }
 
     /**
-     * @param  Cancellation ...$cancellations
-     * @return Transaction
+     * @param Url $authenticationUrl
      */
-    public function withCancellations(Cancellation ...$cancellations)
+    public function withAuthenticationUrl(Url $authenticationUrl)
     {
-        /* @var Cancellation[] $cancellations */
-        return new self(
-            $this->transactionId,
-            $this->pan,
-            $this->order,
-            $this->paymentMethod,
-            count($cancellations) ? current($cancellations)->getCode() : $this->status,
-            $this->authentication,
-            $this->authorization,
-            $this->capture,
-            $this->authenticationUrl,
-            $this->wrappedToken,
-            $cancellations
-        );
+        $this->authenticationUrl = $authenticationUrl;
     }
 
     /**
@@ -362,14 +295,6 @@ final class Transaction
     public function getCancellations()
     {
         return $this->cancellations;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isFullyCancelled()
-    {
-        return $this->status === TransactionStatus::CANCELLED;
     }
 
     /**

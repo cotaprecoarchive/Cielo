@@ -6,6 +6,8 @@ use PHPUnit_Framework_TestCase as TestCase;
 
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @SuppressWarnings(PHPMD.TooManyMethods)
  */
 class TransactionTest extends TestCase
 {
@@ -90,9 +92,9 @@ class TransactionTest extends TestCase
     /**
      * @test
      */
-    public function withAuthentication()
+    public function authenticate()
     {
-        $transaction = $this->transaction->withAuthentication(
+        $this->transaction->authenticate(
             new Authentication(
                 2,
                 'Autenticada com sucesso',
@@ -102,9 +104,8 @@ class TransactionTest extends TestCase
             )
         );
 
-        $this->assertNotSame($transaction, $this->transaction);
-        $this->assertTrue($transaction->hasAuthentication());
-        $this->assertInstanceOf(Authentication::class, $transaction->getAuthentication());
+        $this->assertTrue($this->transaction->hasAuthentication());
+        $this->assertInstanceOf(Authentication::class, $this->transaction->getAuthentication());
     }
 
     /**
@@ -126,9 +127,9 @@ class TransactionTest extends TestCase
     /**
      * @test
      */
-    public function withAuthorization()
+    public function authorize()
     {
-        $transaction = $this->transaction->withAuthorization(
+        $this->transaction->authorize(
             new Authorization(
                 5,
                 'Autorização negada',
@@ -139,9 +140,8 @@ class TransactionTest extends TestCase
             )
         );
 
-        $this->assertNotSame($transaction, $this->transaction);
-        $this->assertTrue($transaction->hasAuthorization());
-        $this->assertInstanceOf(Authorization::class, $transaction->getAuthorization());
+        $this->assertTrue($this->transaction->hasAuthorization());
+        $this->assertInstanceOf(Authorization::class, $this->transaction->getAuthorization());
     }
 
     /**
@@ -165,15 +165,14 @@ class TransactionTest extends TestCase
      */
     public function withWrappedToken()
     {
-        $transaction = $this->transaction->withWrappedToken(new TransactionWrappedToken(
+        $this->transaction->withWrappedToken(new TransactionWrappedToken(
             CardToken::fromString('TuS6LeBHWjqFFtE7S3zR052Jl/KUlD+tYJFpAdlA87E='),
             GeneratedTokenStatus::UNBLOCKED,
             '455187******0183'
         ));
 
-        $this->assertNotSame($transaction, $this->transaction);
-        $this->assertTrue($transaction->hasWrappedToken());
-        $this->assertInstanceOf(TransactionWrappedToken::class, $transaction->getToken());
+        $this->assertTrue($this->transaction->hasWrappedToken());
+        $this->assertInstanceOf(TransactionWrappedToken::class, $this->transaction->getToken());
     }
 
     /**
@@ -195,9 +194,9 @@ class TransactionTest extends TestCase
     /**
      * @test
      */
-    public function withCapture()
+    public function capture()
     {
-        $transaction = $this->transaction->withCapture(
+        $this->transaction->capture(
             new Capture(
                 6,
                 'Transacao capturada com sucesso',
@@ -207,9 +206,8 @@ class TransactionTest extends TestCase
             )
         );
 
-        $this->assertNotSame($transaction, $this->transaction);
-        $this->assertTrue($transaction->hasCapture());
-        $this->assertInstanceOf(Capture::class, $transaction->getCapture());
+        $this->assertTrue($this->transaction->hasCapture());
+        $this->assertInstanceOf(Capture::class, $this->transaction->getCapture());
     }
 
     /**
@@ -239,31 +237,20 @@ class TransactionTest extends TestCase
     /**
      * @test
      */
-    public function isFullyCancelled()
+    public function cancel()
     {
-        $this->assertFalse($this->transaction->isFullyCancelled());
-    }
-
-    /**
-     * @test
-     */
-    public function withCancellations()
-    {
-        $cancellations = [];
-
         for ($i = 0; $i < 5; $i += 1) {
-            $cancellations[] = new Cancellation(
-                9,
-                'Transacao cancelada com sucesso',
-                new \DateTimeImmutable('2011-12-08T16:46:35.109-02:00'),
-                1000
+            $this->transaction->cancel(
+                new Cancellation(
+                    9,
+                    'Transacao cancelada com sucesso',
+                    new \DateTimeImmutable('2011-12-08T16:46:35.109-02:00'),
+                    1000
+                )
             );
         }
 
-        $transaction = $this->transaction->withCancellations(...$cancellations);
-
-        $this->assertNotSame($transaction, $this->transaction);
-        $this->assertCount(5, $transaction->getCancellations());
-        $this->assertTrue($transaction->hasCancellations());
+        $this->assertCount(5, $this->transaction->getCancellations());
+        $this->assertTrue($this->transaction->hasCancellations());
     }
 }
