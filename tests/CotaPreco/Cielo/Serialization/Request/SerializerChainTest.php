@@ -46,7 +46,7 @@ class SerializerChainTest extends TestCase
         /* @var RequestInterface $request */
         $request = $this->getMock(RequestInterface::class);
 
-        $chain = new SerializerChain(
+        $chain = new DummySerializerChain(
             $serializerA,
             $serializerB
         );
@@ -64,7 +64,7 @@ class SerializerChainTest extends TestCase
         /* @var RequestInterface $request */
         $request = $this->getMock(RequestInterface::class);
 
-        $chain = new SerializerChain();
+        $chain = new DummySerializerChain();
 
         $chain($request);
     }
