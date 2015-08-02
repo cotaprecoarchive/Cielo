@@ -93,7 +93,7 @@ final class Order implements AcceptsSerializationVisitor
         $this->currency    = (int) $currency;
         $this->language    = (string) $language;
         $this->description = $description;
-        $this->shipping    = is_null($shipping) || $shipping === 0 ? null : $shipping;
+        $this->shipping    = is_null($shipping) || $shipping === 0 ? null : (int) $shipping;
         $this->descriptor  = $descriptor;
     }
 
