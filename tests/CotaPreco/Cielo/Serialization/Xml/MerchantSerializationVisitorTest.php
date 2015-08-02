@@ -68,10 +68,6 @@ class MerchantSerializationVisitorTest extends TestCase
      */
     public function withRealXmlWriter()
     {
-        if (! class_exists(\XMLWriter::class)) {
-            $this->markTestSkipped();
-        }
-
         $writer = new \XMLWriter();
 
         $writer->openMemory();

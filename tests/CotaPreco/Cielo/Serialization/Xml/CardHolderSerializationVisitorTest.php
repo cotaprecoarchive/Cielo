@@ -158,10 +158,6 @@ XML
      */
     public function withRealXmlWriter(IdentifiesHolder $holder, $xml)
     {
-        if (! class_exists(\XMLWriter::class)) {
-            $this->markTestSkipped();
-        }
-
         $writer = new \XMLWriter();
 
         $writer->openMemory();
@@ -170,9 +166,6 @@ XML
 
         $visitor->visit($holder);
 
-        $this->assertXmlStringEqualsXmlString(
-            $xml,
-            $writer->outputMemory(true)
-        );
+        $this->assertXmlStringEqualsXmlString($xml, $writer->outputMemory(true));
     }
 }

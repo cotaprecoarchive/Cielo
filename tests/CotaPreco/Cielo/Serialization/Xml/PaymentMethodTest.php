@@ -114,10 +114,6 @@ XML
      */
     public function withRealXmlWriter(PaymentMethod $paymentMethod, $xml)
     {
-        if (! class_exists(\XMLWriter::class)) {
-            $this->markTestSkipped();
-        }
-
         $writer = new \XMLWriter();
 
         $writer->openMemory();
@@ -126,9 +122,6 @@ XML
 
         $visitor->visit($paymentMethod);
 
-        $this->assertXmlStringEqualsXmlString(
-            $xml,
-            $writer->outputMemory(true)
-        );
+        $this->assertXmlStringEqualsXmlString($xml, $writer->outputMemory(true));
     }
 }
