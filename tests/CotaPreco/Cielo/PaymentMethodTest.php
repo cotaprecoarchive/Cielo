@@ -10,11 +10,6 @@ use PHPUnit_Framework_TestCase as TestCase;
 class PaymentMethodTest extends TestCase
 {
     /**
-     * @var CardIssuer
-     */
-    private $visa;
-
-    /**
      * @var PaymentMethod
      */
     private $paymentMethod;
@@ -24,8 +19,9 @@ class PaymentMethodTest extends TestCase
      */
     protected function setUp()
     {
-        $this->visa          = CardIssuer::fromIssuerString(CardIssuer::VISA);
-        $this->paymentMethod = PaymentMethod::forIssuerAsDebitPayment($this->visa);
+        $this->paymentMethod = PaymentMethod::forIssuerAsDebitPayment(
+            CardIssuer::fromIssuerString(CardIssuer::VISA)
+        );
     }
 
     /**
@@ -65,7 +61,9 @@ class PaymentMethodTest extends TestCase
      */
     public function forIssuerAsOneTimePayment()
     {
-        $paymentMethod = PaymentMethod::forIssuerAsOneTimePayment($this->visa);
+        $paymentMethod = PaymentMethod::forIssuerAsOneTimePayment(
+            $this->paymentMethod->getCardIssuer()
+        );
 
         $this->assertSame(PaymentProduct::ONE_TIME_PAYMENT, $paymentMethod->getProduct());
     }
@@ -75,9 +73,16 @@ class PaymentMethodTest extends TestCase
      */
     public function forIssuerWithInstallmentsByMerchant()
     {
-        $paymentMethod = PaymentMethod::forIssuerWithInstallmentsByMerchant($this->visa, 8);
+        $paymentMethod = PaymentMethod::forIssuerWithInstallmentsByMerchant(
+            $this->paymentMethod->getCardIssuer(),
+            8
+        );
 
-        $this->assertSame(PaymentProduct::INSTALLMENTS_BY_AFFILIATED_MERCHANTS, $paymentMethod->getProduct());
+        $this->assertSame(
+            PaymentProduct::INSTALLMENTS_BY_AFFILIATED_MERCHANTS,
+            $paymentMethod->getProduct()
+        );
+
         $this->assertEquals('08', (string) $paymentMethod->getInstallments());
     }
 
@@ -86,9 +91,16 @@ class PaymentMethodTest extends TestCase
      */
     public function forIssuerWithInstallmentsByCardIssuers()
     {
-        $paymentMethod = PaymentMethod::forIssuerWithInstallmentsByCardIssuers($this->visa, 12);
+        $paymentMethod = PaymentMethod::forIssuerWithInstallmentsByCardIssuers(
+            $this->paymentMethod->getCardIssuer(),
+            12
+        );
 
-        $this->assertSame(PaymentProduct::INSTALLMENTS_BY_CARD_ISSUERS, $paymentMethod->getProduct());
+        $this->assertSame(
+            PaymentProduct::INSTALLMENTS_BY_CARD_ISSUERS,
+            $paymentMethod->getProduct()
+        );
+
         $this->assertEquals('12', (string) $paymentMethod->getInstallments());
     }
 }
