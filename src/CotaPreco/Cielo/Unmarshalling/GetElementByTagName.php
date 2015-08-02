@@ -22,30 +22,41 @@
  * SOFTWARE.
  */
 
-namespace CotaPreco\Cielo\Unmarshalling\SimpleXml;
-
-use CotaPreco\Cielo\Authentication;
-use CotaPreco\Cielo\Eci;
+namespace CotaPreco\Cielo\Unmarshalling;
 
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
  */
-final class AuthenticationFromRootNode
+final class GetElementByTagName
 {
     /**
-     * @param  \SimpleXMLElement $authentication
-     * @return Authentication
+     * @var \DOMElement
      */
-    public function __invoke(\SimpleXMLElement $authentication)
+    private $root;
+
+    /**
+     * @param \DOMElement $root
+     */
+    private function __construct(\DOMElement $root)
     {
-        /* @noinspection PhpUndefinedFieldInspection */
-        /* @noinspection PhpParamsInspection */
-        return new Authentication(
-            $authentication->codigo,
-            $authentication->mensagem,
-            new \DateTimeImmutable($authentication->{'data-hora'}),
-            $authentication->valor,
-            Eci::fromIndicator((int) $authentication->eci)
-        );
+        $this->root = $root;
+    }
+
+    /**
+     * @param  \DOMElement $root
+     * @return self
+     */
+    public static function fromRootNode(\DOMElement $root)
+    {
+        return new self($root);
+    }
+
+    /**
+     * @param  string $name
+     * @return string
+     */
+    public function __invoke($name)
+    {
+        return $this->root->getElementsByTagName($name)->item(0)->nodeValue;
     }
 }
