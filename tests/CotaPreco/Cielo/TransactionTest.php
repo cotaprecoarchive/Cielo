@@ -228,6 +228,19 @@ class TransactionTest extends TestCase
     /**
      * @test
      */
+    public function withAuthenticationUrl()
+    {
+        $this->transaction->withAuthenticationUrl(Url::fromString('http://localhost/cielo'));
+
+        $this->assertEquals(
+            'http://localhost/cielo',
+            $this->transaction->getAuthenticationUrl()
+        );
+    }
+
+    /**
+     * @test
+     */
     public function getCancellations()
     {
         $this->assertCount(0, $this->transaction->getCancellations());
