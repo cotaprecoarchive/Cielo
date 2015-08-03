@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-namespace CotaPreco\Cielo\Unmarshalling;
+namespace CotaPreco\Cielo\Unmarshalling\Transaction;
 
 use CotaPreco\Cielo\Authentication;
 use CotaPreco\Cielo\Authorization;

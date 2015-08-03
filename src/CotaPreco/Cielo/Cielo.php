@@ -37,8 +37,8 @@ use CotaPreco\Cielo\Request\CreateTransaction;
 use CotaPreco\Cielo\Request\SearchTransaction;
 use CotaPreco\Cielo\Serialization\Request\CieloRequestSerializerInterface;
 use CotaPreco\Cielo\Serialization\Request\DefaultCieloRequestSerializer;
-use CotaPreco\Cielo\Unmarshalling\TransactionUnmarshaller;
-use CotaPreco\Cielo\Unmarshalling\TransactionUnmarshallerInterface;
+use CotaPreco\Cielo\Unmarshalling\Transaction\TransactionUnmarshaller;
+use CotaPreco\Cielo\Unmarshalling\Transaction\TransactionUnmarshallerInterface;
 
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
