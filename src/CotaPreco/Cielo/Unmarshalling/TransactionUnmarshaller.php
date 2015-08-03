@@ -66,11 +66,15 @@ final class TransactionUnmarshaller implements TransactionUnmarshallerInterface
             $this->getElementValue($document->documentElement, 'status')
         );
 
+        $this->withGeneratedToken(
+            $document->documentElement,
+            $transaction
+        );
+
         $this->authenticateTransaction($document->documentElement, $transaction);
         $this->authorizeTransaction($document->documentElement, $transaction);
         $this->captureTransaction($document->documentElement, $transaction);
         $this->cancelTransaction($document->documentElement, $transaction);
-        $this->withGeneratedToken($document->documentElement, $transaction);
 
         return $transaction;
     }
@@ -141,6 +145,27 @@ final class TransactionUnmarshaller implements TransactionUnmarshallerInterface
     /**
      * @param  DOMElement  $root
      * @param  Transaction $transaction
+     * @return null
+     */
+    private function withGeneratedToken(DOMElement $root, Transaction $transaction)
+    {
+        /* @var null|DOMElement $token */
+        $token = $root->getElementsByTagName('token')->item(0);
+
+        if (is_null($token)) {
+            return null;
+        }
+
+        $transaction->withGeneratedToken(new GeneratedToken(
+            CardToken::fromString($this->getElementValue($token, 'codigo-token')),
+            $this->getElementValue($token, 'status'),
+            $this->getElementValue($token, 'numero-cartao-truncado')
+        ));
+    }
+
+    /**
+     * @param  DOMElement  $root
+     * @param  Transaction $transaction
      * @return string
      */
     private function authenticateTransaction(DOMElement $root, Transaction $transaction)
@@ -158,27 +183,6 @@ final class TransactionUnmarshaller implements TransactionUnmarshallerInterface
             new DateTimeImmutable($this->getElementValue($authentication, 'data-hora')),
             $this->getElementValue($authentication, 'valor'),
             Eci::fromIndicator((string) $this->getElementValue($authentication, 'eci'))
-        ));
-    }
-
-    /**
-     * @param  DOMElement  $root
-     * @param  Transaction $transaction
-     * @return null
-     */
-    private function withGeneratedToken(DOMElement $root, Transaction $transaction)
-    {
-        /* @var null|DOMElement $token */
-        $token = $root->getElementsByTagName('token')->item(0);
-
-        if (is_null($token)) {
-            return null;
-        }
-
-        $transaction->withGeneratedToken(new GeneratedToken(
-            CardToken::fromString($this->getElementValue($token, 'codigo-token')),
-            $this->getElementValue($token, 'status'),
-            $this->getElementValue($token, 'numero-cartao-truncado')
         ));
     }
 
