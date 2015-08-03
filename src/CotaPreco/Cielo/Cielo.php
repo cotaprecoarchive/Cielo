@@ -68,7 +68,7 @@ final class Cielo
     private $requestSerializer;
 
     /**
-     * @var TransactionUnmarshaller
+     * @var TransactionUnmarshallerInterface
      */
     private $transactionUnmarshaller;
 
