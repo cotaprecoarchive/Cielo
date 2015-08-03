@@ -20,6 +20,47 @@ abstract class SerializerTestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param string[] $ignore
+     * @param string   $expected
+     * @param string   $actual
+     */
+    public function assertXmlIgnoringSpecifiedNodes($ignore, $expected, $actual)
+    {
+        $this->assertXmlStringEqualsXmlString(
+            $this->removeRootAttributes(
+                $expected
+            ),
+            $this->removeRootAttributes(
+                $this->removeSpecifiedNodes($ignore, $actual)
+            )
+        );
+    }
+
+    /**
+     * @param  string[] $nodes
+     * @param  string]  $xml
+     * @return string
+     */
+    private function removeSpecifiedNodes($nodes, $xml)
+    {
+        $document = new \DOMDocument();
+
+        $document->preserveWhiteSpace = false;
+
+        $document->formatOutput = true;
+
+        $document->loadXML($xml);
+
+        foreach ($nodes as $tagName) {
+            $node = $document->getElementsByTagName($tagName)->item(0);
+
+            $node->parentNode->removeChild($node);
+        }
+
+        return $document->saveXML();
+    }
+
+    /**
      * @param  string $root
      * @return string
      */
