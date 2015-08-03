@@ -29,7 +29,7 @@ use CotaPreco\Cielo\Exception\CieloException;
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
  */
-final class CieloResponseErrorInterceptor implements CieloHttpClientInterface
+final class CieloErrorResponseInterceptor implements CieloHttpClientInterface
 {
     /**
      * @var CieloHttpClientInterface
@@ -52,6 +52,7 @@ final class CieloResponseErrorInterceptor implements CieloHttpClientInterface
         /* @var callable|CieloHttpClientInterface $wrappedClient */
         $wrappedClient = $this->wrappedClient;
 
+        /* @var string $response */
         $response = $wrappedClient($environment, $xml);
 
         $document = new \DOMDocument();

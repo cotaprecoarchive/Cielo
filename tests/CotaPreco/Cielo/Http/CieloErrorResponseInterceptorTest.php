@@ -9,7 +9,7 @@ use PHPUnit_Framework_TestCase as TestCase;
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
  */
-class CieloResponseErrorInterceptorTest extends TestCase
+class CieloErrorResponseInterceptorTest extends TestCase
 {
     /**
      * @test
@@ -38,7 +38,7 @@ class CieloResponseErrorInterceptorTest extends TestCase
 XML
             );
 
-        $interceptor = new CieloResponseErrorInterceptor($wrappedClient);
+        $interceptor = new CieloErrorResponseInterceptor($wrappedClient);
 
         $interceptor(
             CieloEnvironment::DEVELOPMENT,
@@ -64,7 +64,7 @@ XML
                 '<resposta></resposta>'
             );
 
-        $interceptor = new CieloResponseErrorInterceptor($wrappedClient);
+        $interceptor = new CieloErrorResponseInterceptor($wrappedClient);
 
         $response = $interceptor(
             CieloEnvironment::DEVELOPMENT,
