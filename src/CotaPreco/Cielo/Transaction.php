@@ -87,24 +87,27 @@ final class Transaction
     private $cancellations = [];
 
     /**
-     * @param TransactionId $transactionId
-     * @param Pan           $pan
-     * @param Order         $order
-     * @param PaymentMethod $paymentMethod
-     * @param int           $status
+     * @param TransactionId       $transactionId
+     * @param Pan                 $pan
+     * @param Order               $order
+     * @param PaymentMethod       $paymentMethod
+     * @param int                 $status
+     * @param GeneratedToken|null $generatedToken
      */
     public function __construct(
         TransactionId $transactionId,
         Pan           $pan,
         Order         $order,
         PaymentMethod $paymentMethod,
-        $status
+        $status,
+        GeneratedToken $generatedToken = null
     ) {
-        $this->transactionId = $transactionId;
-        $this->pan           = $pan;
-        $this->order         = $order;
-        $this->paymentMethod = $paymentMethod;
-        $this->status        = (int) $status;
+        $this->transactionId  = $transactionId;
+        $this->pan            = $pan;
+        $this->order          = $order;
+        $this->paymentMethod  = $paymentMethod;
+        $this->status         = (int) $status;
+        $this->generatedToken = $generatedToken;
     }
 
     /**
@@ -132,14 +135,6 @@ final class Transaction
     {
         $this->status  = $capture->getCode();
         $this->capture = $capture;
-    }
-
-    /**
-     * @param GeneratedToken $generatedToken
-     */
-    public function withGeneratedToken(GeneratedToken $generatedToken)
-    {
-        $this->generatedToken = $generatedToken;
     }
 
     /**

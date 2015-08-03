@@ -57,24 +57,23 @@ final class TransactionUnmarshaller implements TransactionUnmarshallerInterface
 
         $document->loadXML($xml, LIBXML_NOWARNING);
 
+        /* @var DOMElement $root */
+        $root = $document->documentElement;
+
         /* @noinspection PhpParamsInspection */
         $transaction = new Transaction(
-            TransactionId::fromString($this->getElementValue($document->documentElement, 'tid')),
-            Pan::fromTokenString($this->getElementValue($document->documentElement, 'pan')),
+            TransactionId::fromString($this->getElementValue($root, 'tid')),
+            Pan::fromTokenString($this->getElementValue($root, 'pan')),
             $this->extractOrder($document->getElementsByTagName('dados-pedido')->item(0)),
             $this->extractPaymentMethod($document->getElementsByTagName('forma-pagamento')->item(0)),
-            $this->getElementValue($document->documentElement, 'status')
+            $this->getElementValue($root, 'status'),
+            $this->extractGeneratedToken($root)
         );
 
-        $this->withGeneratedToken(
-            $document->documentElement,
-            $transaction
-        );
-
-        $this->authenticateTransaction($document->documentElement, $transaction);
-        $this->authorizeTransaction($document->documentElement, $transaction);
-        $this->captureTransaction($document->documentElement, $transaction);
-        $this->cancelTransaction($document->documentElement, $transaction);
+        $this->authenticateTransaction($root, $transaction);
+        $this->authorizeTransaction($root, $transaction);
+        $this->captureTransaction($root, $transaction);
+        $this->cancelTransaction($root, $transaction);
 
         return $transaction;
     }
@@ -143,11 +142,10 @@ final class TransactionUnmarshaller implements TransactionUnmarshallerInterface
     }
 
     /**
-     * @param  DOMElement  $root
-     * @param  Transaction $transaction
-     * @return null
+     * @param  DOMElement $root
+     * @return GeneratedToken|null
      */
-    private function withGeneratedToken(DOMElement $root, Transaction $transaction)
+    private function extractGeneratedToken(DOMElement $root)
     {
         /* @var null|DOMElement $token */
         $token = $root->getElementsByTagName('token')->item(0);
@@ -156,11 +154,13 @@ final class TransactionUnmarshaller implements TransactionUnmarshallerInterface
             return null;
         }
 
-        $transaction->withGeneratedToken(new GeneratedToken(
-            CardToken::fromString($this->getElementValue($token, 'codigo-token')),
+        return new GeneratedToken(
+            CardToken::fromString(
+                $this->getElementValue($token, 'codigo-token')
+            ),
             $this->getElementValue($token, 'status'),
             $this->getElementValue($token, 'numero-cartao-truncado')
-        ));
+        );
     }
 
     /**

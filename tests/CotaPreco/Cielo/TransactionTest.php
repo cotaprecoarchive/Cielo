@@ -165,14 +165,21 @@ class TransactionTest extends TestCase
      */
     public function withGeneratedToken()
     {
-        $this->transaction->withGeneratedToken(new GeneratedToken(
-            CardToken::fromString('TuS6LeBHWjqFFtE7S3zR052Jl/KUlD+tYJFpAdlA87E='),
-            GeneratedTokenStatus::UNBLOCKED,
-            '455187******0183'
-        ));
+        $transaction = new Transaction(
+            $this->transaction->getTransactionId(),
+            $this->transaction->getPan(),
+            $this->transaction->getOrder(),
+            $this->transaction->getPaymentMethod(),
+            $this->transaction->getStatus(),
+            new GeneratedToken(
+                CardToken::fromString('TuS6LeBHWjqFFtE7S3zR052Jl/KUlD+tYJFpAdlA87E='),
+                GeneratedTokenStatus::UNBLOCKED,
+                '455187******0183'
+            )
+        );
 
-        $this->assertTrue($this->transaction->hasGeneratedToken());
-        $this->assertInstanceOf(GeneratedToken::class, $this->transaction->getGeneratedToken());
+        $this->assertTrue($transaction->hasGeneratedToken());
+        $this->assertInstanceOf(GeneratedToken::class, $transaction->getGeneratedToken());
     }
 
     /**
