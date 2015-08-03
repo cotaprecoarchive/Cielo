@@ -320,8 +320,8 @@ final class Cielo
     public function __debugInfo()
     {
         return [
-            'environment' => $this->environment === CieloEnvironment::DEVELOPMENT ? 'DEVELOPMENT' : 'PRODUCTION',
-            'affiliationId' => $this->merchant->getAffiliationId(),
+            'environment'    => $this->environment === CieloEnvironment::DEVELOPMENT ? 'DEVELOPMENT' : 'PRODUCTION',
+            'affiliationId'  => $this->merchant->getAffiliationId(),
             'affiliationKey' => $this->merchant->getAffiliationKey()
         ];
     }
