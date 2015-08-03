@@ -367,7 +367,7 @@ final class Cielo
 
     /**
      * @return array
-     * @codeCoverageIgnoretransaction
+     * @codeCoverageIgnore
      */
     public function __debugInfo()
     {
