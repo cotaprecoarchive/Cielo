@@ -269,8 +269,8 @@ final class Cielo
                 $order,
                 $paymentMethod,
                 $capture,
-                $generateToken,
-                $returnUrl
+                $returnUrl,
+                $generateToken
             ))
         );
     }
