@@ -93,7 +93,7 @@ final class Transaction
      * @param PaymentMethod $paymentMethod
      * @param int           $status
      */
-    private function __construct(
+    public function __construct(
         TransactionId $transactionId,
         Pan           $pan,
         Order         $order,
@@ -105,24 +105,6 @@ final class Transaction
         $this->order         = $order;
         $this->paymentMethod = $paymentMethod;
         $this->status        = (int) $status;
-    }
-
-    /**
-     * @param  TransactionId $transactionId
-     * @param  Pan           $pan
-     * @param  Order         $order
-     * @param  PaymentMethod $paymentMethod
-     * @param  int           $status
-     * @return self
-     */
-    public static function createFromRequiredComponents(
-        TransactionId $transactionId,
-        Pan $pan,
-        Order $order,
-        PaymentMethod $paymentMethod,
-        $status
-    ) {
-        return new self($transactionId, $pan, $order, $paymentMethod, $status);
     }
 
     /**

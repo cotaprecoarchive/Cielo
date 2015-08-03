@@ -21,7 +21,7 @@ class TransactionTest extends TestCase
      */
     protected function setUp()
     {
-        $this->transaction = Transaction::createFromRequiredComponents(
+        $this->transaction = new Transaction(
             TransactionId::fromString('10017348980735271001'),
             Pan::fromTokenString('IqVz7P9zaIgTYdU41HaW/OB/d7Idwttqwb2vaTt8MT0='),
             Order::fromPreviouslyIssuedOrder(
