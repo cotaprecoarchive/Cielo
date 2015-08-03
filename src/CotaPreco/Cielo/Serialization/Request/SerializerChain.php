@@ -53,7 +53,6 @@ abstract class SerializerChain implements CieloRequestSerializerInterface
      */
     public function __invoke(RequestInterface $request)
     {
-        /* @var SerializerInterface[] $candidates */
         $candidates = array_filter(
             $this->serializers,
             function (SerializerInterface $serializer) use ($request) {
@@ -61,13 +60,13 @@ abstract class SerializerChain implements CieloRequestSerializerInterface
             }
         );
 
-        /* @var SerializerInterface|false $serializer */
         $serializer = current($candidates);
 
         if (! $serializer) {
             throw SerializerNotFoundException::forRequest($request);
         }
 
+        /* @var callable $serializer */
         return $serializer($request);
     }
 }
