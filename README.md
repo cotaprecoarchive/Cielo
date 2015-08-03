@@ -81,6 +81,24 @@ Exemplo:
 $cielo->capture($transactionId);
 ```
 
+#### `Cielo#capturePartially(): Transaction`
+> Faz a captura de um valor parcial da transação
+
+| Argumento | Tipo | Descrição
+| --- | :---: | ---
+| `$transactionId` | `TransactionId` &#124; **string** | Identificador da transação
+| `$value` | **int** | Valor à se capturado
+| `$shipping` | **int** *(opcional)* | Valor da taxa de embarque
+
+Através do `$transactionId`, faz uma captura parcial do valor total da transação. Lembrando que a captura uma vez feita é definitiva, independente de ser parcial ou completa.
+
+Exemplo:
+```PHP
+$cielo->capturePartially($transactionId, 50000);
+```
+
+Será capturado apenas **R$ 50,00** da transação.
+
 #### `Cielo#authorize(): Transaction`
 > Executa a autorização de uma transação através do seu **TransactionId** (TID)
 
