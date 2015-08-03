@@ -245,7 +245,7 @@ final class TransactionUnmarshaller implements TransactionUnmarshallerInterface
      */
     private function cancelTransaction(DOMElement $root, Transaction $transaction)
     {
-        $cancellations = $root->getElementsByTagName('cancelamentos');
+        $cancellations = $root->getElementsByTagName('cancelamento');
 
         /* @var DOMElement $cancellation */
         foreach ($cancellations as $cancellation) {
