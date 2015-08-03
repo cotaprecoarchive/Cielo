@@ -4,9 +4,26 @@ Cliente escrito em PHP para integração com o WebService da Cielo (solução de
 
 #### Dependências
 - PHP >= 5.5;
-- libxml.
+- libxml (DOM);
+- `ramsey/uuid` (através do **composer**).
 
 Versões antigas do PHP não serão suportadas, tais como 5.3, 5.4.
+
+### Começando
+Antes de realizar as operações com a Cielo, é necessário configurar o cliente com as informações da loja *(Merchant)* e qual ambiente será utilizado: **desenvolvimento** ou **produção**.
+
+Para especificação do ambiente, as constantes `CieloEnvironment::DEVELOPMENT` e `CieloEnvironment::PRODUCTION` devem ser utilizadas, por exemplo (loja de testes):
+
+```PHP
+use CotaPreco\Cielo\Cielo;
+use CotaPreco\Cielo\CieloEnvironment;
+
+$cielo = Cielo::createFromAffiliationIdAndKey(
+    CieloEnvironment::DEVELOPMENT,
+    '1006993069',
+    '25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3'
+);
+```
 
 #### `Cielo#cancelTransactionPartially(): Transaction`
 > Cancela uma transação parcialmente (um determinado valor)
