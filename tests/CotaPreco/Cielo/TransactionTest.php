@@ -155,9 +155,9 @@ class TransactionTest extends TestCase
     /**
      * @test
      */
-    public function getToken()
+    public function getGeneratedToken()
     {
-        $this->assertNull($this->transaction->getToken());
+        $this->assertNull($this->transaction->getGeneratedToken());
     }
 
     /**
@@ -172,7 +172,7 @@ class TransactionTest extends TestCase
         ));
 
         $this->assertTrue($this->transaction->hasGeneratedToken());
-        $this->assertInstanceOf(GeneratedToken::class, $this->transaction->getToken());
+        $this->assertInstanceOf(GeneratedToken::class, $this->transaction->getGeneratedToken());
     }
 
     /**

@@ -258,7 +258,7 @@ final class Transaction
     /**
      * @return GeneratedToken|null
      */
-    public function getToken()
+    public function getGeneratedToken()
     {
         return $this->generatedToken;
     }
