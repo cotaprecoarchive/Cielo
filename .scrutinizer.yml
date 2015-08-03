@@ -1,0 +1,18 @@
+before_commands:
+    - "composer install --prefer-source --no-dev"
+
+tools:
+    php_code_coverage:
+        enabled: true
+    php_code_sniffer:
+        enabled: true
+        config:
+            standard: PSR2
+        filter:
+            paths: ["src/*", "tests/*"]
+    php_mess_detector:
+        enabled: true
+        filter:
+            paths: ["src/*"]
+        config:
+            ruleset: phpmd.xml.dist
