@@ -1,0 +1,328 @@
+<?php
+
+/*
+ * Copyright (c) 2015 Cota Preço
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+namespace CotaPreco\Cielo;
+
+use CotaPreco\Cielo\Http\CieloHttpClientInterface;
+use CotaPreco\Cielo\Http\CieloResponseErrorInterceptor;
+use CotaPreco\Cielo\Http\NativeCurlHttpClient;
+use CotaPreco\Cielo\Request\AuthorizeTransaction;
+use CotaPreco\Cielo\Request\Cancellation\FullCancellation;
+use CotaPreco\Cielo\Request\Cancellation\PartialCancellation;
+use CotaPreco\Cielo\Request\Capture\FullCapture;
+use CotaPreco\Cielo\Request\Capture\PartialCapture;
+use CotaPreco\Cielo\Request\CreateTokenForHolder;
+use CotaPreco\Cielo\Request\CreateTransaction;
+use CotaPreco\Cielo\Request\SearchTransaction;
+use CotaPreco\Cielo\Serialization\Request\CieloRequestSerializerInterface;
+use CotaPreco\Cielo\Serialization\Request\DefaultCieloRequestSerializer;
+
+/**
+ * @author Andrey K. Vital <andreykvital@gmail.com>
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @SuppressWarnings(PHPMD.TooManyMethods)
+ */
+final class Cielo
+{
+    /**
+     * @var int
+     */
+    private $environment;
+
+    /**
+     * @var Merchant
+     */
+    private $merchant;
+
+    /**
+     * @var CieloHttpClientInterface
+     */
+    private $client;
+
+    /**
+     * @var CieloRequestSerializerInterface
+     */
+    private $requestSerializer;
+
+    /**
+     * @param int                             $environment
+     * @param Merchant                        $merchant
+     * @param CieloHttpClientInterface        $client
+     * @param CieloRequestSerializerInterface $requestSerializer
+     */
+    public function __construct(
+        $environment,
+        Merchant $merchant,
+        CieloHttpClientInterface $client,
+        CieloRequestSerializerInterface $requestSerializer
+    ) {
+        $this->environment       = $environment;
+        $this->merchant          = $merchant;
+        $this->client            = $client;
+        $this->requestSerializer = $requestSerializer;
+    }
+
+    /**
+     * @param  int    $environment
+     * @param  string $affiliationId
+     * @param  string $affiliationKey
+     * @return self
+     */
+    public static function createFromAffiliationKeyAndId($environment, $affiliationId, $affiliationKey)
+    {
+        return new self(
+            $environment,
+            Merchant::fromAffiliationIdAndKey(
+                $affiliationId,
+                $affiliationKey
+            ),
+            new CieloResponseErrorInterceptor(
+                new NativeCurlHttpClient()
+            ),
+            new DefaultCieloRequestSerializer()
+        );
+    }
+
+    /**
+     * @param TransactionId|string $transactionId
+     * @param int                  $value
+     */
+    public function cancelTransactionPartially($transactionId, $value)
+    {
+        new PartialCancellation(
+            TransactionId::fromString((string) $transactionId),
+            $this->merchant,
+            $value
+        );
+    }
+
+    /**
+     * @param TransactionId|string $transactionId
+     */
+    public function cancelTransaction($transactionId)
+    {
+        new FullCancellation(
+            TransactionId::fromString((string) $transactionId),
+            $this->merchant
+        );
+    }
+
+    /**
+     * @param TransactionId|string $transactionId
+     */
+    public function getTransactionById($transactionId)
+    {
+        $this->performRequest(new SearchTransaction(
+            TransactionId::fromString((string) $transactionId),
+            $this->merchant
+        ));
+    }
+
+    /**
+     * @param TransactionId|string $transactionId
+     * @param int                  $value
+     * @param null|int             $shipping
+     */
+    public function capturePartially($transactionId, $value, $shipping = null)
+    {
+        new PartialCapture(
+            TransactionId::fromString((string) $transactionId),
+            $this->merchant,
+            $value,
+            $shipping
+        );
+    }
+
+    /**
+     * @param TransactionId|string $transactionId
+     */
+    public function capture($transactionId)
+    {
+        new FullCapture(
+            TransactionId::fromString((string) $transactionId),
+            $this->merchant
+        );
+    }
+
+    /**
+     * @param TransactionId|string $transactionId
+     */
+    public function authorize($transactionId)
+    {
+        new AuthorizeTransaction(
+            TransactionId::fromString((string) $transactionId),
+            $this->merchant
+        );
+    }
+
+    /**
+     * @param CardHolder $holder
+     */
+    public function createTokenForHolder(CardHolder $holder)
+    {
+        new CreateTokenForHolder($this->merchant, $holder);
+    }
+
+    /**
+     * @param  IdentifiesHolder $holder
+     * @param  Order            $order
+     * @param  PaymentMethod    $paymentMethod
+     * @param  bool             $capture
+     * @param  bool|false       $generateToken
+     * @param  null|string      $returnUrl
+     * @return Transaction
+     */
+    public function createAndAuthorizeWithoutAuthentication(
+        IdentifiesHolder $holder,
+        Order $order,
+        PaymentMethod $paymentMethod,
+        $capture,
+        $generateToken = false,
+        $returnUrl = null
+    ) {
+        $this->performRequest(CreateTransaction::authorizeWithoutAuthentication(
+            $this->merchant,
+            $holder,
+            $order,
+            $paymentMethod,
+            $capture,
+            $returnUrl,
+            $generateToken
+        ));
+    }
+
+    /**
+     * @param  IdentifiesHolder $holder
+     * @param  Order            $order
+     * @param  PaymentMethod    $paymentMethod
+     * @param  bool             $capture
+     * @param  string           $returnUrl
+     * @param  bool|false       $generateToken
+     * @return Transaction
+     */
+    public function createAndAuthenticateOnly(
+        IdentifiesHolder $holder,
+        Order $order,
+        PaymentMethod $paymentMethod,
+        $capture,
+        $returnUrl,
+        $generateToken = false
+    ) {
+        CreateTransaction::authenticateOnly(
+            $this->merchant,
+            $holder,
+            $order,
+            $paymentMethod,
+            $capture,
+            $generateToken,
+            $returnUrl
+        );
+    }
+
+    /**
+     * @param  IdentifiesHolder $holder
+     * @param  Order            $order
+     * @param  PaymentMethod    $paymentMethod
+     * @param  bool             $capture
+     * @param  bool|false       $generateToken
+     * @param  null|string      $returnUrl
+     * @return Transaction
+     */
+    public function createAndAuthorizeOnly(
+        IdentifiesHolder $holder,
+        Order $order,
+        PaymentMethod $paymentMethod,
+        $capture,
+        $generateToken = false,
+        $returnUrl = null
+    ) {
+        CreateTransaction::authorizeOnly(
+            $this->merchant,
+            $holder,
+            $order,
+            $paymentMethod,
+            $capture,
+            $returnUrl,
+            $generateToken
+        );
+    }
+
+    /**
+     * @param  IdentifiesHolder $holder
+     * @param  Order            $order
+     * @param  PaymentMethod    $paymentMethod
+     * @param  bool             $capture
+     * @param  bool|false       $generateToken
+     * @param  null|string      $returnUrl
+     * @return Transaction
+     */
+    public function createAndAuthorizeOnlyIfAuthenticated(
+        IdentifiesHolder $holder,
+        Order $order,
+        PaymentMethod $paymentMethod,
+        $capture,
+        $generateToken = false,
+        $returnUrl = null
+    ) {
+        CreateTransaction::authorizeOnlyIfAuthenticated(
+            $this->merchant,
+            $holder,
+            $order,
+            $paymentMethod,
+            $capture,
+            $returnUrl,
+            $generateToken
+        );
+    }
+
+    /**
+     * @param  RequestInterface $request
+     * @return string
+     */
+    private function performRequest(RequestInterface $request)
+    {
+        /* @var callable|CieloRequestSerializerInterface $requestSerializer */
+        $requestSerializer = $this->requestSerializer;
+
+        /* @var callable|CieloHttpClientInterface */
+        $client            = $this->client;
+
+        echo $client(
+            $this->environment,
+            $requestSerializer($request)
+        );
+    }
+
+    /**
+     * @return array
+     */
+    public function __debugInfo()
+    {
+        return [
+            'environment' => $this->environment === CieloEnvironment::DEVELOPMENT ? 'DEVELOPMENT' : 'PRODUCTION',
+            'affiliationId' => $this->merchant->getAffiliationId(),
+            'affiliationKey' => $this->merchant->getAffiliationKey()
+        ];
+    }
+}
