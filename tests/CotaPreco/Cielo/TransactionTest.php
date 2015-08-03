@@ -147,9 +147,9 @@ class TransactionTest extends TestCase
     /**
      * @test
      */
-    public function hasWrappedToken()
+    public function hasGeneratedToken()
     {
-        $this->assertFalse($this->transaction->hasWrappedToken());
+        $this->assertFalse($this->transaction->hasGeneratedToken());
     }
 
     /**
@@ -163,16 +163,16 @@ class TransactionTest extends TestCase
     /**
      * @test
      */
-    public function withWrappedToken()
+    public function withGeneratedToken()
     {
-        $this->transaction->withWrappedToken(new TransactionWrappedToken(
+        $this->transaction->withGeneratedToken(new GeneratedToken(
             CardToken::fromString('TuS6LeBHWjqFFtE7S3zR052Jl/KUlD+tYJFpAdlA87E='),
             GeneratedTokenStatus::UNBLOCKED,
             '455187******0183'
         ));
 
-        $this->assertTrue($this->transaction->hasWrappedToken());
-        $this->assertInstanceOf(TransactionWrappedToken::class, $this->transaction->getToken());
+        $this->assertTrue($this->transaction->hasGeneratedToken());
+        $this->assertInstanceOf(GeneratedToken::class, $this->transaction->getToken());
     }
 
     /**

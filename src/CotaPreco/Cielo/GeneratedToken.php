@@ -27,7 +27,7 @@ namespace CotaPreco\Cielo;
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
  */
-final class TransactionWrappedToken
+final class GeneratedToken
 {
     /**
      * @var CardToken

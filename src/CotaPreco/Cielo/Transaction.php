@@ -77,9 +77,9 @@ final class Transaction
     private $authenticationUrl;
 
     /**
-     * @var TransactionWrappedToken|null
+     * @var GeneratedToken|null
      */
-    private $wrappedToken;
+    private $generatedToken;
 
     /**
      * @var array|Cancellation[]
@@ -135,11 +135,11 @@ final class Transaction
     }
 
     /**
-     * @param TransactionWrappedToken $token
+     * @param GeneratedToken $generatedToken
      */
-    public function withWrappedToken(TransactionWrappedToken $token)
+    public function withGeneratedToken(GeneratedToken $generatedToken)
     {
-        $this->wrappedToken = $token;
+        $this->generatedToken = $generatedToken;
     }
 
     /**
@@ -250,17 +250,17 @@ final class Transaction
     /**
      * @return bool
      */
-    public function hasWrappedToken()
+    public function hasGeneratedToken()
     {
-        return ! is_null($this->wrappedToken);
+        return ! is_null($this->generatedToken);
     }
 
     /**
-     * @return TransactionWrappedToken|null
+     * @return GeneratedToken|null
      */
     public function getToken()
     {
-        return $this->wrappedToken;
+        return $this->generatedToken;
     }
 
     /**

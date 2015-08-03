@@ -7,19 +7,19 @@ use PHPUnit_Framework_TestCase as TestCase;
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
  */
-class TransactionWrappedTokenTest extends TestCase
+class GeneratedTokenTest extends TestCase
 {
     /**
-     * @var TransactionWrappedToken
+     * @var GeneratedToken
      */
-    private $wrappedToken;
+    private $generatedToken;
 
     /**
      * {@inheritdoc}
      */
     protected function setUp()
     {
-        $this->wrappedToken = new TransactionWrappedToken(
+        $this->generatedToken = new GeneratedToken(
             CardToken::fromString('TuS6LeBHWjqFFtE7S3zR052Jl/KUlD+tYJFpAdlA87E='),
             GeneratedTokenStatus::UNBLOCKED,
             '455187******0183'
@@ -31,12 +31,12 @@ class TransactionWrappedTokenTest extends TestCase
      */
     public function getToken()
     {
-        $this->assertInstanceOf(CardToken::class, $this->wrappedToken->getToken());
+        $this->assertInstanceOf(CardToken::class, $this->generatedToken->getToken());
     }
 
     public function testGetStatus()
     {
-        $this->assertSame(GeneratedTokenStatus::UNBLOCKED, $this->wrappedToken->getStatus());
+        $this->assertSame(GeneratedTokenStatus::UNBLOCKED, $this->generatedToken->getStatus());
     }
 
     /**
@@ -44,7 +44,7 @@ class TransactionWrappedTokenTest extends TestCase
      */
     public function getTruncatedCardNumber()
     {
-        $this->assertEquals('455187******0183', $this->wrappedToken->getTruncatedCardNumber());
+        $this->assertEquals('455187******0183', $this->generatedToken->getTruncatedCardNumber());
     }
 
     /**
@@ -52,7 +52,7 @@ class TransactionWrappedTokenTest extends TestCase
      */
     public function isBlocked()
     {
-        $this->assertFalse($this->wrappedToken->isBlocked());
+        $this->assertFalse($this->generatedToken->isBlocked());
     }
 
     /**
@@ -60,6 +60,6 @@ class TransactionWrappedTokenTest extends TestCase
      */
     public function isUnblocked()
     {
-        $this->assertTrue($this->wrappedToken->isUnblocked());
+        $this->assertTrue($this->generatedToken->isUnblocked());
     }
 }
