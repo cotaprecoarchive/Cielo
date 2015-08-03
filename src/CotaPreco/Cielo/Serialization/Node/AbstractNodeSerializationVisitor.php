@@ -37,7 +37,7 @@ abstract class AbstractNodeSerializationVisitor implements VisitorInterface
     protected $root;
 
     /**
-     * @var \DOMElement
+     * @var \DOMDocument
      */
     protected $document;
 
