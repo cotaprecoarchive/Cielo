@@ -97,8 +97,8 @@ final class Order implements AcceptsSerializationVisitor
         $this->createdAt   = new \DateTimeImmutable('now');
         $this->currency    = (int) $currency;
         $this->language    = (string) $language;
-        $this->description = empty($description) ? null : (string) $description;
-        $this->shipping    = is_null($shipping) || $shipping === 0 ? null : (int) $shipping;
+        $this->description = $description ? (string) $description : null;
+        $this->shipping    = $shipping ? (int) $shipping : null;
         $this->descriptor  = $descriptor;
     }
 
