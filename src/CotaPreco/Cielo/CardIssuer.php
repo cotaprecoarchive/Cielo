@@ -60,7 +60,7 @@ final class CardIssuer
     {
         $allowed = self::getAllAllowedIssuers();
 
-        if (! in_array($issuer, $allowed, true)) {
+        if (! in_array((string) $issuer, $allowed, true)) {
             throw new \InvalidArgumentException(
                 sprintf(
                     'Invalid type. Only `%s` are allowed. Got `%s`',
