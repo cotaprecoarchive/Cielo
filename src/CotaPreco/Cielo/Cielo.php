@@ -341,10 +341,10 @@ final class Cielo
      */
     private function performRequest(RequestInterface $request)
     {
-        /* @var callable|CieloRequestSerializerInterface $requestSerializer */
+        /* @var callable $requestSerializer */
         $requestSerializer = $this->requestSerializer;
 
-        /* @var callable|CieloHttpClientInterface */
+        /* @var callable $client */
         $client            = $this->client;
 
         return $client(
@@ -359,7 +359,7 @@ final class Cielo
      */
     private function unmarshallTransaction($responseXml)
     {
-        /* @var callable|TransactionUnmarshallerInterface $unmarshaller */
+        /* @var callable $unmarshaller */
         $unmarshaller = $this->transactionUnmarshaller;
 
         return $unmarshaller($responseXml);
