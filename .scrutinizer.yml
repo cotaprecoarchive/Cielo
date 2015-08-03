@@ -4,6 +4,7 @@ before_commands:
 checks:
     php:
         code_rating: true
+        duplication: false
 
 tools:
     php_code_coverage:
