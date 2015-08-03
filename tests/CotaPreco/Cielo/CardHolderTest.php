@@ -40,10 +40,7 @@ class CardHolderTest extends TestCase
         $this->assertNull($holder->getName());
     }
 
-    /**
-     * @test
-     */
-    public function getName()
+    public function testGetName()
     {
         $this->assertEquals('John Doe', $this->holder->getName());
     }

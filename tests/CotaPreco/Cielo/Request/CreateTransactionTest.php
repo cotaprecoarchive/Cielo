@@ -96,7 +96,7 @@ class CreateTransactionTest extends TestCase
      */
     protected function setUp()
     {
-        list(, $request) = array_shift($this->provideRequests());
+        list(, $request) = $this->provideRequests()[0];
 
         $this->request = $request;
     }
