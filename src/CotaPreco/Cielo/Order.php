@@ -45,6 +45,11 @@ final class Order implements AcceptsSerializationVisitor
     private $value;
 
     /**
+     * @var \DateTimeImmutable
+     */
+    private $createdAt;
+
+    /**
      * @var int
      */
     private $currency;
@@ -92,7 +97,7 @@ final class Order implements AcceptsSerializationVisitor
         $this->createdAt   = new \DateTimeImmutable('now');
         $this->currency    = (int) $currency;
         $this->language    = (string) $language;
-        $this->description = $description;
+        $this->description = empty($description) ? null : (string) $description;
         $this->shipping    = is_null($shipping) || $shipping === 0 ? null : (int) $shipping;
         $this->descriptor  = $descriptor;
     }
