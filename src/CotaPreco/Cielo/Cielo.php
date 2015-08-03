@@ -203,6 +203,7 @@ final class Cielo
     }
 
     /**
+     * @codeCoverageIgnore
      * @param  CardHolder $holder
      * @return Transaction
      */
@@ -366,7 +367,7 @@ final class Cielo
 
     /**
      * @return array
-     * @codeCoverageIgnoreFile
+     * @codeCoverageIgnoretransaction
      */
     public function __debugInfo()
     {
