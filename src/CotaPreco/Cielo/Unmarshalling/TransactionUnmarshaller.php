@@ -177,13 +177,15 @@ final class TransactionUnmarshaller implements TransactionUnmarshallerInterface
             return null;
         }
 
-        $transaction->authenticate(new Authentication(
-            $this->getElementValue($authentication, 'codigo'),
-            $this->getElementValue($authentication, 'mensagem'),
-            new DateTimeImmutable($this->getElementValue($authentication, 'data-hora')),
-            $this->getElementValue($authentication, 'valor'),
-            Eci::fromIndicator((string) $this->getElementValue($authentication, 'eci'))
-        ));
+        $transaction->authenticate(
+            new Authentication(
+                $this->getElementValue($authentication, 'codigo'),
+                $this->getElementValue($authentication, 'mensagem'),
+                new DateTimeImmutable($this->getElementValue($authentication, 'data-hora')),
+                $this->getElementValue($authentication, 'valor'),
+                Eci::fromIndicator((string) $this->getElementValue($authentication, 'eci'))
+            )
+        );
     }
 
     /**
@@ -200,14 +202,16 @@ final class TransactionUnmarshaller implements TransactionUnmarshallerInterface
             return null;
         }
 
-        $transaction->authorize(new Authorization(
-            $this->getElementValue($authorization, 'codigo'),
-            $this->getElementValue($authorization, 'mensagem'),
-            new DateTimeImmutable($this->getElementValue($authorization, 'data-hora')),
-            $this->getElementValue($authorization, 'valor'),
-            $this->getElementValue($authorization, 'lr'),
-            $this->getElementValue($authorization, 'nsu')
-        ));
+        $transaction->authorize(
+            new Authorization(
+                $this->getElementValue($authorization, 'codigo'),
+                $this->getElementValue($authorization, 'mensagem'),
+                new DateTimeImmutable($this->getElementValue($authorization, 'data-hora')),
+                $this->getElementValue($authorization, 'valor'),
+                $this->getElementValue($authorization, 'lr'),
+                $this->getElementValue($authorization, 'nsu')
+            )
+        );
     }
 
     /**
@@ -224,13 +228,15 @@ final class TransactionUnmarshaller implements TransactionUnmarshallerInterface
             return null;
         }
 
-        $transaction->capture(new Capture(
-            $this->getElementValue($capture, 'codigo'),
-            $this->getElementValue($capture, 'mensagem'),
-            new DateTimeImmutable($this->getElementValue($capture, 'data-hora')),
-            $this->getElementValue($capture, 'valor'),
-            $this->getElementValue($capture, 'taxa-embarque')
-        ));
+        $transaction->capture(
+            new Capture(
+                $this->getElementValue($capture, 'codigo'),
+                $this->getElementValue($capture, 'mensagem'),
+                new DateTimeImmutable($this->getElementValue($capture, 'data-hora')),
+                $this->getElementValue($capture, 'valor'),
+                $this->getElementValue($capture, 'taxa-embarque')
+            )
+        );
     }
 
     /**
@@ -243,12 +249,14 @@ final class TransactionUnmarshaller implements TransactionUnmarshallerInterface
 
         /* @var DOMElement $cancellation */
         foreach ($cancellations as $cancellation) {
-            $transaction->cancel(new Cancellation(
-                $this->getElementValue($cancellation, 'codigo'),
-                $this->getElementValue($cancellation, 'mensagem'),
-                new DateTimeImmutable($this->getElementValue($cancellation, 'data-hora')),
-                $this->getElementValue($cancellation, 'valor')
-            ));
+            $transaction->cancel(
+                new Cancellation(
+                    $this->getElementValue($cancellation, 'codigo'),
+                    $this->getElementValue($cancellation, 'mensagem'),
+                    new DateTimeImmutable($this->getElementValue($cancellation, 'data-hora')),
+                    $this->getElementValue($cancellation, 'valor')
+                )
+            );
         }
     }
 }
