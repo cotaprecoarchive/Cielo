@@ -24,8 +24,8 @@
 
 namespace CotaPreco\Cielo;
 
+use CotaPreco\Cielo\Http\CieloErrorResponseInterceptor;
 use CotaPreco\Cielo\Http\CieloHttpClientInterface;
-use CotaPreco\Cielo\Http\CieloResponseErrorInterceptor;
 use CotaPreco\Cielo\Http\NativeCurlHttpClient;
 use CotaPreco\Cielo\Request\AuthorizeTransaction;
 use CotaPreco\Cielo\Request\Cancellation\FullCancellation;
@@ -37,6 +37,8 @@ use CotaPreco\Cielo\Request\CreateTransaction;
 use CotaPreco\Cielo\Request\SearchTransaction;
 use CotaPreco\Cielo\Serialization\Request\CieloRequestSerializerInterface;
 use CotaPreco\Cielo\Serialization\Request\DefaultCieloRequestSerializer;
+use CotaPreco\Cielo\Unmarshalling\TransactionUnmarshaller;
+use CotaPreco\Cielo\Unmarshalling\TransactionUnmarshallerInterface;
 
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
@@ -66,21 +68,30 @@ final class Cielo
     private $requestSerializer;
 
     /**
-     * @param int                             $environment
-     * @param Merchant                        $merchant
-     * @param CieloHttpClientInterface        $client
-     * @param CieloRequestSerializerInterface $requestSerializer
+     * @var TransactionUnmarshaller
+     */
+    private $transactionUnmarshaller;
+
+    /**
+     * @param int                                   $environment
+     * @param Merchant                              $merchant
+     * @param CieloHttpClientInterface              $client
+     * @param CieloRequestSerializerInterface|null  $requestSerializer
+     * @param TransactionUnmarshallerInterface|null $transactionUnmarshaller
+     * @SuppressWarnings(PHPMD.LongVariable)
      */
     public function __construct(
         $environment,
-        Merchant $merchant,
-        CieloHttpClientInterface $client,
-        CieloRequestSerializerInterface $requestSerializer
+        Merchant                         $merchant,
+        CieloHttpClientInterface         $client,
+        CieloRequestSerializerInterface  $requestSerializer = null,
+        TransactionUnmarshallerInterface $transactionUnmarshaller = null
     ) {
-        $this->environment       = $environment;
-        $this->merchant          = $merchant;
-        $this->client            = $client;
-        $this->requestSerializer = $requestSerializer;
+        $this->environment             = $environment;
+        $this->merchant                = $merchant;
+        $this->client                  = $client;
+        $this->requestSerializer       = $requestSerializer ?: new DefaultCieloRequestSerializer();
+        $this->transactionUnmarshaller = $transactionUnmarshaller ?: new TransactionUnmarshaller();
     }
 
     /**
@@ -97,91 +108,110 @@ final class Cielo
                 $affiliationId,
                 $affiliationKey
             ),
-            new CieloResponseErrorInterceptor(
-                new NativeCurlHttpClient()
-            ),
-            new DefaultCieloRequestSerializer()
+            new CieloErrorResponseInterceptor(new NativeCurlHttpClient())
         );
     }
 
     /**
-     * @param TransactionId|string $transactionId
-     * @param int                  $value
+     * @param  TransactionId|string $transactionId
+     * @param  int                  $value
+     * @return Transaction
      */
     public function cancelTransactionPartially($transactionId, $value)
     {
-        new PartialCancellation(
-            TransactionId::fromString((string) $transactionId),
-            $this->merchant,
-            $value
+        return $this->unmarshallTransaction(
+            $this->performRequest(new PartialCancellation(
+                TransactionId::fromString((string) $transactionId),
+                $this->merchant,
+                $value
+            ))
         );
     }
 
     /**
-     * @param TransactionId|string $transactionId
+     * @param  TransactionId|string $transactionId
+     * @return Transaction
      */
     public function cancelTransaction($transactionId)
     {
-        new FullCancellation(
-            TransactionId::fromString((string) $transactionId),
-            $this->merchant
+        return $this->unmarshallTransaction(
+            $this->performRequest(new FullCancellation(
+                TransactionId::fromString((string) $transactionId),
+                $this->merchant
+            ))
         );
     }
 
     /**
-     * @param TransactionId|string $transactionId
+     * @param  TransactionId|string $transactionId
+     * @return Transaction
      */
     public function getTransactionById($transactionId)
     {
-        $this->performRequest(new SearchTransaction(
-            TransactionId::fromString((string) $transactionId),
-            $this->merchant
-        ));
+        return $this->unmarshallTransaction(
+            $this->performRequest(new SearchTransaction(
+                TransactionId::fromString((string) $transactionId),
+                $this->merchant
+            ))
+        );
     }
 
     /**
-     * @param TransactionId|string $transactionId
-     * @param int                  $value
-     * @param null|int             $shipping
+     * @param  TransactionId|string $transactionId
+     * @param  int                  $value
+     * @param  null|int             $shipping
+     * @return Transaction
      */
     public function capturePartially($transactionId, $value, $shipping = null)
     {
-        new PartialCapture(
-            TransactionId::fromString((string) $transactionId),
-            $this->merchant,
-            $value,
-            $shipping
+        return $this->unmarshallTransaction(
+            $this->performRequest(new PartialCapture(
+                TransactionId::fromString((string) $transactionId),
+                $this->merchant,
+                $value,
+                $shipping
+            ))
         );
     }
 
     /**
-     * @param TransactionId|string $transactionId
+     * @param  TransactionId|string $transactionId
+     * @return Transaction
      */
     public function capture($transactionId)
     {
-        new FullCapture(
-            TransactionId::fromString((string) $transactionId),
-            $this->merchant
+        return $this->unmarshallTransaction(
+            $this->performRequest(new FullCapture(
+                TransactionId::fromString((string) $transactionId),
+                $this->merchant
+            ))
         );
     }
 
     /**
-     * @param TransactionId|string $transactionId
+     * @param  TransactionId|string $transactionId
+     * @return Transaction
      */
     public function authorize($transactionId)
     {
-        new AuthorizeTransaction(
-            TransactionId::fromString((string) $transactionId),
-            $this->merchant
+        return $this->unmarshallTransaction(
+            $this->performRequest(new AuthorizeTransaction(
+                TransactionId::fromString((string) $transactionId),
+                $this->merchant
+            ))
         );
     }
 
     /**
-     * @param CardHolder $holder
+     * @param  CardHolder $holder
+     * @return Transaction
      */
     public function createTokenForHolder(CardHolder $holder)
     {
-        new CreateTokenForHolder($this->merchant, $holder);
+        $this->performRequest(new CreateTokenForHolder(
+            $this->merchant,
+            $holder
+        ));
     }
 
     /**
@@ -201,15 +231,17 @@ final class Cielo
         $generateToken = false,
         $returnUrl = null
     ) {
-        $this->performRequest(CreateTransaction::authorizeWithoutAuthentication(
-            $this->merchant,
-            $holder,
-            $order,
-            $paymentMethod,
-            $capture,
-            $returnUrl,
-            $generateToken
-        ));
+        return $this->unmarshallTransaction(
+            $this->performRequest(CreateTransaction::authorizeWithoutAuthentication(
+                $this->merchant,
+                $holder,
+                $order,
+                $paymentMethod,
+                $capture,
+                $returnUrl,
+                $generateToken
+            ))
+        );
     }
 
     /**
@@ -229,14 +261,16 @@ final class Cielo
         $returnUrl,
         $generateToken = false
     ) {
-        CreateTransaction::authenticateOnly(
-            $this->merchant,
-            $holder,
-            $order,
-            $paymentMethod,
-            $capture,
-            $generateToken,
-            $returnUrl
+        return $this->unmarshallTransaction(
+            $this->performRequest(CreateTransaction::authenticateOnly(
+                $this->merchant,
+                $holder,
+                $order,
+                $paymentMethod,
+                $capture,
+                $generateToken,
+                $returnUrl
+            ))
         );
     }
 
@@ -257,14 +291,16 @@ final class Cielo
         $generateToken = false,
         $returnUrl = null
     ) {
-        CreateTransaction::authorizeOnly(
-            $this->merchant,
-            $holder,
-            $order,
-            $paymentMethod,
-            $capture,
-            $returnUrl,
-            $generateToken
+        return $this->unmarshallTransaction(
+            $this->performRequest(CreateTransaction::authorizeOnly(
+                $this->merchant,
+                $holder,
+                $order,
+                $paymentMethod,
+                $capture,
+                $returnUrl,
+                $generateToken
+            ))
         );
     }
 
@@ -285,14 +321,16 @@ final class Cielo
         $generateToken = false,
         $returnUrl = null
     ) {
-        CreateTransaction::authorizeOnlyIfAuthenticated(
-            $this->merchant,
-            $holder,
-            $order,
-            $paymentMethod,
-            $capture,
-            $returnUrl,
-            $generateToken
+        return $this->unmarshallTransaction(
+            $this->performRequest(CreateTransaction::authorizeOnlyIfAuthenticated(
+                $this->merchant,
+                $holder,
+                $order,
+                $paymentMethod,
+                $capture,
+                $returnUrl,
+                $generateToken
+            ))
         );
     }
 
@@ -308,10 +346,22 @@ final class Cielo
         /* @var callable|CieloHttpClientInterface */
         $client            = $this->client;
 
-        echo $client(
+        return $client(
             $this->environment,
             $requestSerializer($request)
         );
+    }
+
+    /**
+     * @param  string $responseXml
+     * @return Transaction
+     */
+    private function unmarshallTransaction($responseXml)
+    {
+        /* @var callable|TransactionUnmarshallerInterface $unmarshaller */
+        $unmarshaller = $this->transactionUnmarshaller;
+
+        return $unmarshaller($responseXml);
     }
 
     /**
