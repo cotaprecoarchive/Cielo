@@ -100,7 +100,7 @@ final class Cielo
      * @param  string $affiliationKey
      * @return self
      */
-    public static function createFromAffiliationKeyAndId($environment, $affiliationId, $affiliationKey)
+    public static function createFromAffiliationIdAndKey($environment, $affiliationId, $affiliationKey)
     {
         return new self(
             $environment,
@@ -366,6 +366,7 @@ final class Cielo
 
     /**
      * @return array
+     * @codeCoverageIgnoreFile
      */
     public function __debugInfo()
     {
