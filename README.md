@@ -1,5 +1,7 @@
 ## `CotaPreco\Cielo`
 
+[![Build Status](https://travis-ci.org/CotaPreco/Cielo.svg)](https://travis-ci.org/CotaPreco/Cielo)
+
 Cliente escrito em PHP para integração com o WebService da Cielo (solução de pagamentos com cartão de crédito).
 
 #### Dependências
