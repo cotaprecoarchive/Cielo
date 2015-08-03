@@ -55,10 +55,10 @@ final class CancellationSerializer extends AbstractSerializer
 
     /**
      * {@inheritdoc}
-     * @param FullCancellation|PartialCancellation $request
      */
     protected function serialize(RequestInterface $request, \DOMElement $root)
     {
+        /* @var FullCancellation|PartialCancellation $request */
         $root->appendChild(
             $root->ownerDocument->createElement(
                 'tid',

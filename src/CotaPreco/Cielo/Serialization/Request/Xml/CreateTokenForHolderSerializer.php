@@ -52,10 +52,10 @@ final class CreateTokenForHolderSerializer extends AbstractSerializer
 
     /**
      * {@inheritdoc}
-     * @param CreateTokenForHolder $request
      */
     protected function serialize(RequestInterface $request, \DOMElement $root)
     {
+        /* @var CreateTokenForHolder $request */
         $request->getMerchant()
             ->accept(new MerchantVisitor($root));
 

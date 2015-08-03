@@ -55,10 +55,10 @@ final class CaptureSerializer extends AbstractSerializer
 
     /**
      * {@inheritdoc}
-     * @param FullCapture|PartialCapture $request
      */
     protected function serialize(RequestInterface $request, \DOMElement $root)
     {
+        /* @var FullCapture|PartialCapture $request */
         $root->appendChild(
             $root->ownerDocument->createElement(
                 'tid',
@@ -75,23 +75,22 @@ final class CaptureSerializer extends AbstractSerializer
     }
 
     /**
-     * @param \DOMElement      $root
-     * @param RequestInterface $request
+     * @param \DOMElement    $root
+     * @param PartialCapture $capture
      */
-    private function writePartialCaptureNodes(\DOMElement $root, RequestInterface $request)
+    private function writePartialCaptureNodes(\DOMElement $root, PartialCapture $capture)
     {
-        /* @var PartialCapture $request */
         $root->appendChild(
             $root->ownerDocument->createElement(
                 'valor',
-                $request->getValue()
+                $capture->getValue()
             )
         );
 
         $root->appendChild(
             $root->ownerDocument->createElement(
                 'taxa-embarque',
-                $request->getShipping()
+                $capture->getShipping()
             )
         );
     }

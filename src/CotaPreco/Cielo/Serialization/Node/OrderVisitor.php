@@ -34,12 +34,12 @@ final class OrderVisitor extends AbstractNodeSerializationVisitor
 {
     /**
      * {@inheritdoc}
-     * @param Order $order
      */
     public function visit(AcceptsSerializationVisitor $order)
     {
         $child = $this->document->createElement('dados-pedido');
 
+        /* @var Order $order */
         $withValues = array_filter(
             [
                 'numero'          => $order->getNumber(),

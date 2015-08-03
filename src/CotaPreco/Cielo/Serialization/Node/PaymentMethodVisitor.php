@@ -34,12 +34,12 @@ final class PaymentMethodVisitor extends AbstractNodeSerializationVisitor
 {
     /**
      * {@inheritdoc}
-     * @param PaymentMethod $paymentMethod
      */
     public function visit(AcceptsSerializationVisitor $paymentMethod)
     {
         $child = $this->document->createElement('forma-pagamento');
 
+        /* @var PaymentMethod $paymentMethod */
         $child->appendChild(
             $this->document->createElement(
                 'bandeira',

@@ -51,10 +51,10 @@ final class AuthorizeTransactionSerializer extends AbstractSerializer
 
     /**
      * {@inheritdoc}
-     * @param AuthorizeTransaction $request
      */
     protected function serialize(RequestInterface $request, \DOMElement $root)
     {
+        /* @var AuthorizeTransaction $request */
         $root->appendChild(
             $root->ownerDocument->createElement(
                 'tid',

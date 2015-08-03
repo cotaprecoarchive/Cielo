@@ -34,12 +34,12 @@ final class MerchantVisitor extends AbstractNodeSerializationVisitor
 {
     /**
      * {@inheritdoc}
-     * @param Merchant $merchant
      */
     public function visit(AcceptsSerializationVisitor $merchant)
     {
         $child = $this->document->createElement('dados-ec');
 
+        /* @var Merchant $merchant */
         $child->appendChild(
             $this->document->createElement(
                 'numero',
