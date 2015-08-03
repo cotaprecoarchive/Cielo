@@ -32,10 +32,10 @@ interface CieloEnvironment
     /**
      * @var int
      */
-    const DEVELOPMENT = 1 << 0;
+    const DEVELOPMENT = 1;
 
     /**
      * @var int
      */
-    const PRODUCTION = 1 << 1;
+    const PRODUCTION = 2;
 }

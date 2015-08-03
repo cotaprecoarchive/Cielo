@@ -32,20 +32,20 @@ interface SecureIndicator
     /**
      * @var int
      */
-    const AUTHENTICATED = 1 << 0;
+    const AUTHENTICATED = 1;
 
     /**
      * @var int
      */
-    const WITHOUT_AUTHENTICATION = 1 << 1;
+    const WITHOUT_AUTHENTICATION = 2;
 
     /**
      * @var int
      */
-    const UNAUTHENTICATED = 1 << 2;
+    const UNAUTHENTICATED = 4;
 
     /**
      * @var int
      */
-    const MERCHANT_DID_NOT_SEND_AUTHENTICATION = 1 << 3;
+    const MERCHANT_DID_NOT_SEND_AUTHENTICATION = 8;
 }
