@@ -113,7 +113,7 @@ final class TransactionUnmarshaller implements TransactionUnmarshallerInterface
 
     /**
      * @param  DOMElement $element
-     * @return PaymentMethod|null
+     * @return PaymentMethod
      */
     private function extractPaymentMethod(DOMElement $element)
     {
@@ -121,24 +121,24 @@ final class TransactionUnmarshaller implements TransactionUnmarshallerInterface
 
         $installments = (int) $this->getElementValue($element, 'parcelas');
 
-        switch ($this->getElementValue($element, 'produto')) {
-            case PaymentProduct::DEBIT:
-                return PaymentMethod::forIssuerAsDebitPayment($issuer);
+        $product = $this->getElementValue($element, 'produto');
 
-            case PaymentProduct::ONE_TIME_PAYMENT:
-                return PaymentMethod::forIssuerAsOneTimePayment($issuer);
-
-            case PaymentProduct::INSTALLMENTS_BY_AFFILIATED_MERCHANTS:
-                return PaymentMethod::forIssuerWithInstallmentsByMerchant($issuer, $installments);
-
-            case PaymentProduct::INSTALLMENTS_BY_CARD_ISSUERS:
-                return PaymentMethod::forIssuerWithInstallmentsByCardIssuers(
-                    $issuer,
-                    $installments
-                );
+        if ($product === PaymentProduct::DEBIT) {
+            return PaymentMethod::forIssuerAsDebitPayment($issuer);
         }
 
-        return null;
+        if ((int) $product === PaymentProduct::ONE_TIME_PAYMENT) {
+            return PaymentMethod::forIssuerAsOneTimePayment($issuer);
+        }
+
+        if ((int) $product === PaymentProduct::INSTALLMENTS_BY_AFFILIATED_MERCHANTS) {
+            return PaymentMethod::forIssuerWithInstallmentsByMerchant($issuer, $installments);
+        }
+
+        return PaymentMethod::forIssuerWithInstallmentsByCardIssuers(
+            $issuer,
+            $installments
+        );
     }
 
     /**

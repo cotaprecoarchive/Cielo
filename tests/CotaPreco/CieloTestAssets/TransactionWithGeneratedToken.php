@@ -5,14 +5,14 @@ namespace CotaPreco\CieloTestAssets;
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
  */
-final class TransactionWithCancellations
+final class TransactionWithGeneratedToken
 {
     /**
      * @return string
      */
     public function __toString()
     {
-        return <<<WITH_CANCELLATIONS
+        return <<<WITH_GENERATED_TOKEN
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <transacao xmlns="http://ecommerce.cbmp.com.br" versao="1.2.1" id="1234">
     <tid>100699306903613E1001</tid>
@@ -26,23 +26,22 @@ final class TransactionWithCancellations
     </dados-pedido>
     <forma-pagamento>
         <bandeira>visa</bandeira>
-        <produto>1</produto>
-        <parcelas>1</parcelas>
+        <produto>2</produto>
+        <parcelas>12</parcelas>
     </forma-pagamento>
     <dados-portador>
         <numero>4012001038443335</numero>
         <validade>201508</validade>
         <indicador>0</indicador>
     </dados-portador>
-    <cancelamentos>
-        <cancelamento>
-            <codigo>9</codigo>
-            <mensagem>Transacao cancelada com sucesso</mensagem>
-            <data-hora>2015-01-01T00:00:00.000-02:00</data-hora>
-            <valor>1000</valor>
-        </cancelamento>
-    </cancelamentos>
+    <token>
+        <dados-token>
+            <codigo-token>TuS6LeBHWjqFFtE7S3zR052Jl/KUlD+tYJFpAdlA87E=</codigo-token>
+            <status>1</status>
+            <numero-cartao-truncado>455187******0183</numero-cartao-truncado>
+        </dados-token>
+    </token>
 </transacao>
-WITH_CANCELLATIONS;
+WITH_GENERATED_TOKEN;
     }
 }

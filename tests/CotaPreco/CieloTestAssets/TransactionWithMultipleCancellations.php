@@ -14,7 +14,7 @@ final class TransactionWithMultipleCancellations
     {
         return <<<WITH_MULTIPLE_CANCELLATIONS
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<transacao xmlns="http://ecommerce.cbmp.com.br" versao="1.2.1" id="TransactionWithCancellations">
+<transacao xmlns="http://ecommerce.cbmp.com.br" versao="1.2.1" id="1234">
     <tid>100699306903613E1001</tid>
     <pan>uv9yI5tkhX9jpuCt+dfrtoSVM4U3gIjvrcwMBfZcadE=</pan>
     <dados-pedido>
@@ -26,7 +26,7 @@ final class TransactionWithMultipleCancellations
     </dados-pedido>
     <forma-pagamento>
         <bandeira>visa</bandeira>
-        <produto>1</produto>
+        <produto>A</produto>
         <parcelas>1</parcelas>
     </forma-pagamento>
     <dados-portador>

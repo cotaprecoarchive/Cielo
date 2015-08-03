@@ -2,17 +2,19 @@
 
 namespace CotaPreco\CieloTestAssets;
 
+use PHPUnit_Framework_TestCase as TestCase;
+
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
  */
-final class TransactionWithCancellations
+class TransactionWithAuthentication extends TestCase
 {
     /**
      * @return string
      */
     public function __toString()
     {
-        return <<<WITH_CANCELLATIONS
+        return <<<TRANSACTION_WITH_AUTH
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <transacao xmlns="http://ecommerce.cbmp.com.br" versao="1.2.1" id="1234">
     <tid>100699306903613E1001</tid>
@@ -34,15 +36,22 @@ final class TransactionWithCancellations
         <validade>201508</validade>
         <indicador>0</indicador>
     </dados-portador>
-    <cancelamentos>
-        <cancelamento>
-            <codigo>9</codigo>
-            <mensagem>Transacao cancelada com sucesso</mensagem>
-            <data-hora>2015-01-01T00:00:00.000-02:00</data-hora>
-            <valor>1000</valor>
-        </cancelamento>
-    </cancelamentos>
+    <autenticacao>
+        <codigo>6</codigo>
+        <mensagem>Autenticada com sucesso</mensagem>
+        <data-hora>2015-01-01T00:00:00.000-02:00</data-hora>
+        <valor>1000</valor>
+        <eci>5</eci>
+    </autenticacao>
+    <autorizacao>
+        <codigo>6</codigo>
+        <mensagem>Transação autorizada</mensagem>
+        <data-hora>2015-01-01T00:00:00.000-02:00</data-hora>
+        <valor>1000</valor>
+        <lr>00</lr>
+        <nsu>123456</nsu>
+    </autorizacao>
 </transacao>
-WITH_CANCELLATIONS;
+TRANSACTION_WITH_AUTH;
     }
 }
