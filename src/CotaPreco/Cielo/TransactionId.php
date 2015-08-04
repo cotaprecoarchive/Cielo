@@ -45,9 +45,20 @@ final class TransactionId
     /**
      * @param  string $transactionId
      * @return self
+     * @throws \InvalidArgumentException if `$transactionId` doesn't contains between 20 and 40 characters
      */
     public static function fromString($transactionId)
     {
+        if (strlen($transactionId) < 20 || strlen($transactionId) > 40) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    'Is not a valid TransactionId (TID): `%s`. An valid TID should contains at least 20 characters ' .
+                    'and at most 40',
+                    $transactionId
+                )
+            );
+        }
+
         return new self($transactionId);
     }
 

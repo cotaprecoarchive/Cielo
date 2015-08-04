@@ -18,4 +18,31 @@ class TransactionIdTest extends TestCase
 
         $this->assertEquals('10017348980735271001', (string) $transactonId);
     }
+
+    /**
+     * @test
+     * @param mixed $transactionId
+     * @dataProvider invalidTransactionIds
+     */
+    public function throwsInvalidArgumentException($transactionId)
+    {
+        $this->setExpectedException(\InvalidArgumentException::class);
+
+        TransactionId::fromString($transactionId);
+    }
+
+    /**
+     * @return array
+     */
+    public function invalidTransactionIds()
+    {
+        return [
+            [''],
+            [null],
+            ['1234'],
+            [str_repeat('1', 50)],
+            [false],
+            [-1]
+        ];
+    }
 }
