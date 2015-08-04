@@ -101,7 +101,7 @@ Através do `$transactionId`, faz uma captura parcial do valor total da transaç
 
 Exemplo:
 ```PHP
-$cielo->capturePartially($transactionId, 50000);
+$cielo->capturePartially($transactionId, 5000);
 ```
 
 Será capturado apenas **R$ 50,00** da transação.
