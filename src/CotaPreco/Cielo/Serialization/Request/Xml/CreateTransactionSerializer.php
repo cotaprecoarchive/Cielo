@@ -54,10 +54,10 @@ final class CreateTransactionSerializer extends AbstractSerializer
 
     /**
      * {@inheritdoc}
-     * @param CreateTransaction $request
      */
     protected function serialize(RequestInterface $request, \DOMElement $root)
     {
+        /* @var CreateTransaction $request */
         $request->getMerchant()
             ->accept(new MerchantVisitor($root));
 

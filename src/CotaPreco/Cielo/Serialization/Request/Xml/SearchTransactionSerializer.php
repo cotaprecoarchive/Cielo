@@ -51,10 +51,10 @@ final class SearchTransactionSerializer extends AbstractSerializer
 
     /**
      * {@inheritdoc}
-     * @param SearchTransaction $request
      */
     protected function serialize(RequestInterface $request, \DOMElement $root)
     {
+        /* @var SearchTransaction $request */
         $root->appendChild(
             $root->ownerDocument->createElement(
                 'tid',
