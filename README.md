@@ -120,7 +120,7 @@ $cielo->createAndAuthorizeWithoutAuthentication(
     ),
     Order::fromOrderNumberAndValue(
         '1234',
-        10000
+        1000
     ),
     PaymentMethod::forIssuerAsOneTimePayment(
         CardIssuer::fromIssuerString(CardIssuer::VISA)
