@@ -123,7 +123,15 @@ final class Order implements AcceptsSerializationVisitor
         $shipping = null,
         $descriptor = null
     ) {
-        $order = new self($number, $value, $currency, $description, $language, $shipping, $descriptor);
+        $order = new self(
+            $number,
+            $value,
+            $currency,
+            $description,
+            $language,
+            $shipping,
+            $descriptor
+        );
 
         $order->createdAt = $createdAt;
 
