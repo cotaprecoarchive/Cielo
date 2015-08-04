@@ -45,6 +45,7 @@ final class Bin
     /**
      * @param  string $binString
      * @return self
+     * @throws \InvalidArgumentException if `$binString` doesn't contains exactly 6 digits
      */
     public static function fromString($binString)
     {
