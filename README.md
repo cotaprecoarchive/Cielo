@@ -115,6 +115,43 @@ $cielo->authorize($transactionId);
 #### `Cielo#createTokenForHolder`
 > Solicita a criação de um token para o portador do cartão de crédito
 
+| Argumento | Tipo | Descrição
+| --- | :---: | ---
+| `$holder` | `CardHolder` | Dados do portador do cartão
+
+Por várias questões de segurança, a informação do cartão de crédito do cliente não deve armazenada junto a loja (ser salva em seu banco de dados para reusar posteriormente em novas transações) &mdash; exceto se a infraestrutura da loja for compatível com o [PCI](https://www.pcisecuritystandards.org/security_standards/).
+
+O processo de tokenização oferece uma alternativa para que ao invés de armazenar os dados do cartão, você armazene um **token** que identifica o cartão com a **Cielo**. Esse **token** poderá ser reusado para processar as transações subsequentes.
+
+Exemplo:
+```PHP
+$token = $cielo->createTokenForHolder(
+    CardHolder::fromCard(
+        CreditCard::createWithSecurityCode(
+            '4012001037141112',
+            2018,
+            5,
+            '123'
+        )
+    )
+);
+
+var_dump(
+    $token->getStatus(),
+    $token->getTruncatedCardNumber(),
+    (string) $token->getToken()
+);
+```
+
+Na loja de testes, a saída será:
+```
+int(1)
+string(16) "211141******2104"
+string(44) "HYcQ0MQ39fl8kn9OR7lFsTtxa+wNuM4lqQLUeN5SYZY="
+```
+
+O número do cartão truncado poderá ser armazenado para fins de referência.
+
 # Criando transações
 #### `Cielo#createAndAuthorizeWithoutAuthentication(): Transaction`
 > Cria uma transação e autoriza sem autenticação
