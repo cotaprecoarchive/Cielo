@@ -1,4 +1,4 @@
-## `CotaPreco\Cielo` [![Build Status](https://travis-ci.org/CotaPreco/Cielo.svg)](https://travis-ci.org/CotaPreco/Cielo) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/CotaPreco/Cielo/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/CotaPreco/Cielo/?branch=master)
+## `CotaPreco\Cielo` [![Build Status](https://travis-ci.org/CotaPreco/Cielo.svg)](https://travis-ci.org/CotaPreco/Cielo) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/CotaPreco/Cielo/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/CotaPreco/Cielo/?branch=master) [![Code Coverage](https://scrutinizer-ci.com/g/CotaPreco/Cielo/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/CotaPreco/Cielo/?branch=master)
 
 Cliente escrito em PHP para integração com o WebService da Cielo (solução de pagamentos com cartão de crédito).
 
