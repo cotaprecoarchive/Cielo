@@ -71,7 +71,7 @@ final class CreditCard
      * @param  string $number
      * @param  int    $year
      * @param  int    $month
-     * @return CreditCard
+     * @return self
      */
     public static function createWithoutSecurityCode($number, $year, $month)
     {
@@ -103,7 +103,7 @@ final class CreditCard
      * @param  string $number
      * @param  int    $year
      * @param  int    $month
-     * @return CreditCard
+     * @return self
      */
     public static function createWithUnreadableSecurityCode($number, $year, $month)
     {
@@ -118,7 +118,7 @@ final class CreditCard
      * @param  string $number
      * @param  int    $year
      * @param  int    $month
-     * @return CreditCard
+     * @return self
      */
     public static function createWithInexistentSecurityCode($number, $year, $month)
     {
