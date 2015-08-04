@@ -51,7 +51,7 @@ final class Bin
         if (! (is_numeric($binString) && strlen($binString) === 6)) {
             throw new \InvalidArgumentException(
                 sprintf(
-                    'Is not a valid BIN (Bank Identification Number): `%s`. A valid BIN contains exactly 6 digits',
+                    'Is not a valid BIN (Bank Identification Number): `%s`. An valid BIN contains exactly 6 digits',
                     $binString
                 )
             );
