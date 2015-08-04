@@ -54,11 +54,14 @@ final class CardIssuer
 
     /**
      * @param  string $issuer
-     * @return CardIssuer
+     * @return self
      */
     public static function fromIssuerString($issuer)
     {
-        $allowed = self::getAllAllowedIssuers();
+        $allowed = [
+            CardIssuer::VISA,
+            CardIssuer::MASTERCARD
+        ];
 
         if (! in_array((string) $issuer, $allowed, true)) {
             throw new \InvalidArgumentException(
@@ -90,17 +93,6 @@ final class CardIssuer
         throw new \InvalidArgumentException(
             'Unable to recognize issuer through number'
         );
-    }
-
-    /**
-     * @return array
-     */
-    public static function getAllAllowedIssuers()
-    {
-        return [
-            CardIssuer::VISA,
-            CardIssuer::MASTERCARD
-        ];
     }
 
     /**
