@@ -59,6 +59,38 @@ class PaymentMethodTest extends TestCase
     /**
      * @test
      */
+    public function isDebit()
+    {
+        $this->assertTrue($this->paymentMethod->isDebit());
+    }
+
+    /**
+     * @test
+     */
+    public function isOneTimePayment()
+    {
+        $this->assertFalse($this->paymentMethod->isOneTimePayment());
+    }
+
+    /**
+     * @test
+     */
+    public function isWithInstallmentsByMerchant()
+    {
+        $this->assertFalse($this->paymentMethod->isWithInstallmentsByMerchant());
+    }
+
+    /**
+     * @test
+     */
+    public function isWithInstallmentsByCardIssuers()
+    {
+        $this->assertFalse($this->paymentMethod->isWithInstallmentsByCardIssuers());
+    }
+
+    /**
+     * @test
+     */
     public function forIssuerAsOneTimePayment()
     {
         $paymentMethod = PaymentMethod::forIssuerAsOneTimePayment(

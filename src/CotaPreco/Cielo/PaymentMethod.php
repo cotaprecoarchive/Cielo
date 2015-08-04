@@ -94,6 +94,38 @@ final class PaymentMethod implements AcceptsSerializationVisitor
     }
 
     /**
+     * @return bool
+     */
+    public function isDebit()
+    {
+        return $this->product === PaymentProduct::DEBIT;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isOneTimePayment()
+    {
+        return $this->product === PaymentProduct::ONE_TIME_PAYMENT;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isWithInstallmentsByMerchant()
+    {
+        return $this->product === PaymentProduct::INSTALLMENTS_BY_AFFILIATED_MERCHANTS;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isWithInstallmentsByCardIssuers()
+    {
+        return $this->product === PaymentProduct::INSTALLMENTS_BY_CARD_ISSUERS;
+    }
+
+    /**
      * @param  CardIssuer $issuer
      * @return PaymentMethod
      */
