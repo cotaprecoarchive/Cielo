@@ -49,9 +49,19 @@ final class CardToken implements IdentifiesHolder
     /**
      * @param  string $tokenString
      * @return self
+     * @throws \InvalidArgumentException if `$tokenString` is empty or exceeds 100 characters
      */
     public static function fromString($tokenString)
     {
+        if (empty($tokenString) || strlen($tokenString) > 100) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    'Is not a valid token: `%s`. A valid token should contain between 1 and 100 characters',
+                    $tokenString
+                )
+            );
+        }
+
         return new self($tokenString);
     }
 

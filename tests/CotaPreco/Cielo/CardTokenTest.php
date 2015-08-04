@@ -10,18 +10,13 @@ use PHPUnit_Framework_TestCase as TestCase;
 class CardTokenTest extends TestCase
 {
     /**
-     * @var string
-     */
-    const GENERATED_TOKEN = 'TuS6LeBHWjqFFtE7S3zR052Jl/KUlD+tYJFpAdlA87E=';
-
-    /**
      * @test
      */
     public function fromString()
     {
         $this->assertEquals(
-            self::GENERATED_TOKEN,
-            CardToken::fromString(self::GENERATED_TOKEN)
+            'TuS6LeBHWjqFFtE7S3zR052Jl/KUlD+tYJFpAdlA87E=',
+            CardToken::fromString('TuS6LeBHWjqFFtE7S3zR052Jl/KUlD+tYJFpAdlA87E=')
         );
     }
 }
