@@ -2,6 +2,8 @@
 
 Cliente escrito em PHP para integração com o WebService da Cielo (solução de pagamentos com cartão de crédito).
 
+![Cielo](https://raw.githubusercontent.com/CotaPreco/Cielo/master/Cielo.png)
+
 #### Dependências
 - PHP >= 5.6;
 - libxml (DOM);
