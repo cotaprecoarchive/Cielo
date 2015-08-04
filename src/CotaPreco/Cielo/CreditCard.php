@@ -86,16 +86,16 @@ final class CreditCard
      * @param  string $number
      * @param  int    $year
      * @param  int    $month
-     * @param  Cvv    $securityCode
-     * @return CreditCard
+     * @param  string $cvv
+     * @return self
      */
-    public static function createWithSecurityCode($number, $year, $month, Cvv $securityCode)
+    public static function createWithSecurityCode($number, $year, $month, $cvv)
     {
         return new self(
             $number,
             CreditCardExpiration::fromYearAndMonth($year, $month),
             CardSecurityCodeIndicator::WITH_SECURITY_CODE,
-            $securityCode
+            Cvv::fromVerificationValue((string) $cvv)
         );
     }
 
