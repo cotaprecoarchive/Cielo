@@ -51,13 +51,13 @@ final class PaymentMethod implements AcceptsSerializationVisitor
 
     /**
      * @param CardIssuer            $issuer
-     * @param string|int            $product
+     * @param string                $product
      * @param InstallmentsInterface $installments
      */
     private function __construct(CardIssuer $issuer, $product, InstallmentsInterface $installments)
     {
         $this->issuer       = $issuer;
-        $this->product      = $product;
+        $this->product      = (string) $product;
         $this->installments = $installments;
     }
 
@@ -70,7 +70,7 @@ final class PaymentMethod implements AcceptsSerializationVisitor
     }
 
     /**
-     * @return string|int
+     * @return string
      */
     public function getProduct()
     {

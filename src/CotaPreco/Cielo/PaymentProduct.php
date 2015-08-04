@@ -35,17 +35,17 @@ interface PaymentProduct
     const DEBIT = 'A';
 
     /**
-     * @var int
+     * @var string
      */
-    const ONE_TIME_PAYMENT = 1;
+    const ONE_TIME_PAYMENT = '1';
 
     /**
-     * @var int
+     * @var string
      */
-    const INSTALLMENTS_BY_AFFILIATED_MERCHANTS = 2;
+    const INSTALLMENTS_BY_AFFILIATED_MERCHANTS = '2';
 
     /**
-     * @var int
+     * @var string
      */
-    const INSTALLMENTS_BY_CARD_ISSUERS = 3;
+    const INSTALLMENTS_BY_CARD_ISSUERS = '3';
 }

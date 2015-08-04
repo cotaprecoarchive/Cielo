@@ -133,11 +133,11 @@ final class TransactionUnmarshaller implements TransactionUnmarshallerInterface
             return PaymentMethod::forIssuerAsDebitPayment($issuer);
         }
 
-        if ((int) $product === PaymentProduct::ONE_TIME_PAYMENT) {
+        if ($product === PaymentProduct::ONE_TIME_PAYMENT) {
             return PaymentMethod::forIssuerAsOneTimePayment($issuer);
         }
 
-        if ((int) $product === PaymentProduct::INSTALLMENTS_BY_AFFILIATED_MERCHANTS) {
+        if ($product === PaymentProduct::INSTALLMENTS_BY_AFFILIATED_MERCHANTS) {
             return PaymentMethod::forIssuerWithInstallmentsByMerchant($issuer, $installments);
         }
 
