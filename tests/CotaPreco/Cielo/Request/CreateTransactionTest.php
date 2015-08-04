@@ -54,7 +54,8 @@ class CreateTransactionTest extends TestCase
                     CardHolder::fromCard($card),
                     $order,
                     $paymentMethod,
-                    true
+                    true,
+                    'http://localhost/cielo.php'
                 )
             ],
             [
@@ -75,7 +76,8 @@ class CreateTransactionTest extends TestCase
                     CardHolder::fromCard($card),
                     $order,
                     $paymentMethod,
-                    true
+                    true,
+                    'http://localhost/cielo.php'
                 )
             ],
             [
@@ -138,7 +140,10 @@ class CreateTransactionTest extends TestCase
      */
     public function getReturnUrl()
     {
-        $this->assertNull($this->request->getReturnUrl());
+        $this->assertTrue(
+            is_null($this->request->getReturnUrl()) ||
+            strlen($this->request->getReturnUrl()) > 0
+        );
     }
 
     /**

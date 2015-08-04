@@ -49,10 +49,12 @@ class CreateTransactionSerializerTest extends SerializerTestCase
                     $holder,
                     $order,
                     $paymentMethod,
-                    true
+                    true,
+                    'http://localhost/cielo.php'
                 ),
                 <<<XML
 <requisicao-transacao>
+    <url-retorno>http://localhost/cielo.php</url-retorno>
     <capturar>true</capturar>
     <bin>401200</bin>
     <gerar-token>false</gerar-token>

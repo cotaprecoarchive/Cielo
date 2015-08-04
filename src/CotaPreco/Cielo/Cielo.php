@@ -280,8 +280,8 @@ final class Cielo
      * @param  Order            $order
      * @param  PaymentMethod    $paymentMethod
      * @param  bool             $capture
+     * @param  string           $returnUrl
      * @param  bool|false       $generateToken
-     * @param  null|string      $returnUrl
      * @return Transaction
      */
     public function createAndAuthorizeOnly(
@@ -289,8 +289,8 @@ final class Cielo
         Order $order,
         PaymentMethod $paymentMethod,
         $capture,
-        $generateToken = false,
-        $returnUrl = null
+        $returnUrl,
+        $generateToken = false
     ) {
         return $this->unmarshallTransaction(
             $this->performRequest(CreateTransaction::authorizeOnly(

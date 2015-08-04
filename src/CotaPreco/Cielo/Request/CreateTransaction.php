@@ -141,7 +141,7 @@ final class CreateTransaction extends AbstractCieloRequest implements AcceptsSer
         Order $order,
         PaymentMethod $paymentMethod,
         $capture,
-        $returnUrl = null,
+        $returnUrl,
         $generateToken = false
     ) {
         return new self(
@@ -151,7 +151,7 @@ final class CreateTransaction extends AbstractCieloRequest implements AcceptsSer
             $paymentMethod,
             TransactionAuthorizationIndicator::ONLY_AUTHENTICATE,
             $capture,
-            $returnUrl ? Url::fromString($returnUrl) : null,
+            Url::fromString($returnUrl),
             $generateToken
         );
     }
@@ -162,7 +162,7 @@ final class CreateTransaction extends AbstractCieloRequest implements AcceptsSer
      * @param  Order            $order
      * @param  PaymentMethod    $paymentMethod
      * @param  bool             $capture
-     * @param  string|null      $returnUrl
+     * @param  string           $returnUrl
      * @param  bool|false       $generateToken
      * @return self
      */
@@ -172,7 +172,7 @@ final class CreateTransaction extends AbstractCieloRequest implements AcceptsSer
         Order $order,
         PaymentMethod $paymentMethod,
         $capture,
-        $returnUrl = null,
+        $returnUrl,
         $generateToken = false
     ) {
         return new self(
