@@ -125,7 +125,13 @@ final class Order implements AcceptsSerializationVisitor
     ) {
         $order = new self(
             $number,
-            $value, $currency, $description, $language, $shipping, $descriptor);
+            $value,
+            $currency,
+            $description,
+            $language,
+            $shipping,
+            $descriptor
+        );
 
         $order->createdAt = $createdAt;
 
