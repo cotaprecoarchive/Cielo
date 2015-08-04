@@ -38,7 +38,7 @@ abstract class SerializerTestCase extends \PHPUnit_Framework_TestCase
 
     /**
      * @param  string[] $nodes
-     * @param  string]  $xml
+     * @param  string   $xml
      * @return string
      */
     private function removeSpecifiedNodes($nodes, $xml)
