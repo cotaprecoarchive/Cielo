@@ -145,6 +145,9 @@ final class CreditCard
         return $this->expiration;
     }
 
+    /**
+     * @return Cvv|null
+     */
     public function getSecurityCode()
     {
         return $this->securityCode;
