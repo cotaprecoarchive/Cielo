@@ -1,7 +1,4 @@
-## `CotaPreco\Cielo`
-
-[![Build Status](https://travis-ci.org/CotaPreco/Cielo.svg)](https://travis-ci.org/CotaPreco/Cielo)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/CotaPreco/Cielo/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/CotaPreco/Cielo/?branch=master)
+## `CotaPreco\Cielo` [![Build Status](https://travis-ci.org/CotaPreco/Cielo.svg)](https://travis-ci.org/CotaPreco/Cielo) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/CotaPreco/Cielo/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/CotaPreco/Cielo/?branch=master)
 
 Cliente escrito em PHP para integração com o WebService da Cielo (solução de pagamentos com cartão de crédito).
 
@@ -25,6 +22,22 @@ $cielo = Cielo::createFromAffiliationIdAndKey(
     '25fbb99741c739dd84d7b06ec78c9bac718838630f30b112d033ce2e621b34f3'
 );
 ```
+
+#### `Cielo#getTransactionById(): Transaction`
+> Recupera uma transação pelo seu **TransactionId** (TID)
+
+| Argumento | Tipo | Descrição
+| --- | :---: | ---
+| `$transactionId` | `TransactionId` &#124; **string** | Identificador da transação
+
+Exemplo:
+```PHP
+$cielo->getTransactionById($transactionId);
+```
+
+Recupera a representação completa da transação identificada por `$transactionId`.
+
+# Cancelamento
 
 #### `Cielo#cancelTransactionPartially(): Transaction`
 > Cancela uma transação parcialmente (um determinado valor)
@@ -55,20 +68,7 @@ $cielo->cancelTransaction($transactionId);
 
 A transação será cancelada por completo.
 
-#### `Cielo#getTransactionById(): Transaction`
-> Recupera uma transação pelo seu **TransactionId** (TID)
-
-| Argumento | Tipo | Descrição
-| --- | :---: | ---
-| `$transactionId` | `TransactionId` &#124; **string** | Identificador da transação
-
-Exemplo:
-```PHP
-$cielo->getTransactionById($transactionId);
-```
-
-Recupera a representação completa da transação identificada por `$transactionId`.
-
+# Captura
 #### `Cielo#capture(): Transaction`
 > Faz a captura de uma transação através do seu **TransactionId** (TID)
 
@@ -94,11 +94,12 @@ Através do `$transactionId`, faz uma captura parcial do valor total da transaç
 
 Exemplo:
 ```PHP
-$cielo->capturePartially($transactionId, 50000);
+$cielo->capturePartially($transactionId, 5000);
 ```
 
 Será capturado apenas **R$ 50,00** da transação.
 
+# Autorização & Tokenização
 #### `Cielo#authorize(): Transaction`
 > Executa a autorização de uma transação através do seu **TransactionId** (TID)
 
@@ -114,6 +115,7 @@ $cielo->authorize($transactionId);
 #### `Cielo#createTokenForHolder`
 > Solicita a criação de um token para o portador do cartão de crédito
 
+# Criando transações
 #### `Cielo#createAndAuthorizeWithoutAuthentication(): Transaction`
 > Cria uma transação e autoriza sem autenticação
 
@@ -133,7 +135,7 @@ $cielo->createAndAuthorizeWithoutAuthentication(
             '4012001037141112',
             2018,
             5,
-            Cvv::fromVerificationValue('123')
+            '123'
         )
     ),
     Order::fromOrderNumberAndValue(
@@ -173,12 +175,8 @@ $cielo->createAndAuthenticateOnly(
 );
 ```
 
-#### `Cielo#createAndAuthorizeOnly(): Transaction`
-> Cria uma transação e autoriza apenas
-
 #### `Cielo#createAndAuthorizeOnlyIfAuthenticated(): Transaction`
 > Cria uma transação e autoriza apenas se for autenticada
-
 
 ## Licença
 [MIT](https://github.com/CotaPreco/Cielo/blob/master/LICENSE) &copy; Cota Preço, 2015.
