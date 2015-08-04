@@ -37,6 +37,8 @@ use CotaPreco\Cielo\Request\CreateTransaction;
 use CotaPreco\Cielo\Request\SearchTransaction;
 use CotaPreco\Cielo\Serialization\Request\CieloRequestSerializerInterface;
 use CotaPreco\Cielo\Serialization\Request\DefaultCieloRequestSerializer;
+use CotaPreco\Cielo\Unmarshalling\GeneratedToken\GeneratedTokenUnmarshaller;
+use CotaPreco\Cielo\Unmarshalling\GeneratedToken\GeneratedTokenUnmarshallerInterface;
 use CotaPreco\Cielo\Unmarshalling\Transaction\TransactionUnmarshaller;
 use CotaPreco\Cielo\Unmarshalling\Transaction\TransactionUnmarshallerInterface;
 
@@ -73,25 +75,33 @@ final class Cielo
     private $transactionUnmarshaller;
 
     /**
-     * @param int                                   $environment
-     * @param Merchant                              $merchant
-     * @param CieloHttpClientInterface              $client
-     * @param CieloRequestSerializerInterface|null  $requestSerializer
-     * @param TransactionUnmarshallerInterface|null $transactionUnmarshaller
+     * @var GeneratedTokenUnmarshallerInterface
+     */
+    private $generatedTokenUnmarshaller;
+
+    /**
+     * @param $environment
+     * @param Merchant                                 $merchant
+     * @param CieloHttpClientInterface                 $client
+     * @param CieloRequestSerializerInterface|null     $requestSerializer
+     * @param TransactionUnmarshallerInterface|null    $transactionUnmarshaller
+     * @param GeneratedTokenUnmarshallerInterface|null $generatedTokenUnmarshaller
      * @SuppressWarnings(PHPMD.LongVariable)
      */
     public function __construct(
         $environment,
-        Merchant                         $merchant,
-        CieloHttpClientInterface         $client,
-        CieloRequestSerializerInterface  $requestSerializer = null,
-        TransactionUnmarshallerInterface $transactionUnmarshaller = null
+        Merchant                            $merchant,
+        CieloHttpClientInterface            $client,
+        CieloRequestSerializerInterface     $requestSerializer = null,
+        TransactionUnmarshallerInterface    $transactionUnmarshaller = null,
+        GeneratedTokenUnmarshallerInterface $generatedTokenUnmarshaller = null
     ) {
-        $this->environment             = $environment;
-        $this->merchant                = $merchant;
-        $this->client                  = $client;
-        $this->requestSerializer       = $requestSerializer ?: new DefaultCieloRequestSerializer();
-        $this->transactionUnmarshaller = $transactionUnmarshaller ?: new TransactionUnmarshaller();
+        $this->environment                = $environment;
+        $this->merchant                   = $merchant;
+        $this->client                     = $client;
+        $this->requestSerializer          = $requestSerializer ?: new DefaultCieloRequestSerializer();
+        $this->transactionUnmarshaller    = $transactionUnmarshaller ?: new TransactionUnmarshaller();
+        $this->generatedTokenUnmarshaller = $generatedTokenUnmarshaller ?: new GeneratedTokenUnmarshaller();
     }
 
     /**
@@ -203,16 +213,19 @@ final class Cielo
     }
 
     /**
-     * @codeCoverageIgnore
      * @param  CardHolder $holder
      * @return Transaction
      */
     public function createTokenForHolder(CardHolder $holder)
     {
-        $this->performRequest(new CreateTokenForHolder(
-            $this->merchant,
-            $holder
-        ));
+        $unmarshaller = $this->generatedTokenUnmarshaller;
+
+        return $unmarshaller(
+            $this->performRequest(new CreateTokenForHolder(
+                $this->merchant,
+                $holder
+            ))
+        );
     }
 
     /**
