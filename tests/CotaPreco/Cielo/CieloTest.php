@@ -146,7 +146,8 @@ class CieloTest extends TestCase
                 $holder,
                 $order,
                 $paymentMethod,
-                true
+                true,
+                'http://localhost/cielo.php'
             )
         );
 
