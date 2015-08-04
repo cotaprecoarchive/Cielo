@@ -55,15 +55,9 @@ class CreditCardTest extends TestCase
         }
 
         $this->assertEquals($number, $card->getNumber());
-
         $this->assertInstanceOf(CreditCardExpiration::class, $card->getExpiration());
-
         $this->assertSame($indicator, $card->getSecurityCodeIndicator());
-
         $this->assertInstanceOf(Bin::class, $card->getBin());
-
-        $this->assertTrue(
-            is_null($card->getSecurityCode()) || $card->getSecurityCode() instanceof Cvv
-        );
+        $this->assertTrue(is_null($card->getSecurityCode()) || $card->getSecurityCode() instanceof Cvv);
     }
 }
