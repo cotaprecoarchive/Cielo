@@ -24,16 +24,29 @@
 
 namespace CotaPreco\Cielo\Unmarshalling\GeneratedToken;
 
+use CotaPreco\Cielo\CardToken;
 use CotaPreco\Cielo\GeneratedToken;
 
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
  */
-interface GeneratedTokenUnmarshallerInterface
+final class GeneratedTokenUnmarshaller implements GeneratedTokenUnmarshallerInterface
 {
     /**
-     * @param  string $xml
-     * @return GeneratedToken
+     * {@inheritdoc}
      */
-    public function __invoke($xml);
+    public function __invoke($xml)
+    {
+        $document = new \DOMDocument('1.0');
+
+        $document->loadXML($xml, LIBXML_NOWARNING);
+
+        return new GeneratedToken(
+            CardToken::fromString(
+                $document->getElementsByTagName('codigo-token')->item(0)->nodeValue
+            ),
+            $document->getElementsByTagName('status')->item(0)->nodeValue,
+            $document->getElementsByTagName('numero-cartao-truncado')->item(0)->nodeValue
+        );
+    }
 }
