@@ -72,11 +72,11 @@ final class CreateTransactionSerializer extends AbstractSerializer
 
         $withValues = array_filter(
             [
-                'url-retorno' => $request->getReturnUrl(),
+                'url-retorno' => $request->getReturnUrl() ?: 'null',
                 'autorizar'   => $request->getAuthorizeIndicator(),
-                'capturar'    => $request->shouldCapture() ? 'true' : 'false',
+                'capturar'    => var_export($request->shouldCapture(), true),
                 'bin'         => $request->getBin(),
-                'gerar-token' => $request->shouldGenerateToken() ? 'true' : 'false'
+                'gerar-token' => var_export($request->shouldGenerateToken(), true)
             ]
         );
 
