@@ -61,6 +61,16 @@ class CardIssuerTest extends TestCase
     /**
      * @test
      */
+    public function fromCardNumberThrowsInvalidArgument()
+    {
+        $this->setExpectedException(\InvalidArgumentException::class);
+
+        CardIssuer::fromCardNumber(null);
+    }
+
+    /**
+     * @test
+     */
     public function toString()
     {
         $issuer = CardIssuer::fromIssuerString(CardIssuer::VISA);
