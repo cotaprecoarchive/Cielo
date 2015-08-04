@@ -55,7 +55,7 @@ final class Order implements AcceptsSerializationVisitor
     private $currency;
 
     /**
-     * @var null
+     * @var string|null
      */
     private $description;
 
@@ -70,7 +70,7 @@ final class Order implements AcceptsSerializationVisitor
     private $shipping;
 
     /**
-     * @var null|string
+     * @var string|null
      */
     private $descriptor;
 
@@ -125,13 +125,7 @@ final class Order implements AcceptsSerializationVisitor
     ) {
         $order = new self(
             $number,
-            $value,
-            $currency,
-            $description,
-            $language,
-            $shipping,
-            $descriptor
-        );
+            $value, $currency, $description, $language, $shipping, $descriptor);
 
         $order->createdAt = $createdAt;
 
