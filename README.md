@@ -1,15 +1,17 @@
-## `CotaPreco\Cielo`
+## CotaPreco\Cielo
 
 [![Build Status](https://travis-ci.org/CotaPreco/Cielo.svg)](https://travis-ci.org/CotaPreco/Cielo)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/CotaPreco/Cielo/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/CotaPreco/Cielo/?branch=master)
 
 Cliente escrito em PHP para integração com o WebService da Cielo (solução de pagamentos com cartão de crédito).
 
+<br><br>
 #### Dependências
 - PHP >= 5.6;
 - libxml (DOM);
 - `ramsey/uuid` (através do **composer**).
 
+<br>
 ### Começando
 Antes de realizar as operações com a Cielo, é necessário configurar o cliente com as informações da loja *(Merchant)* e qual ambiente será utilizado: **desenvolvimento** ou **produção**.
 
@@ -26,6 +28,7 @@ $cielo = Cielo::createFromAffiliationIdAndKey(
 );
 ```
 
+<br><br>
 #### `Cielo#cancelTransactionPartially(): Transaction`
 > Cancela uma transação parcialmente (um determinado valor)
 
@@ -41,6 +44,7 @@ $cielo->cancelTransactionPartially($transactionId, 1000);
 
 No exemplo acima, será cancelado de `$transactionId` o valor de 10 reais *(ou da moeda usada no pedido)*.
 
+<br><br>
 #### `Cielo#cancelTransaction(): Transaction`
 > Cancela a transação por completo
 
@@ -55,6 +59,7 @@ $cielo->cancelTransaction($transactionId);
 
 A transação será cancelada por completo.
 
+<br><br>
 #### `Cielo#getTransactionById(): Transaction`
 > Recupera uma transação pelo seu **TransactionId** (TID)
 
@@ -69,6 +74,7 @@ $cielo->getTransactionById($transactionId);
 
 Recupera a representação completa da transação identificada por `$transactionId`.
 
+<br><br>
 #### `Cielo#capture(): Transaction`
 > Faz a captura de uma transação através do seu **TransactionId** (TID)
 
@@ -81,6 +87,7 @@ Exemplo:
 $cielo->capture($transactionId);
 ```
 
+<br><br>
 #### `Cielo#capturePartially(): Transaction`
 > Faz a captura de um valor parcial da transação
 
@@ -99,6 +106,7 @@ $cielo->capturePartially($transactionId, 50000);
 
 Será capturado apenas **R$ 50,00** da transação.
 
+<br><br>
 #### `Cielo#authorize(): Transaction`
 > Executa a autorização de uma transação através do seu **TransactionId** (TID)
 
@@ -111,9 +119,11 @@ Exemplo:
 $cielo->authorize($transactionId);
 ```
 
+<br><br>
 #### `Cielo#createTokenForHolder`
 > Solicita a criação de um token para o portador do cartão de crédito
 
+<br><br>
 #### `Cielo#createAndAuthorizeWithoutAuthentication(): Transaction`
 > Cria uma transação e autoriza sem autenticação
 
@@ -149,6 +159,7 @@ $cielo->createAndAuthorizeWithoutAuthentication(
 
 Uma transação será criada, o número do pedido (dentro da loja) é `1234` e o valor é de **R$ 10,00**. A transação será capturada automáticamente caso a mesma seja autorizada, gerando o crédito para o lojista.
 
+<br><br>
 #### `Cielo#createAndAuthenticateOnly`
 > Cria uma transação e autentica apenas
 
@@ -173,12 +184,14 @@ $cielo->createAndAuthenticateOnly(
 );
 ```
 
+<br><br>
 #### `Cielo#createAndAuthorizeOnly(): Transaction`
 > Cria uma transação e autoriza apenas
 
+<br><br>
 #### `Cielo#createAndAuthorizeOnlyIfAuthenticated(): Transaction`
 > Cria uma transação e autoriza apenas se for autenticada
 
-
+<br><br>
 ## Licença
 [MIT](https://github.com/CotaPreco/Cielo/blob/master/LICENSE) &copy; Cota Preço, 2015.
