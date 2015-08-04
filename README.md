@@ -57,7 +57,6 @@ $cielo->cancelTransactionPartially($transactionId, 1000);
 
 No exemplo acima, será cancelado de `$transactionId` o valor de 10 reais *(ou da moeda usada no pedido)*.
 
-<br><br>
 #### `Cielo#cancelTransaction(): Transaction`
 > Cancela a transação por completo
 
