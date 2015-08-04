@@ -175,9 +175,6 @@ $cielo->createAndAuthenticateOnly(
 );
 ```
 
-#### `Cielo#createAndAuthorizeOnly(): Transaction`
-> Cria uma transação e autoriza apenas
-
 #### `Cielo#createAndAuthorizeOnlyIfAuthenticated(): Transaction`
 > Cria uma transação e autoriza apenas se for autenticada
 
