@@ -20,6 +20,45 @@ class CardIssuerTest extends TestCase
     }
 
     /**
+     * @return array
+     */
+    public function provideCardNumbersAndExpectedIssuer()
+    {
+        return [
+            [
+                '4012001037141112',
+                CardIssuer::VISA
+            ],
+            [
+                '4012001038443335',
+                CardIssuer::VISA
+            ],
+            [
+                '5453010000066167',
+                CardIssuer::MASTERCARD
+            ],
+            [
+                '5453010000066167',
+                CardIssuer::MASTERCARD
+            ]
+        ];
+    }
+
+    /**
+     * @test
+     * @param string $number
+     * @param string $issuer
+     * @dataProvider provideCardNumbersAndExpectedIssuer
+     */
+    public function fromCardNumber($number, $issuer)
+    {
+        $this->assertEquals(
+            $issuer,
+            (string) CardIssuer::fromCardNumber($number)
+        );
+    }
+
+    /**
      * @test
      */
     public function toString()

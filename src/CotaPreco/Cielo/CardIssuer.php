@@ -74,6 +74,25 @@ final class CardIssuer
     }
 
     /**
+     * @param  string $number
+     * @return self
+     */
+    public static function fromCardNumber($number)
+    {
+        if (preg_match('/^4[0-9]{6,}$/', $number)) {
+            return new self(CardIssuer::VISA);
+        }
+
+        if (preg_match('/^5[1-5][0-9]{14}$/', $number)) {
+            return new self(CardIssuer::MASTERCARD);
+        }
+
+        throw new \InvalidArgumentException(
+            'Unable to recognize issuer through number'
+        );
+    }
+
+    /**
      * @return array
      */
     public static function getAllAllowedIssuers()
