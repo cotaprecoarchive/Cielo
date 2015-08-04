@@ -214,7 +214,7 @@ final class Cielo
 
     /**
      * @param  CardHolder $holder
-     * @return Transaction
+     * @return GeneratedToken
      */
     public function createTokenForHolder(CardHolder $holder)
     {
