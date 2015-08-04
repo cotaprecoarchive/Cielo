@@ -279,7 +279,6 @@ final class Cielo
      * @param  IdentifiesHolder $holder
      * @param  Order            $order
      * @param  PaymentMethod    $paymentMethod
-     * @param  bool             $capture
      * @param  string           $returnUrl
      * @param  bool|false       $generateToken
      * @return Transaction
@@ -288,7 +287,6 @@ final class Cielo
         IdentifiesHolder $holder,
         Order $order,
         PaymentMethod $paymentMethod,
-        $capture,
         $returnUrl,
         $generateToken = false
     ) {
@@ -298,7 +296,7 @@ final class Cielo
                 $holder,
                 $order,
                 $paymentMethod,
-                $capture,
+                false,
                 $returnUrl,
                 $generateToken
             ))
