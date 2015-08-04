@@ -49,7 +49,6 @@ final class CieloErrorResponseInterceptor implements CieloHttpClientInterface
      */
     public function __invoke($environment, $xml)
     {
-        /* @var callable $wrappedClient */
         $wrappedClient = $this->wrappedClient;
 
         /* @var string $response */
