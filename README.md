@@ -135,7 +135,7 @@ $cielo->createAndAuthorizeWithoutAuthentication(
             '4012001037141112',
             2018,
             5,
-            Cvv::fromVerificationValue('123')
+            '123'
         )
     ),
     Order::fromOrderNumberAndValue(
