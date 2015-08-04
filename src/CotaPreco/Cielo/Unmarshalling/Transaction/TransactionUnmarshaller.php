@@ -60,12 +60,18 @@ final class TransactionUnmarshaller implements TransactionUnmarshallerInterface
         /* @var DOMElement $root */
         $root = $document->documentElement;
 
+        /* @var DOMElement $order */
+        $order         = $document->getElementsByTagName('dados-pedido')->item(0);
+
+        /* @var DOMElement $paymentMethod */
+        $paymentMethod = $document->getElementsByTagName('forma-pagamento')->item(0);
+
         /* @noinspection PhpParamsInspection */
         $transaction = new Transaction(
             TransactionId::fromString($this->getElementValue($root, 'tid')),
             Pan::fromTokenString($this->getElementValue($root, 'pan')),
-            $this->extractOrder($document->getElementsByTagName('dados-pedido')->item(0)),
-            $this->extractPaymentMethod($document->getElementsByTagName('forma-pagamento')->item(0)),
+            $this->extractOrder($order),
+            $this->extractPaymentMethod($paymentMethod),
             $this->getElementValue($root, 'status'),
             $this->extractGeneratedToken($root)
         );
