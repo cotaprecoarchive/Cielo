@@ -45,9 +45,14 @@ final class Url
     /**
      * @param  string $url
      * @return self
+     * @throws \InvalidArgumentException if `$url` is not a valid URL
      */
     public static function fromString($url)
     {
+        if (! filter_var($url, FILTER_VALIDATE_URL)) {
+            throw new \InvalidArgumentException('Is not a valid URL: `'. $url .'`');
+        }
+
         return new self($url);
     }
 
