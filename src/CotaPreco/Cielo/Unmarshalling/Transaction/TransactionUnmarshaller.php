@@ -61,7 +61,7 @@ final class TransactionUnmarshaller implements TransactionUnmarshallerInterface
         $root = $document->documentElement;
 
         /* @var DOMElement $order */
-        $order         = $document->getElementsByTagName('dados-pedido')->item(0);
+        $order = $document->getElementsByTagName('dados-pedido')->item(0);
 
         /* @var DOMElement $paymentMethod */
         $paymentMethod = $document->getElementsByTagName('forma-pagamento')->item(0);
